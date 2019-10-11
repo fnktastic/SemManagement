@@ -31,8 +31,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ICommand _ItemInvokedCommand;
-        public ICommand ItemInvokedCommand => this._ItemInvokedCommand ?? (this._ItemInvokedCommand = new RelayCommand<NavigationViewItemInvokedEventArgs>(OnItemInvoked));
+        private RelayCommand<NavigationViewItemInvokedEventArgs> _itemInvokedCommand;
+        public RelayCommand<NavigationViewItemInvokedEventArgs> ItemInvokedCommand => this._itemInvokedCommand ?? (this._itemInvokedCommand = new RelayCommand<NavigationViewItemInvokedEventArgs>(OnItemInvoked));
         private void OnItemInvoked(NavigationViewItemInvokedEventArgs args)
         {
             if (args.IsSettingsInvoked)

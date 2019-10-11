@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace SemManagement.UWP.Services.Song.Service
 {
-    class SongService
+    public interface ISongService
     {
+
+    }
+
+    public class SongService : ISongService
+    {
+
     }
 }

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace SemManagement.UWP.Services.Song.Provider
 {
-    class SongProvider
+    public interface ISongProvider
     {
+    }
+
+    public class SongProvider : ISongProvider
+    {
+
     }
 }

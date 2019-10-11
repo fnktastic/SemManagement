@@ -1,0 +1,17 @@
+﻿<Application
+    x:Class="SemManagement.UWP.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SemManagement.UWP.ViewModel"
+    xmlns:local="using:SemManagement.UWP"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <vm:ViewModelLocator xmlns:vm="using:SemManagement.UWP.ViewModel" x:Key="Locator" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

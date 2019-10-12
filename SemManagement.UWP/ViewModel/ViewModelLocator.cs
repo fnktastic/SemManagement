@@ -2,7 +2,10 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
+using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Helper;
+using SemManagement.UWP.Services.SongModule.Provider;
+using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.View;
 using System;
 using System.Collections.Generic;
@@ -30,6 +33,12 @@ namespace SemManagement.UWP.ViewModel
 
             SimpleIoc.Default.Register<StartPageViewModel>();
             SimpleIoc.Default.Register<SettingsPageViewModel>();
+
+            SimpleIoc.Default.Register<PublicApiConfiguration>();
+            SimpleIoc.Default.Register<IRestEndpoints, RestEndpoints>();
+            SimpleIoc.Default.Register<ISongProvider, SongProvider>();
+            SimpleIoc.Default.Register<ISongService, SongService>();
+
             SetupNavigation();
         }
 

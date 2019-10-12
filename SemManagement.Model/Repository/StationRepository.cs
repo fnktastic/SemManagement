@@ -23,12 +23,6 @@ namespace SemManagement.Model.Repository
         public List<Station> GetTop(int top)
         {
             return _context.Stations.Take(top).ToList();
-            /*var mySqlParameter = new MySqlParameter("top", MySqlDbType.Int32)
-            {
-                Value = top
-            };
-
-            return _context.Stations.SqlQuery("SELECT * FROM Stations LIMIT @top", mySqlParameter).ToList();*/
         }
     }
 }

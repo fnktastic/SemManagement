@@ -2,6 +2,10 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using SemManagement.UWP.Helper;
+using SemManagement.UWP.Model;
+using SemManagement.UWP.Services.SongModule.Service;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,6 +16,8 @@ namespace SemManagement.UWP.ViewModel
     {
         #region fields
         private readonly NavigationService _navigationService;
+
+        private readonly ISongService _songService;
         #endregion
 
         #region properties
@@ -48,13 +54,14 @@ namespace SemManagement.UWP.ViewModel
         public RelayCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(Loaded));
         #endregion
        
-        public StartPageViewModel(NavigationService navigationService)
+        public StartPageViewModel(NavigationService navigationService, ISongService songService)
         {
             _navigationService = navigationService;
+            _songService = songService;
         }
 
         #region private methods
-        private void Loaded()
+        private async void Loaded()
         {
             _navigationService.CurrentFrame = UIHelper.GetMainFrame();
         }

@@ -9,7 +9,7 @@ namespace SemManagement.Model.Repository
 {
     public interface ISongRepository
     {
-        IList<Song> GetTop(int top);
+        List<Song> Take(int take, int skip = 0);
     }
 
     public class SongRepository : ISongRepository
@@ -21,15 +21,12 @@ namespace SemManagement.Model.Repository
             _context = context;
         }
 
-        public IList<Song> GetTop(int top)
+        public List<Song> Take(int take, int skip = 0)
         {
-            return _context.Songs.Take(top).ToList();
-            /* var mySqlParameter = new MySqlParameter("top", MySqlDbType.Int32)
-             {
-                 Value = top
-             };
+            if (skip > 0)
+                return _context.Songs.Skip(skip).Take(take).ToList();
 
-             return _context.Songs.SqlQuery("SELECT * FROM Songs LIMIT @top", mySqlParameter).ToList();*/
+            return _context.Songs.Take(take).ToList();
         }
     }
 }

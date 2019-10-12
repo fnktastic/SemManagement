@@ -24,13 +24,6 @@ namespace SemManagement.Model.Repository
         public IList<User> GetTop(int top)
         {
             return _context.Users.Take(top).ToList();
-            /* var mySqlParameter = new MySqlParameter("top", MySqlDbType.Int32)
-             {
-                 Value = top
-             };
-
-             return _context.Users.SqlQuery("SELECT * FROM Users LIMIT @top", mySqlParameter).ToList();
-             */
         }
     }
 }

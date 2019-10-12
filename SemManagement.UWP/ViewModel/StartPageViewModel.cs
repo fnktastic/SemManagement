@@ -61,7 +61,7 @@ namespace SemManagement.UWP.ViewModel
         }
 
         #region private methods
-        private async void Loaded()
+        private void Loaded()
         {
             _navigationService.CurrentFrame = UIHelper.GetMainFrame();
         }

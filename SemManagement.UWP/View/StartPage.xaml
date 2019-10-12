@@ -15,12 +15,10 @@
             <core:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </core:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <NavigationView x:Name="nvSample" IsBackButtonVisible="Collapsed">
-        <NavigationView.MenuItems>
-            <NavigationViewItem Icon="XboxOneConsole" Content="Stations" Tag="StartPageStations" />
-            <NavigationViewItem Icon="Play" Content="Audios" Tag="StartPageAudios" />
-        </NavigationView.MenuItems>
-        <Frame x:Name="contentFrame" />
+    <NavigationView x:Name="nvSample" 
+                    Background="{ThemeResource CustomAcrylicBrush}" 
+                    PaneDisplayMode="LeftCompact"
+                    IsBackButtonVisible="Collapsed">
         <i:Interaction.Behaviors>
             <core:EventTriggerBehavior EventName="ItemInvoked">
                 <core:EventTriggerBehavior.Actions>
@@ -28,5 +26,10 @@
                 </core:EventTriggerBehavior.Actions>
             </core:EventTriggerBehavior>
         </i:Interaction.Behaviors>
+        <NavigationView.MenuItems>
+            <NavigationViewItem Icon="XboxOneConsole" Content="Stations" Tag="StartPageStations" />
+            <NavigationViewItem Icon="Play" Content="Audios" Tag="StartPageAudios" />
+        </NavigationView.MenuItems>
+        <Frame x:Name="contentFrame" />
     </NavigationView>
 </Page>

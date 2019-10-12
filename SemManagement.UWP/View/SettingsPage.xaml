@@ -10,6 +10,6 @@
     DataContext="{Binding SettingsPageInstance, Source={StaticResource Locator}}">
 
     <Grid>
-
+        <Rectangle Fill="Red" /> 
     </Grid>
 </Page>

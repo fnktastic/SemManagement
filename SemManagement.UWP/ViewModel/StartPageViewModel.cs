@@ -6,6 +6,7 @@ using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
@@ -24,6 +25,18 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
+        private ObservableCollection<Station> _stations;
+        public ObservableCollection<Station> Stations
+        {
+            get { return _stations; }
+            set
+            {
+                if (value == _stations) return;
+                _stations = value;
+                RaisePropertyChanged(nameof(Stations));
+            }
+        }
+
         private bool _isLoading = false;
         public bool IsLoading
         {
@@ -75,7 +88,9 @@ namespace SemManagement.UWP.ViewModel
         #region private methods
         private async void LoadData()
         {
-            var stations = await _stationService.TakeAsync(12);
+            var stations = await _stationService.TakeAsync(100);
+
+            Stations = new ObservableCollection<Station>(stations);
 
             var deletedSongs = await _stationService.GetDeletedSongsAsync(848);
         }

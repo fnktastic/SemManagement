@@ -6,6 +6,8 @@ using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Services.SongModule.Provider;
 using SemManagement.UWP.Services.SongModule.Service;
+using SemManagement.UWP.Services.StationModule.Provider;
+using SemManagement.UWP.Services.StationModule.Service;
 using SemManagement.UWP.View;
 using System;
 using System.Collections.Generic;
@@ -38,6 +40,8 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<IRestEndpoints, RestEndpoints>();
             SimpleIoc.Default.Register<ISongProvider, SongProvider>();
             SimpleIoc.Default.Register<ISongService, SongService>();
+            SimpleIoc.Default.Register<IStationProvider, StationProvider>();
+            SimpleIoc.Default.Register<IStationService, StationService>();
 
             SetupNavigation();
         }

@@ -20,7 +20,7 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("get")]
-        public async Task<ActionResult<IList<Station>>> TakeAsync(int skip, int take)
+        public async Task<ActionResult<IList<Station>>> TakeAsync(int take, int skip)
         {
             if (skip == 0 && take > 0)
                 return await _stationRepository.TakeAsync(take);
@@ -31,10 +31,13 @@ namespace SemManagement.API.Controllers
             return NotFound();
         }
 
-        [HttpGet("getDeletedSongs/{stationId}")]
-        public async Task<ActionResult<IList<SongsDeleted>>> DletedSongAsync(int stationId)
+        [HttpGet("getDeletedSongs")]
+        public async Task<ActionResult<IList<SongsDeleted>>> GetDeletedSongsAsync(int stationId)
         {
-            return await _stationRepository.GetDeletedSongsAsync(stationId);
+            if (stationId != 0)
+                return await _stationRepository.GetDeletedSongsAsync(stationId);
+
+            return NotFound();
         }
 
         // POST api/values

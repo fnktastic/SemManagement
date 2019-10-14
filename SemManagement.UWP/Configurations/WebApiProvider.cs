@@ -41,6 +41,23 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<List<T>> GetDeletedSongsAsync<T>(string endpoint, int stationId)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("stationId", stationId);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<List<T>> AddAsync<T>(string endpoint, List<T> entities, DateTime lastSyncDate)
         {
             TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();

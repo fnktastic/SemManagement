@@ -11,7 +11,7 @@ namespace SemManagement.UWP.Services.SongModule.Provider
 {
     public interface ISongProvider
     {
-        Task<List<Song>> TakeAsync(int skip, int take = 0);
+        Task<List<Song>> TakeAsync(int take, int skip = 0);
     }
 
     public class SongProvider : WebApiProvider, ISongProvider

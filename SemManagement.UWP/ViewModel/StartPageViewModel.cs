@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Views;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.SongModule.Service;
+using SemManagement.UWP.Services.StationModule.Service;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,6 +19,8 @@ namespace SemManagement.UWP.ViewModel
         private readonly NavigationService _navigationService;
 
         private readonly ISongService _songService;
+
+        private readonly IStationService _stationService;
         #endregion
 
         #region properties
@@ -36,7 +39,9 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
+        #endregion
 
+        #region commands
         private RelayCommand<NavigationViewItemInvokedEventArgs> _itemInvokedCommand;
         public RelayCommand<NavigationViewItemInvokedEventArgs> ItemInvokedCommand => this._itemInvokedCommand ?? (this._itemInvokedCommand = new RelayCommand<NavigationViewItemInvokedEventArgs>(OnItemInvoked));
         private void OnItemInvoked(NavigationViewItemInvokedEventArgs args)
@@ -52,18 +57,27 @@ namespace SemManagement.UWP.ViewModel
 
         private RelayCommand _loadedCommand;
         public RelayCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(Loaded));
-        #endregion
-       
-        public StartPageViewModel(NavigationService navigationService, ISongService songService)
-        {
-            _navigationService = navigationService;
-            _songService = songService;
-        }
-
-        #region private methods
         private void Loaded()
         {
             _navigationService.CurrentFrame = UIHelper.GetMainFrame();
+        }
+
+        public StartPageViewModel(NavigationService navigationService, ISongService songService, IStationService stationService)
+        {
+            _navigationService = navigationService;
+            _songService = songService;
+            _stationService = stationService;
+
+            LoadData();
+        }
+        #endregion
+
+        #region private methods
+        private async void LoadData()
+        {
+            var stations = await _stationService.TakeAsync(12);
+
+            var deletedSongs = await _stationService.GetDeletedSongsAsync(848);
         }
         #endregion
     }

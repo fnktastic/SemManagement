@@ -124,6 +124,8 @@
     <Compile Include="Configurations\WebApiProvider.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Model\Song.cs" />
+    <Compile Include="Model\SongsDeleted.cs" />
+    <Compile Include="Model\Station.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SongModule\Provider\SongProvider.cs" />
     <Compile Include="Services\SongModule\Service\SongService.cs" />

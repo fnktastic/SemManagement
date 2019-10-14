@@ -15,7 +15,7 @@ namespace SemManagement.UWP.Services.SongModule.Service
 
     public class SongService : ISongService
     {
-        private ISongProvider _songProvider;
+        private readonly ISongProvider _songProvider;
 
         public SongService(ISongProvider songProvider)
         {

@@ -1,15 +1,17 @@
-﻿using SemManagement.Model.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using SemManagement.Model.DataAccess;
 using SemManagement.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SemManagement.Model.Repository
 {
     public interface ISongRepository
     {
-        List<Song> Take(int take, int skip = 0);
+        Task<List<Song>> TakeAsync(int take, int skip = 0);
     }
 
     public class SongRepository : ISongRepository
@@ -21,12 +23,12 @@ namespace SemManagement.Model.Repository
             _context = context;
         }
 
-        public List<Song> Take(int take, int skip = 0)
+        public async Task<List<Song>> TakeAsync(int take, int skip = 0)
         {
             if (skip > 0)
-                return _context.Songs.Skip(skip).Take(take).ToList();
+                return await _context.Songs.Skip(skip).Take(take).ToListAsync();
 
-            return _context.Songs.Take(take).ToList();
-        }
+            return await _context.Songs.Take(take).ToListAsync();
+        }        
     }
 }

@@ -9,7 +9,7 @@ namespace SemManagement.Model.Repository
 {
     public interface IUserRepository
     {
-        IList<User> GetTop(int top);
+        IList<User> GetTopAsync(int top);
     }
 
     public class UserRepository : IUserRepository
@@ -21,7 +21,7 @@ namespace SemManagement.Model.Repository
             _context = context;
         }
 
-        public IList<User> GetTop(int top)
+        public IList<User> GetTopAsync(int top)
         {
             return _context.Users.Take(top).ToList();
         }

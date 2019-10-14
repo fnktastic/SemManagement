@@ -14,6 +14,8 @@ namespace SemManagement.Model.DataAccess
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<SongsDeleted> SongsDeleteds { get; set; }
+
         public Context(DbContextOptions<Context> options) : base(options)
         {
 
@@ -21,9 +23,10 @@ namespace SemManagement.Model.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Song>().ToTable("Songs");
             modelBuilder.Entity<Station>().ToTable("Stations");
             modelBuilder.Entity<User>().ToTable("Users");
-            modelBuilder.Entity<Song>().ToTable("Songs");
+            modelBuilder.Entity<SongsDeleted>(); //.ToTable("SongsDeleted");
         }
     }
 }

@@ -20,13 +20,13 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("get")]
-        public ActionResult<IList<Song>> Take(int skip, int take)
+        public async Task<ActionResult<IList<Song>>> TakeAsync(int skip, int take)
         {
             if (skip == 0 && take > 0)
-                return _songRepository.Take(take);
+                return await _songRepository.TakeAsync(take);
 
             if (skip > 0 && take > 0)
-                return _songRepository.Take(take, skip);
+                return await _songRepository.TakeAsync(take, skip);
 
             return NotFound();
         }

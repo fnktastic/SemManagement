@@ -19,17 +19,22 @@ namespace SemManagement.API.Controllers
             _stationRepository = stationRepository;
         }
 
-        [HttpGet]
-        public ActionResult<IList<Station>> Get()
+        [HttpGet("get")]
+        public async Task<ActionResult<IList<Station>>> TakeAsync(int skip, int take)
         {
-            return _stationRepository.GetTop(10);
+            if (skip == 0 && take > 0)
+                return await _stationRepository.TakeAsync(take);
+
+            if (skip > 0 && take > 0)
+                return await _stationRepository.TakeAsync(take, skip);
+
+            return NotFound();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("getDeletedSongs/{stationId}")]
+        public async Task<ActionResult<IList<SongsDeleted>>> DletedSongAsync(int stationId)
         {
-            return "value";
+            return await _stationRepository.GetDeletedSongsAsync(stationId);
         }
 
         // POST api/values

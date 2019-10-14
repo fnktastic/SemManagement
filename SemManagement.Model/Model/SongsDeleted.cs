@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SemManagement.Model.Model
 {
-    public class Song
+    public class SongsDeleted
     {
         [Key]
         public int Sgid { get; set; }
@@ -16,5 +16,9 @@ namespace SemManagement.Model.Model
         public string File_MD5 { get; set; }
         public string File_MD5_Gained { get; set; }
         public int Uploaded { get; set; }
+
+        public int Plid { get; set; }
+        public string Name { get; set; }
+        public int Changed { get; set; }
     }
 }

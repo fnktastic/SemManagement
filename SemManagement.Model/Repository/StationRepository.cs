@@ -1,15 +1,19 @@
-﻿using SemManagement.Model.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
+using SemManagement.Model.DataAccess;
 using SemManagement.Model.Model;
-using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace SemManagement.Model.Repository
 {
     public interface IStationRepository
     {
-        List<Station> GetTop(int top);
+        Task<List<Station>> TakeAsync(int take, int skip = 0);
+
+        Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId);
     }
     public class StationRepository : IStationRepository
     {
@@ -20,9 +24,28 @@ namespace SemManagement.Model.Repository
             _context = context;
         }
 
-        public List<Station> GetTop(int top)
+        public async Task<List<Station>> TakeAsync(int take, int skip = 0)
         {
-            return _context.Stations.Take(top).ToList();
+            if (skip > 0)
+                return await _context.Stations.Skip(skip).Take(take).ToListAsync();
+
+            return await _context.Stations.Take(take).ToListAsync();
+        }
+
+        public async Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId)
+        {
+            var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
+            {
+                Value = stationId
+            };
+
+            return await _context.SongsDeleteds.FromSql<SongsDeleted>(
+                "SELECT songs.*, playlists.* " +
+                "FROM songsdeleted " +
+                "INNER JOIN songs ON songs.sgid = songsdeleted.sgid " +
+                "INNER JOIN playlists ON playlists.plid = songsdeleted.plid " +
+                "WHERE sid = @stationId", stationIdParameter)
+                .ToListAsync();
         }
     }
 }

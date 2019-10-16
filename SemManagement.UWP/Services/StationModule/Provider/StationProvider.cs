@@ -12,6 +12,8 @@ namespace SemManagement.UWP.Services.StationModule.Provider
     {
         Task<List<Station>> TakeAsync(int take, int skip = 0);
         Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId);
+        Task<List<Song>> GetStationSongsAsync(int stationId);
+        Task<User> GetStationUserAsync(int stationId);
     }
 
     public class StationProvider : WebApiProvider, IStationProvider
@@ -32,6 +34,16 @@ namespace SemManagement.UWP.Services.StationModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getDeletedSongs");
 
             return await GetDeletedSongsAsync<SongsDeleted>(endpoint, stationId);
+        }
+
+        public Task<List<Song>> GetStationSongsAsync(int stationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetStationUserAsync(int stationId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

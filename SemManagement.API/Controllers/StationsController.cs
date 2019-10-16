@@ -40,6 +40,24 @@ namespace SemManagement.API.Controllers
             return NotFound();
         }
 
+        [HttpGet("getStationSongsAsync")]
+        public async Task<ActionResult<IList<Song>>> GetStationSongsAsync(int stationId)
+        {
+            if (stationId != 0)
+                return await _stationRepository.GetStationSongsAsync(stationId);
+
+            return NotFound();
+        }
+
+        [HttpGet("getStationUserAsync")]
+        public async Task<ActionResult<User>> GetStationUserAsync(int stationId)
+        {
+            if (stationId != 0)
+                return await _stationRepository.GetStationUserAsync(stationId);
+
+            return NotFound();
+        }
+
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)

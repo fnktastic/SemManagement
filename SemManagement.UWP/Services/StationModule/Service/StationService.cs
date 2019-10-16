@@ -12,6 +12,10 @@ namespace SemManagement.UWP.Services.StationModule.Service
     {
         Task<List<Station>> TakeAsync(int take, int skip = 0);
         Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId);
+        Task<List<Song>> GetStationSongsAsync(int stationId);
+        Task<User> GetStationUserAsync(int stationId);
+
+
         Task<List<Station>> GetFakeDataAsync();
         Task<List<SongsDeleted>> GetFakeDeletedSongsAsync(int stationId);
 
@@ -33,6 +37,16 @@ namespace SemManagement.UWP.Services.StationModule.Service
         public async Task<List<Station>> TakeAsync(int take, int skip = 0)
         {
             return await _stationProvider.TakeAsync(take, skip);
+        }
+
+        public Task<List<Song>> GetStationSongsAsync(int stationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetStationUserAsync(int stationId)
+        {
+            throw new NotImplementedException();
         }
 
         #region fake data

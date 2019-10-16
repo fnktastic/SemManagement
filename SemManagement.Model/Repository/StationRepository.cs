@@ -14,6 +14,10 @@ namespace SemManagement.Model.Repository
         Task<List<Station>> TakeAsync(int take, int skip = 0);
 
         Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId);
+
+        Task<List<Song>> GetStationSongsAsync(int stationId);
+
+        Task<User> GetStationUserAsync(int stationId);
     }
     public class StationRepository : IStationRepository
     {
@@ -46,6 +50,16 @@ namespace SemManagement.Model.Repository
                 "INNER JOIN playlists ON playlists.plid = songsdeleted.plid " +
                 "WHERE sid = @stationId", stationIdParameter)
                 .ToListAsync();
+        }
+
+        public Task<List<Song>> GetStationSongsAsync(int stationId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<User> GetStationUserAsync(int stationId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

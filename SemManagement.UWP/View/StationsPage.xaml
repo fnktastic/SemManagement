@@ -19,7 +19,8 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Grid.Column="0">
             <ProgressRing IsActive="True" 
-                          Width="150"
+                          Height="60"
+                          Width="60"
                           Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
             <GridView 
                   ItemsSource="{Binding Stations}"
@@ -34,11 +35,11 @@
        
         <Grid Grid.Row="0" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition MinHeight="40" Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition MinHeight="40" Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition MinHeight="40" Height="Auto" />
+                <RowDefinition MinHeight="40" />
+                <RowDefinition Height="15" />
+                <RowDefinition MinHeight="40" />
+                <RowDefinition Height="15" />
+                <RowDefinition MinHeight="40" />
             </Grid.RowDefinitions>
             <controls:Expander Grid.Row="0" Header="User Details">
             
@@ -48,10 +49,19 @@
 
             </controls:Expander>
             <controls:GridSplitter Grid.Row="3" />
-            <controls:Expander Grid.Row="4" Header="Deleted Songs" IsExpanded="{Binding ExpandDetails, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid>
-                    <ProgressRing IsActive="True" Width="150" Visibility="{Binding IsDeletedSongsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+            <controls:Expander Grid.Row="4" Header="Deleted Songs" 
+                               VerticalContentAlignment="Top"
+                               IsExpanded="{Binding ExpandDetails, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid VerticalAlignment="Top">
+                    <ProgressRing IsActive="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="15"
+                                  Height="60"
+                                  Width="60"
+                                  Visibility="{Binding IsDeletedSongsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
                     <ListBox Visibility="{Binding IsDeletedSongsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
+                             VerticalAlignment="Top"
                              ItemsSource="{Binding SongsDeleted}"
                              ItemTemplate="{StaticResource AudioItemTemplate}">
                     </ListBox>

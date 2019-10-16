@@ -35,6 +35,7 @@ namespace SemManagement.UWP.ViewModel
 
             SimpleIoc.Default.Register<StartPageViewModel>();
             SimpleIoc.Default.Register<SettingsPageViewModel>();
+            SimpleIoc.Default.Register<StationsViewModel>();
 
             SimpleIoc.Default.Register<PublicApiConfiguration>();
             SimpleIoc.Default.Register<IRestEndpoints, RestEndpoints>();
@@ -69,6 +70,14 @@ namespace SemManagement.UWP.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<SettingsPageViewModel>();
+            }
+        }
+
+        public StationsViewModel StationsPageInstance
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<StationsViewModel>();
             }
         }
 

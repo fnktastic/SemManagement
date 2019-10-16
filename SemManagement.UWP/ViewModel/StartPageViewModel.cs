@@ -25,33 +25,7 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
-        private ObservableCollection<Station> _stations;
-        public ObservableCollection<Station> Stations
-        {
-            get { return _stations; }
-            set
-            {
-                if (value == _stations) return;
-                _stations = value;
-                RaisePropertyChanged(nameof(Stations));
-            }
-        }
-
-        private bool _isLoading = false;
-        public bool IsLoading
-        {
-            get
-            {
-                return _isLoading;
-            }
-            set
-            {
-                if (value == _isLoading) return;
-                _isLoading = value;
-                RaisePropertyChanged(nameof(IsLoading));
-
-            }
-        }
+    
         #endregion
 
         #region commands
@@ -74,26 +48,19 @@ namespace SemManagement.UWP.ViewModel
         {
             _navigationService.CurrentFrame = UIHelper.GetMainFrame();
         }
+        #endregion
 
+        #region constructor
         public StartPageViewModel(NavigationService navigationService, ISongService songService, IStationService stationService)
         {
             _navigationService = navigationService;
             _songService = songService;
             _stationService = stationService;
-
-            LoadData();
         }
         #endregion
 
         #region private methods
-        private async void LoadData()
-        {
-            var stations = await _stationService.TakeAsync(100);
 
-            Stations = new ObservableCollection<Station>(stations);
-
-            var deletedSongs = await _stationService.GetDeletedSongsAsync(848);
-        }
         #endregion
     }
 }

@@ -122,6 +122,9 @@
     <Compile Include="Configurations\PublicApiConfiguration.cs" />
     <Compile Include="Configurations\RestEndPoins.cs" />
     <Compile Include="Configurations\WebApiProvider.cs" />
+    <Compile Include="Converters\BoolToVisibleOrCollapsed.cs" />
+    <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="Model\SongsDeleted.cs" />
@@ -133,6 +136,7 @@
     <Compile Include="Services\StationModule\Service\StationService.cs" />
     <Compile Include="ViewModel\SettingsPageViewModel.cs" />
     <Compile Include="ViewModel\StartPageViewModel.cs" />
+    <Compile Include="ViewModel\StationsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AudiosPage.xaml.cs">
       <DependentUpon>AudiosPage.xaml</DependentUpon>
@@ -171,6 +175,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
       <Version>5.1.0</Version>

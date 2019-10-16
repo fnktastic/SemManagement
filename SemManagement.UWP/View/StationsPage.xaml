@@ -6,12 +6,58 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    DataContext="{Binding StationsPageInstance, Source={StaticResource Locator}}">
 
-    <Grid>
-        <controls:DataGrid ItemsSource="{Binding Stations}" AutoGenerateColumns="True">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*" />
+            <ColumnDefinition Width="0.4*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <ProgressRing IsActive="True" 
+                          Width="150"
+                          Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+            <GridView 
+                  ItemsSource="{Binding Stations}"
+                  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
+                  ItemTemplate="{StaticResource StationItemTemplate}"
+                  SelectedItem="{Binding SelectedStation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  IsItemClickEnabled="True"
+                  IsSwipeEnabled="True"
+                  CanDragItems="True"
+                  SelectionMode="Single" />
+        </Grid>
+       
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="40" Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition MinHeight="40" Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition MinHeight="40" Height="Auto" />
+            </Grid.RowDefinitions>
+            <controls:Expander Grid.Row="0" Header="User Details">
+            
+            </controls:Expander>
+            <controls:GridSplitter Grid.Row="1" />
+            <controls:Expander Grid.Row="2" Header="All Songs">
 
-        </controls:DataGrid>
+            </controls:Expander>
+            <controls:GridSplitter Grid.Row="3" />
+            <controls:Expander Grid.Row="4" Header="Deleted Songs" IsExpanded="{Binding ExpandDetails, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid>
+                    <ProgressRing IsActive="True" Width="150" Visibility="{Binding IsDeletedSongsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                    <ListBox Visibility="{Binding IsDeletedSongsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
+                             ItemsSource="{Binding SongsDeleted}"
+                             ItemTemplate="{StaticResource AudioItemTemplate}">
+                    </ListBox>
+                </Grid>
+            </controls:Expander>
+        </Grid>
     </Grid>
 
 </Page>

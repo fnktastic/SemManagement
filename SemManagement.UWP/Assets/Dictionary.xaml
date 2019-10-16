@@ -88,7 +88,7 @@
                                         </interactivity:Interaction.Behaviors>
                                     </TextBlock>
                                     <TextBlock Text="{Binding Hardware_ID, Converter={StaticResource StringFormatConverter}, ConverterParameter='Hardware ID: {0}'}"/>
-                                    <TextBlock Text="{Binding Blocked}" Tag="{Binding Blocked}" x:Name="blockedTextBlock" HorizontalAlignment="Center" >
+                                    <TextBlock Text="{Binding Blocked}" Tag="{Binding Blocked}" x:Name="blockedTextBlock" HorizontalAlignment="Center" Margin="0 15 0 0">
                                         <interactivity:Interaction.Behaviors>
                                             <core:DataTriggerBehavior Binding="{Binding Tag, ElementName=blockedTextBlock}" Value="0">
                                                 <core:ChangePropertyAction PropertyName="Text" Value="Active" />

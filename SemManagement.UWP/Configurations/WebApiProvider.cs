@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Threading.Tasks;
+using SemManagement.UWP.Model;
 
 namespace SemManagement.UWP.Configurations
 {
@@ -54,6 +55,40 @@ namespace SemManagement.UWP.Configurations
             request.AddParameter("stationId", stationId);
 
             _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
+        protected Task<List<T>> GetStationSongsAsync<T>(string endpoint, int stationId)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("stationId", stationId);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
+        protected Task<User> GetStationUserAsync(string endpoint, int stationId) 
+        {
+            TaskCompletionSource<User> tcs = new TaskCompletionSource<User>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("stationId", stationId);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<User> response) => ResponseHandler<User>(response, tcs));
 
             return tcs.Task;
         }

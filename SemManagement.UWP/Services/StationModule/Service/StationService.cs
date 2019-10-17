@@ -39,14 +39,14 @@ namespace SemManagement.UWP.Services.StationModule.Service
             return await _stationProvider.TakeAsync(take, skip);
         }
 
-        public Task<List<Song>> GetStationSongsAsync(int stationId)
+        public async Task<List<Song>> GetStationSongsAsync(int stationId)
         {
-            throw new NotImplementedException();
+            return await _stationProvider.GetStationSongsAsync(stationId);
         }
 
-        public Task<User> GetStationUserAsync(int stationId)
+        public async Task<User> GetStationUserAsync(int stationId)
         {
-            throw new NotImplementedException();
+            return await _stationProvider.GetStationUserAsync(stationId);
         }
 
         #region fake data

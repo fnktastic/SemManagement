@@ -36,14 +36,18 @@ namespace SemManagement.UWP.Services.StationModule.Provider
             return await GetDeletedSongsAsync<SongsDeleted>(endpoint, stationId);
         }
 
-        public Task<List<Song>> GetStationSongsAsync(int stationId)
+        public async Task<List<Song>> GetStationSongsAsync(int stationId)
         {
-            throw new NotImplementedException();
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationSongsAsync");
+
+            return await GetStationSongsAsync<Song>(endpoint, stationId);
         }
 
-        public Task<User> GetStationUserAsync(int stationId)
+        public async Task<User> GetStationUserAsync(int stationId)
         {
-            throw new NotImplementedException();
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationUserAsync");
+
+            return await GetStationUserAsync(endpoint, stationId);
         }
     }
 }

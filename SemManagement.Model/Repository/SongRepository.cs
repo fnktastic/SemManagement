@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using SemManagement.Model.DataAccess;
 using SemManagement.Model.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,8 @@ namespace SemManagement.Model.Repository
     public interface ISongRepository
     {
         Task<List<Song>> TakeAsync(int take, int skip = 0);
+
+        Task<List<Song>> MostPopularSongs(int stationId, int top = 10);
     }
 
     public class SongRepository : ISongRepository
@@ -21,6 +25,29 @@ namespace SemManagement.Model.Repository
         public SongRepository(Context context)
         {
             _context = context;
+        }
+
+        public async Task<List<Song>> MostPopularSongs(int stationId, int top = 10)
+        {
+            var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
+            {
+                Value = stationId
+            };
+
+            var topParameter = new MySqlParameter("@top", SqlDbType.Int)
+            {
+                Value = top
+            };
+
+            return await _context.Songs.FromSql<Song>(
+                "SELECT s1.*, COUNT(s1.sgid) count FROM songs AS s1 " +
+                "INNER JOIN playlistssongs as pl1 ON s1.sgid = pl1.sgid " +
+                "INNER JOIN stationsplaylists as sp1 ON sp1.plid = pl1.plid " +
+                "WHERE sp1.sid = @stationId " +
+                "GROUP BY s1.sgid " +
+                "ORDER BY count DESC " +
+                "LIMIT @top", stationIdParameter, topParameter)
+                .ToListAsync();
         }
 
         public async Task<List<Song>> TakeAsync(int take, int skip = 0)

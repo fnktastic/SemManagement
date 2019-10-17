@@ -14,8 +14,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.6*" />
-            <ColumnDefinition Width="0.4*" />
+            <ColumnDefinition Width="0.45*" />
+            <ColumnDefinition Width="0.55*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Grid.Column="0">
             <ProgressRing IsActive="True" 
@@ -32,26 +32,9 @@
                   CanDragItems="True"
                   SelectionMode="Single" />
         </Grid>
-       
-        <Grid Grid.Row="0" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition MinHeight="40" />
-                <RowDefinition Height="15" />
-                <RowDefinition MinHeight="40" />
-                <RowDefinition Height="15" />
-                <RowDefinition MinHeight="40" />
-            </Grid.RowDefinitions>
-            <controls:Expander Grid.Row="0" Header="User Details">
-            
-            </controls:Expander>
-            <controls:GridSplitter Grid.Row="1" />
-            <controls:Expander Grid.Row="2" Header="All Songs">
 
-            </controls:Expander>
-            <controls:GridSplitter Grid.Row="3" />
-            <controls:Expander Grid.Row="4" Header="Deleted Songs" 
-                               VerticalContentAlignment="Top"
-                               IsExpanded="{Binding ExpandDetails, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <controls:TabView Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsStationSelected}">
+            <controls:TabViewItem Header="User Details" IsSelected="{Binding IsUserDetailsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid VerticalAlignment="Top">
                     <ProgressRing IsActive="True" 
                                   VerticalAlignment="Center"
@@ -59,15 +42,69 @@
                                   Margin="15"
                                   Height="60"
                                   Width="60"
-                                  Visibility="{Binding IsDeletedSongsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
-                    <ListBox Visibility="{Binding IsDeletedSongsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
+                                  Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                </Grid>
+            </controls:TabViewItem>
+            <controls:TabViewItem Header="Songs" IsSelected="{Binding IsSongsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid VerticalAlignment="Top">
+                    <ProgressRing IsActive="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="15"
+                                  Height="60"
+                                  Width="60"
+                                  Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                </Grid>
+            </controls:TabViewItem>
+            <controls:TabViewItem Header="Deleted Songs" IsSelected="{Binding IsDeletedSongsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid VerticalAlignment="Top">
+                    <ProgressRing IsActive="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="15"
+                                  Height="60"
+                                  Width="60"
+                                  Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                    <ListBox Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                              VerticalAlignment="Top"
                              ItemsSource="{Binding SongsDeleted}"
-                             ItemTemplate="{StaticResource AudioItemTemplate}">
+                             ItemTemplate="{StaticResource SongDeletedItemTemplate}">
                     </ListBox>
                 </Grid>
-            </controls:Expander>
-        </Grid>
+            </controls:TabViewItem>
+            <controls:TabViewItem Header="Station Queue" IsSelected="{Binding IsStationQueueTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid VerticalAlignment="Top">
+                    <ProgressRing IsActive="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="15"
+                                  Height="60"
+                                  Width="60"
+                                  Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                </Grid>
+            </controls:TabViewItem>
+            <controls:TabViewItem Header="Stats" IsSelected="{Binding IsStatsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid VerticalAlignment="Top">
+                    <ProgressRing IsActive="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="15"
+                                  Height="60"
+                                  Width="60"
+                                  Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                    <controls:DockPanel controls:DockPanel.Dock="Top" Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+                        <controls:Expander Header="Most Popular Songs">
+                            <ListBox    
+                                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                VerticalAlignment="Top"
+                                ItemsSource="{Binding MostPopularSongs}"
+                                ItemTemplate="{StaticResource SongItemTemplate}">
+                            </ListBox>
+                        </controls:Expander>
+                    </controls:DockPanel>
+                </Grid>
+            </controls:TabViewItem>
+        </controls:TabView>
     </Grid>
 
 </Page>

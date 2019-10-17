@@ -29,24 +29,24 @@ namespace SemManagement.UWP.Services.StationModule.Service
             _stationProvider = stationProvider;
         }
 
-        public async Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId)
+        public Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId)
         {
-            return await _stationProvider.GetDeletedSongsAsync(stationId);
+            return _stationProvider.GetDeletedSongsAsync(stationId);
         }
 
-        public async Task<List<Station>> TakeAsync(int take, int skip = 0)
+        public Task<List<Station>> TakeAsync(int take, int skip = 0)
         {
-            return await _stationProvider.TakeAsync(take, skip);
+            return _stationProvider.TakeAsync(take, skip);
         }
 
-        public async Task<List<Song>> GetStationSongsAsync(int stationId)
+        public Task<List<Song>> GetStationSongsAsync(int stationId)
         {
-            return await _stationProvider.GetStationSongsAsync(stationId);
+            return _stationProvider.GetStationSongsAsync(stationId);
         }
 
-        public async Task<User> GetStationUserAsync(int stationId)
+        public Task<User> GetStationUserAsync(int stationId)
         {
-            return await _stationProvider.GetStationUserAsync(stationId);
+            return _stationProvider.GetStationUserAsync(stationId);
         }
 
         #region fake data

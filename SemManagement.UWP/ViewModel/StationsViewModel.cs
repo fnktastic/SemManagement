@@ -21,6 +21,19 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
+        private bool _isStationSelected;
+        public bool IsStationSelected
+        {
+            get { return _isStationSelected; }
+            set
+            {
+                if (value == _isStationSelected) return;
+                _isStationSelected = value;
+                RaisePropertyChanged(nameof(IsStationSelected));
+
+            }
+        }
+
         private Station _selectedStation;
         public Station SelectedStation
         {
@@ -33,12 +46,20 @@ namespace SemManagement.UWP.ViewModel
 
                 if (_selectedStation != null)
                 {
-                    ExpandDetails = true;
-                    LoadDeletedSongsCommand.Execute(null);
+                    IsStationSelected = true;
                 }
 
                 if (_selectedStation == null)
-                    ExpandDetails = false;
+                {
+                    IsStationSelected = false;
+                }
+
+                if (_isStatsTabSelected)
+                    LoadStatsCommand.Execute(null);
+
+                if (_isDeletedSongsTabSelected)
+                    LoadDeletedSongsCommand.Execute(null);
+
 
             }
         }
@@ -67,16 +88,95 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private bool _isDeletedSongsLoading = false;
-        public bool IsDeletedSongsLoading
+        private ObservableCollection<Song> _mostPopularSongs;
+        public ObservableCollection<Song> MostPopularSongs
         {
-            get { return _isDeletedSongsLoading; }
+            get { return _mostPopularSongs; }
             set
             {
-                if (value == _isDeletedSongsLoading) return;
-                _isDeletedSongsLoading = value;
-                RaisePropertyChanged(nameof(IsDeletedSongsLoading));
+                if (value == _mostPopularSongs) return;
+                _mostPopularSongs = value;
+                RaisePropertyChanged(nameof(MostPopularSongs));
+            }
 
+        }
+
+        private bool _isDataLoading = false;
+        public bool IsDataLoading
+        {
+            get { return _isDataLoading; }
+            set
+            {
+                if (value == _isDataLoading) return;
+                _isDataLoading = value;
+                RaisePropertyChanged(nameof(IsDataLoading));
+
+            }
+        }
+
+        private bool _isUserDetailsTabSelected = false;
+        public bool IsUserDetailsTabSelected
+        {
+            get { return _isUserDetailsTabSelected; }
+            set
+            {
+                if (value == _isUserDetailsTabSelected) return;
+                _isUserDetailsTabSelected = value;
+                RaisePropertyChanged(nameof(IsUserDetailsTabSelected));
+
+            }
+        }
+
+        private bool _isDeletedSongsTabSelected = false;
+        public bool IsDeletedSongsTabSelected
+        {
+            get { return _isDeletedSongsTabSelected; }
+            set
+            {
+                if (value == _isDeletedSongsTabSelected) return;
+                _isDeletedSongsTabSelected = value;
+                RaisePropertyChanged(nameof(IsDeletedSongsTabSelected));
+
+            }
+        }
+
+        private bool _isSongsTabSelected = false;
+        public bool IsSongsTabSelected
+        {
+            get { return _isSongsTabSelected; }
+            set
+            {
+                if (value == _isSongsTabSelected) return;
+                _isSongsTabSelected = value;
+                RaisePropertyChanged(nameof(IsSongsTabSelected));
+
+            }
+        }
+
+        private bool _isStationQueueTabSelected = false;
+        public bool IsStationQueueTabSelected
+        {
+            get { return _isStationQueueTabSelected; }
+            set
+            {
+                if (value == _isStationQueueTabSelected) return;
+                _isStationQueueTabSelected = value;
+                RaisePropertyChanged(nameof(IsStationQueueTabSelected));
+
+            }
+        }
+
+        private bool _isStatsTabSelected = false;
+        public bool IsStatsTabSelected
+        {
+            get { return _isStatsTabSelected; }
+            set
+            {
+                if (value == _isStatsTabSelected) return;
+                _isStatsTabSelected = value;
+                RaisePropertyChanged(nameof(IsStatsTabSelected));
+
+                LoadStatsCommand.Execute(null);
             }
         }
 
@@ -92,19 +192,6 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
-
-        private bool _expandDetails = false;
-        public bool ExpandDetails
-        {
-            get { return _expandDetails; }
-            set
-            {
-                if (value == _expandDetails) return;
-                _expandDetails = value;
-                RaisePropertyChanged(nameof(ExpandDetails));
-
-            }
-        }
         #endregion
 
         #region commands
@@ -114,14 +201,32 @@ namespace SemManagement.UWP.ViewModel
         {
             try
             {
-                IsDeletedSongsLoading = true;
+                IsDataLoading = true;
 
-                var songsDeleted = await _stationService.GetFakeDeletedSongsAsync(_selectedStation.Sid);
+                //var songsDeleted = await _stationService.GetFakeDeletedSongsAsync(_selectedStation.Sid);
+                var songsDeleted = await _stationService.GetDeletedSongsAsync(_selectedStation.Sid);
                 SongsDeleted = new ObservableCollection<SongsDeleted>(songsDeleted);
             }
             finally
             {
-                IsDeletedSongsLoading = false;
+                IsDataLoading = false;
+            }
+        }
+
+        private RelayCommand _loadStatsCommand;
+        public RelayCommand LoadStatsCommand => _loadStatsCommand ?? (_loadStatsCommand = new RelayCommand(LoadStats));
+        private async void LoadStats()
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                var mostPopularSongs = await _songService.MostPopularSongs(_selectedStation.Sid, 15);
+                MostPopularSongs = new ObservableCollection<Song>(mostPopularSongs);
+            }
+            finally
+            {
+                IsDataLoading = false;
             }
         }
         #endregion
@@ -133,6 +238,8 @@ namespace SemManagement.UWP.ViewModel
             _stationService = stationService;
 
             LoadData();
+
+            IsUserDetailsTabSelected = false;
         }
         #endregion
 
@@ -142,20 +249,13 @@ namespace SemManagement.UWP.ViewModel
             try
             {
                 IsLoading = true;
-
-                var stations = await _stationService.GetFakeDataAsync();
+                var stations = await _stationService.TakeAsync(100);
                 Stations = new ObservableCollection<Station>(stations);
             }
             finally
             {
                 IsLoading = false;
             }
-
-            //var stations = await _stationService.TakeAsync(100);
-
-            //Stations = new ObservableCollection<Station>(stations);
-
-            //var deletedSongs = await _stationService.GetDeletedSongsAsync(848);
         }
         #endregion
     }

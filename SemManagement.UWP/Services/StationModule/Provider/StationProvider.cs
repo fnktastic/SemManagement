@@ -22,32 +22,32 @@ namespace SemManagement.UWP.Services.StationModule.Provider
         {
         }
 
-        public async Task<List<Station>> TakeAsync(int take, int skip = 0)
+        public Task<List<Station>> TakeAsync(int take, int skip = 0)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "get");
 
-            return await TakeAsync<Station>(endpoint, take, skip);
+            return TakeAsync<Station>(endpoint, take, skip);
         }
 
-        public async Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId)
+        public Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getDeletedSongs");
 
-            return await GetDeletedSongsAsync<SongsDeleted>(endpoint, stationId);
+            return GetDeletedSongsAsync<SongsDeleted>(endpoint, stationId);
         }
 
-        public async Task<List<Song>> GetStationSongsAsync(int stationId)
+        public Task<List<Song>> GetStationSongsAsync(int stationId)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationSongsAsync");
 
-            return await GetStationSongsAsync<Song>(endpoint, stationId);
+            return GetStationSongsAsync<Song>(endpoint, stationId);
         }
 
-        public async Task<User> GetStationUserAsync(int stationId)
+        public Task<User> GetStationUserAsync(int stationId)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationUserAsync");
 
-            return await GetStationUserAsync(endpoint, stationId);
+            return GetStationUserAsync(endpoint, stationId);
         }
     }
 }

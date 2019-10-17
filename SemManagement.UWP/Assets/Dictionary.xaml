@@ -18,6 +18,10 @@
                         TintColor="#FFDCFCFC" 
                         FallbackColor="White" />
 
+    <Style TargetType="ListBox">
+        <Setter Property="Background" Value="{ThemeResource GridViewItemBackground}" />
+    </Style>
+
     <vm:ViewModelLocator x:Key="Locator" />
 
     <AcrylicBrush x:Key="GridViewItemBackground"
@@ -32,8 +36,67 @@
                   TintOpacity="0.6"
                   FallbackColor="White"/>
 
-    <DataTemplate x:Key="AudioItemTemplate">
-        <TextBlock Text="{Binding Name}" />
+    <DataTemplate x:Key="SongItemTemplate">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="1*" MinWidth="350" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Sgid}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" />
+            <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Genre}" />
+            <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="Detals" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Filename}" />
+                            <TextBlock Text="{Binding File_MD5}" />
+                            <TextBlock Text="{Binding File_MD5_Gained}" />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SongDeletedItemTemplate">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="1*" MinWidth="350" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Sgid}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" />
+            <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Genre}" />
+            <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="Detals" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Filename}" />
+                            <TextBlock Text="{Binding File_MD5}" />
+                            <TextBlock Text="{Binding File_MD5_Gained}" />
+                            <TextBlock Text="Playlist" />
+                            <TextBlock Text="{Binding Plid}" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
     </DataTemplate>
     
     <DataTemplate x:Key="StationItemTemplate">
@@ -80,10 +143,10 @@
                                     <TextBlock Text="{Binding Autosync}" Tag="{Binding Autosync}" x:Name="autosyncTextBlock" >
                                         <interactivity:Interaction.Behaviors>
                                             <core:DataTriggerBehavior Binding="{Binding Tag, ElementName=autosyncTextBlock}" Value="0">
-                                                <core:ChangePropertyAction PropertyName="Text" Value="Autosync Enabled" />
+                                                <core:ChangePropertyAction PropertyName="Text" Value="Autosync enabled" />
                                             </core:DataTriggerBehavior>
                                             <core:DataTriggerBehavior Binding="{Binding Tag, ElementName=autosyncTextBlock}" Value="1">
-                                                <core:ChangePropertyAction PropertyName="Text" Value="Autosync Disabled" />
+                                                <core:ChangePropertyAction PropertyName="Text" Value="Autosync disabled" />
                                             </core:DataTriggerBehavior>
                                         </interactivity:Interaction.Behaviors>
                                     </TextBlock>

@@ -30,5 +30,11 @@ namespace SemManagement.API.Controllers
 
             return NotFound();
         }
+
+        [HttpGet("mostPopularSongs")]
+        public async Task<ActionResult<IList<Song>>> MostPopularSongs(int stationId, int top = 10)
+        {
+            return await _songRepository.MostPopularSongs(stationId, top);
+        }
     }
 }

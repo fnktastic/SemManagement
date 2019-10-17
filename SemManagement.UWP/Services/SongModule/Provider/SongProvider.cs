@@ -12,6 +12,8 @@ namespace SemManagement.UWP.Services.SongModule.Provider
     public interface ISongProvider
     {
         Task<List<Song>> TakeAsync(int take, int skip = 0);
+
+        Task<List<Song>> MostPopularSongs(int stationId, int top = 10);
     }
 
     public class SongProvider : WebApiProvider, ISongProvider
@@ -20,11 +22,18 @@ namespace SemManagement.UWP.Services.SongModule.Provider
         {
         }
 
-        public async Task<List<Song>> TakeAsync(int take, int skip = 0)
+        public Task<List<Song>> TakeAsync(int take, int skip = 0)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Songs, "get");
 
-            return await TakeAsync<Song>(endpoint, take, skip);
+            return TakeAsync<Song>(endpoint, take, skip);
+        }
+
+        public Task<List<Song>> MostPopularSongs(int stationId, int top = 10)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Songs, "mostPopularSongs");
+
+            return MostPopularSongs<Song>(endpoint, stationId, top);
         }
     }
 }

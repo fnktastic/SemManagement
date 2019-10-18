@@ -19,7 +19,7 @@ namespace SemManagement.API.Controllers
             _stationRepository = stationRepository;
         }
 
-        [HttpGet("get")]
+        [HttpGet("take")]
         public async Task<ActionResult<IList<Station>>> TakeAsync(int take, int skip)
         {
             if (skip == 0 && take > 0)

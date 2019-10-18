@@ -24,7 +24,7 @@ namespace SemManagement.UWP.Services.SongModule.Provider
 
         public Task<List<Song>> TakeAsync(int take, int skip = 0)
         {
-            string endpoint = string.Format("{0}/{1}", RestEndpoint.Songs, "get");
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Songs, "take");
 
             return TakeAsync<Song>(endpoint, take, skip);
         }

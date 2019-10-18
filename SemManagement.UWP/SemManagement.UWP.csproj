@@ -126,21 +126,31 @@
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
+    <Compile Include="Model\Playlist.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="Model\SongsDeleted.cs" />
     <Compile Include="Model\Station.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PlaylistModule\Provider\PlaylistProvider.cs" />
+    <Compile Include="Services\PlaylistModule\Service\PlaylistService.cs" />
     <Compile Include="Services\SongModule\Provider\SongProvider.cs" />
     <Compile Include="Services\SongModule\Service\SongService.cs" />
     <Compile Include="Services\StationModule\Provider\StationProvider.cs" />
     <Compile Include="Services\StationModule\Service\StationService.cs" />
+    <Compile Include="Services\UserModule\Provide\UserProvider.cs" />
+    <Compile Include="Services\UserModule\Service\UserService.cs" />
+    <Compile Include="ViewModel\AudiosViewModel.cs" />
+    <Compile Include="ViewModel\PlaylistsViewModel.cs" />
     <Compile Include="ViewModel\SettingsPageViewModel.cs" />
     <Compile Include="ViewModel\StartPageViewModel.cs" />
     <Compile Include="ViewModel\StationsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AudiosPage.xaml.cs">
       <DependentUpon>AudiosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PlaylistsPage.xaml.cs">
+      <DependentUpon>PlaylistsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -203,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AudiosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PlaylistsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

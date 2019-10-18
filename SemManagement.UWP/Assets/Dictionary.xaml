@@ -44,13 +44,13 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="1*" MinWidth="350" />
+                <ColumnDefinition Width="1*" MinWidth="400" />
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Sgid}" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" MaxWidth="350" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" MaxWidth="350" TextTrimming="WordEllipsis" />
             <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Genre}" />
             <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="Detals" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
                 <Button.Flyout>
@@ -74,13 +74,13 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="1*" MinWidth="350" />
+                <ColumnDefinition Width="1*" MinWidth="400" />
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Sgid}" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" MaxWidth="350" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" MaxWidth="350" TextTrimming="WordEllipsis" />
             <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Genre}" />
             <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="Detals" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
                 <Button.Flyout>
@@ -89,7 +89,7 @@
                             <TextBlock Text="{Binding Filename}" />
                             <TextBlock Text="{Binding File_MD5}" />
                             <TextBlock Text="{Binding File_MD5_Gained}" />
-                            <TextBlock Text="Playlist" />
+                            <TextBlock Text="Playlist details" TextAlignment="Center" />
                             <TextBlock Text="{Binding Plid}" />
                             <TextBlock Text="{Binding Name}" />
                         </StackPanel>
@@ -98,7 +98,7 @@
             </Button>
         </Grid>
     </DataTemplate>
-    
+
     <DataTemplate x:Key="StationItemTemplate">
         <Border Width="200" 
                 Padding="15 10"
@@ -172,4 +172,14 @@
         </Border>
     </DataTemplate>
 
+    <DataTemplate x:Key="PlaylistItemTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{Binding Plid}" />
+            <TextBlock Grid.Column="1" Text="{Binding Name}" />
+        </Grid>
+    </DataTemplate>
 </ResourceDictionary>

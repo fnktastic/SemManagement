@@ -24,7 +24,7 @@ namespace SemManagement.UWP.Services.StationModule.Provider
 
         public Task<List<Station>> TakeAsync(int take, int skip = 0)
         {
-            string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "get");
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "take");
 
             return TakeAsync<Station>(endpoint, take, skip);
         }

@@ -32,6 +32,7 @@ namespace SemManagement.API
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IStationRepository, StationRepository>();
+            services.AddTransient<IPlaylistRepository, PlaylistRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

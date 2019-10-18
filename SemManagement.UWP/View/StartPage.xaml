@@ -28,7 +28,8 @@
         </i:Interaction.Behaviors>
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="XboxOneConsole" Content="Stations" Tag="StartPageStations" />
-            <NavigationViewItem Icon="Play" Content="Audios" Tag="StartPageAudios" />
+            <NavigationViewItem Icon="Audio" Content="Songs" Tag="StartPageAudios" />
+            <NavigationViewItem Icon="List" Content="Playlists" Tag="StartPagePlaylists" />
         </NavigationView.MenuItems>
         <Frame x:Name="contentFrame" />
     </NavigationView>

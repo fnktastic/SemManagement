@@ -15,7 +15,7 @@ namespace SemManagement.Model.Repository
     {
         Task<List<Song>> TakeAsync(int take, int skip = 0);
 
-        Task<List<Song>> MostPopularSongs(int stationId, int top = 10);
+        Task<List<Song>> MostPopularSongsAsync(int stationId, int top = 10);
     }
 
     public class SongRepository : ISongRepository
@@ -27,7 +27,7 @@ namespace SemManagement.Model.Repository
             _context = context;
         }
 
-        public async Task<List<Song>> MostPopularSongs(int stationId, int top = 10)
+        public async Task<List<Song>> MostPopularSongsAsync(int stationId, int top = 10)
         {
             var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
             {
@@ -50,12 +50,12 @@ namespace SemManagement.Model.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<Song>> TakeAsync(int take, int skip = 0)
+        public Task<List<Song>> TakeAsync(int take, int skip = 0)
         {
             if (skip > 0)
-                return await _context.Songs.Skip(skip).Take(take).ToListAsync();
+                return _context.Songs.Skip(skip).Take(take).ToListAsync();
 
-            return await _context.Songs.Take(take).ToListAsync();
+            return _context.Songs.Take(take).ToListAsync();
         }        
     }
 }

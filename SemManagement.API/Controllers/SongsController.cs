@@ -19,7 +19,7 @@ namespace SemManagement.API.Controllers
             _songRepository = songRepository;
         }
 
-        [HttpGet("get")]
+        [HttpGet("take")]
         public async Task<ActionResult<IList<Song>>> TakeAsync(int take, int skip)
         {
             if (skip == 0 && take > 0)
@@ -32,9 +32,9 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("mostPopularSongs")]
-        public async Task<ActionResult<IList<Song>>> MostPopularSongs(int stationId, int top = 10)
+        public async Task<ActionResult<IList<Song>>> MostPopularSongsAsync(int stationId, int top = 10)
         {
-            return await _songRepository.MostPopularSongs(stationId, top);
+            return await _songRepository.MostPopularSongsAsync(stationId, top);
         }
     }
 }

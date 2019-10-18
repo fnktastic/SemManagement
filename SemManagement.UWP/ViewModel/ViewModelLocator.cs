@@ -4,6 +4,8 @@ using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Helper;
+using SemManagement.UWP.Services.PlaylistModule.Provider;
+using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.Services.SongModule.Provider;
 using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.Services.StationModule.Provider;
@@ -36,6 +38,8 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<StartPageViewModel>();
             SimpleIoc.Default.Register<SettingsPageViewModel>();
             SimpleIoc.Default.Register<StationsViewModel>();
+            SimpleIoc.Default.Register<PlaylistsViewModel>();
+            SimpleIoc.Default.Register<AudiosViewModel>();
 
             SimpleIoc.Default.Register<PublicApiConfiguration>();
             SimpleIoc.Default.Register<IRestEndpoints, RestEndpoints>();
@@ -43,6 +47,8 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<ISongService, SongService>();
             SimpleIoc.Default.Register<IStationProvider, StationProvider>();
             SimpleIoc.Default.Register<IStationService, StationService>();
+            SimpleIoc.Default.Register<IPlaylistProvider, PlaylistProvider>();
+            SimpleIoc.Default.Register<IPlaylistService, PlaylistService>();
 
             SetupNavigation();
         }
@@ -53,6 +59,7 @@ namespace SemManagement.UWP.ViewModel
             navigationService.Configure("StartPageStations", typeof(StationsPage));
             navigationService.Configure("StartPageAudios", typeof(AudiosPage));
             navigationService.Configure("StartPageSettings", typeof(SettingsPage));
+            navigationService.Configure("StartPagePlaylists", typeof(PlaylistsPage));
 
             SimpleIoc.Default.Register<NavigationService>(() => navigationService);
         }
@@ -78,6 +85,22 @@ namespace SemManagement.UWP.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<StationsViewModel>();
+            }
+        }
+
+        public PlaylistsViewModel PlaylistsPageInstance
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<PlaylistsViewModel>();
+            }
+        }
+
+        public AudiosViewModel AudiosPageInstance
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AudiosViewModel>();
             }
         }
 

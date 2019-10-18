@@ -17,11 +17,16 @@
             <ColumnDefinition Width="0.45*" />
             <ColumnDefinition Width="0.55*" />
         </Grid.ColumnDefinitions>
+
+        <ProgressRing IsActive="True" 
+                      Height="60"
+                      Width="60"
+                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+
         <Grid Grid.Row="0" Grid.Column="0">
-            <ProgressRing IsActive="True" 
-                          Height="60"
-                          Width="60"
-                          Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
             <GridView 
                   ItemsSource="{Binding Stations}"
                   Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
@@ -33,7 +38,7 @@
                   SelectionMode="Single" />
         </Grid>
 
-        <controls:TabView Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsStationSelected}">
+        <controls:TabView Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsStationSelected}"  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
             <controls:TabViewItem Header="User Details" IsSelected="{Binding IsUserDetailsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid VerticalAlignment="Top">
                     <ProgressRing IsActive="True" 

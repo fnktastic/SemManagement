@@ -16,11 +16,16 @@
             <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
+
+        <ProgressRing IsActive="True" 
+                      Height="60"
+                      Width="60"
+                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+        
         <Grid Grid.Row="0" Grid.Column="0">
-            <ProgressRing IsActive="True" 
-                          Height="60"
-                          Width="60"
-                          Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
             <ListBox 
                   ItemsSource="{Binding Songs}"
                   Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"

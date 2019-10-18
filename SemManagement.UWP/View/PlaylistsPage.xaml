@@ -16,17 +16,24 @@
             <ColumnDefinition Width="0.45*" />
             <ColumnDefinition Width="0.55*" />
         </Grid.ColumnDefinitions>
+
+        <ProgressRing IsActive="True" 
+                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
+                      Height="60"
+                      Width="60"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+
         <Grid Grid.Row="0" Grid.Column="0">
-            <ProgressRing IsActive="True" 
-                          Height="60"
-                          Width="60"
-                          Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
             <ListBox 
-                  ItemsSource="{Binding Playlists}"
-                  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
-                  ItemTemplate="{StaticResource PlaylistItemTemplate}"
-                  SelectedItem="{Binding SelectedStation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                  SelectionMode="Single" />
+                 ItemsSource="{Binding Playlists}"
+                 Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
+                 ItemTemplate="{StaticResource PlaylistItemTemplate}"
+                 SelectedItem="{Binding SelectedStation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 SelectionMode="Multiple"
+                 CanDrag="True"
+                />
         </Grid>
 
     </Grid>

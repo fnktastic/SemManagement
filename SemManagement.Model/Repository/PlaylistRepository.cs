@@ -16,9 +16,9 @@ namespace SemManagement.Model.Repository
 
     public class PlaylistRepository : IPlaylistRepository
     {
-        private readonly Context _context;
+        private readonly SemContext _context;
 
-        public PlaylistRepository(Context context)
+        public PlaylistRepository(SemContext context)
         {
             _context = context;
         }

@@ -20,9 +20,9 @@ namespace SemManagement.Model.Repository
 
     public class SongRepository : ISongRepository
     {
-        private readonly Context _context;
+        private readonly SemContext _context;
 
-        public SongRepository(Context context)
+        public SongRepository(SemContext context)
         {
             _context = context;
         }

@@ -14,9 +14,9 @@ namespace SemManagement.Model.Repository
 
     public class UserRepository : IUserRepository
     {
-        private readonly Context _context;
+        private readonly SemContext _context;
 
-        public UserRepository(Context context)
+        public UserRepository(SemContext context)
         {
             _context = context;
         }

@@ -21,9 +21,9 @@ namespace SemManagement.Model.Repository
     }
     public class StationRepository : IStationRepository
     {
-        private readonly Context _context;
+        private readonly SemContext _context;
 
-        public StationRepository(Context context)
+        public StationRepository(SemContext context)
         {
             _context = context;
         }

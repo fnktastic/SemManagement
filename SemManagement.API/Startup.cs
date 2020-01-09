@@ -28,7 +28,7 @@ namespace SemManagement.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<Context>(options => options.UseMySQL(Configuration.GetConnectionString("SemDBConnection")));
+            services.AddDbContext<SemContext>(options => options.UseMySQL(Configuration.GetConnectionString("SemDBConnection")));
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IStationRepository, StationRepository>();

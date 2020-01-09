@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SemManagement.Model.DataAccess
 {
-    public class Context : DbContext
+    public class SemContext : DbContext
     {
         public DbSet<Song> Songs { get; set; }
 
@@ -18,7 +18,7 @@ namespace SemManagement.Model.DataAccess
 
         public DbSet<Playlist> Playlists { get; set; } 
 
-        public Context(DbContextOptions<Context> options) : base(options)
+        public SemContext(DbContextOptions<SemContext> options) : base(options)
         {
 
         }

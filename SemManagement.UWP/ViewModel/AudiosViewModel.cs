@@ -17,6 +17,18 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
+        private Song _song;
+        public Song Song
+        {
+            get { return _song; }
+            set
+            {
+                if (value == _song) return;
+                _song = value;
+                RaisePropertyChanged(nameof(Song));
+            }
+        }
+
         private ObservableCollection<Song> _songs;
         public ObservableCollection<Song> Songs
         {

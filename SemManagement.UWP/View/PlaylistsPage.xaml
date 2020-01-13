@@ -30,8 +30,7 @@
                  ItemsSource="{Binding Playlists}"
                  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                  ItemTemplate="{StaticResource PlaylistItemTemplate}"
-                 SelectedItem="{Binding SelectedStation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 SelectionMode="Multiple"
+                 SelectionMode="Single"
                  CanDrag="True"
                 />
         </Grid>

@@ -40,6 +40,7 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<StationsViewModel>();
             SimpleIoc.Default.Register<PlaylistsViewModel>();
             SimpleIoc.Default.Register<AudiosViewModel>();
+            SimpleIoc.Default.Register<RulesViewModel>();
 
             SimpleIoc.Default.Register<PublicApiConfiguration>();
             SimpleIoc.Default.Register<IRestEndpoints, RestEndpoints>();
@@ -60,6 +61,7 @@ namespace SemManagement.UWP.ViewModel
             navigationService.Configure("StartPageAudios", typeof(AudiosPage));
             navigationService.Configure("StartPageSettings", typeof(SettingsPage));
             navigationService.Configure("StartPagePlaylists", typeof(PlaylistsPage));
+            navigationService.Configure("StartPageRules", typeof(RulesPage));
 
             SimpleIoc.Default.Register<NavigationService>(() => navigationService);
         }
@@ -101,6 +103,15 @@ namespace SemManagement.UWP.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<AudiosViewModel>();
+            }
+        }
+
+        public RulesViewModel RulesPageInstance
+
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<RulesViewModel>();
             }
         }
 

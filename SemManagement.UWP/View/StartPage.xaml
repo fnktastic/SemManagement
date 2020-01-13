@@ -30,6 +30,7 @@
             <NavigationViewItem Icon="XboxOneConsole" Content="Stations" Tag="StartPageStations" />
             <NavigationViewItem Icon="Audio" Content="Songs" Tag="StartPageAudios" />
             <NavigationViewItem Icon="List" Content="Playlists" Tag="StartPagePlaylists" />
+            <NavigationViewItem Icon="Manage" Content="Rules" Tag="StartPageRules" />
         </NavigationView.MenuItems>
         <Frame x:Name="contentFrame" />
     </NavigationView>

@@ -9,14 +9,23 @@
     DataContext="{Binding RulesPageInstance, Source={StaticResource Locator}}">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*" />
-            <ColumnDefinition Width="0.7*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel>
+        <ProgressRing IsActive="True" 
+                      Height="60"
+                      Width="60"
+                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+
+        <Grid Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="0.7*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel>
             <TextBox PlaceholderText="filter rules" HorizontalAlignment="Stretch" />
             <ListBox HorizontalAlignment="Stretch">
                 <ListBox.ItemTemplate>
@@ -27,5 +36,6 @@
             </ListBox>
             <Button Content="Add Rule" Command="{Binding AddRuleCommand}" HorizontalAlignment="Stretch" />
         </StackPanel>
+    </Grid>
     </Grid>
 </Page>

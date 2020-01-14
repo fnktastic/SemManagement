@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
@@ -10,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Windows.UI.Xaml.Controls;
 
 namespace SemManagement.UWP.ViewModel.ContentDialog
@@ -22,6 +24,7 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
         private readonly ILocalDataService _localDataService;
+        private List<Playlist> _playlists;
         #endregion
 
         #region properties
@@ -64,8 +67,9 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
             }
         }
 
-        private ObservableCollection<Playlist> _sourcePlaylists;
-        public ObservableCollection<Playlist> SourcePlaylists
+        #region source
+        private ObservableCollectionFast<Playlist> _sourcePlaylists;
+        public ObservableCollectionFast<Playlist> SourcePlaylists
         {
             get { return _sourcePlaylists; }
             set
@@ -76,8 +80,22 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
             }
         }
 
-        private ObservableCollection<Playlist> _selectedSourcePlaylists;
-        public ObservableCollection<Playlist> SelectedSourcePlaylists
+        private string _sourcePlaylistsSearchTerm;
+        public string SourcePlaylistsSearchTerm
+        {
+            get { return _sourcePlaylistsSearchTerm; }
+            set
+            {
+                if (_sourcePlaylistsSearchTerm == value) return;
+                _sourcePlaylistsSearchTerm = value;
+                RaisePropertyChanged(nameof(SourcePlaylistsSearchTerm));
+
+                Filter_SourcePlaylists();
+            }
+        }
+
+        private ObservableCollectionFast<Playlist> _selectedSourcePlaylists;
+        public ObservableCollectionFast<Playlist> SelectedSourcePlaylists
         {
             get { return _selectedSourcePlaylists; }
             set
@@ -87,6 +105,44 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
                 RaisePropertyChanged(nameof(SelectedSourcePlaylists));
             }
         }
+
+        private void Filter_SourcePlaylists()
+        {
+            StaticSettings.StopSelectionChangedEvent = true;
+
+            if (_playlists != null)
+            {
+                IEnumerable<Playlist> part = null;
+
+                if (string.IsNullOrWhiteSpace(_sourcePlaylistsSearchTerm))
+                    part = _playlists.OrderBy(x => x, new PlaylistsComparer());
+                else
+                    part = _playlists
+                        .Where(x => x.Name.Contains(_sourcePlaylistsSearchTerm, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(x => x, new PlaylistsComparer());
+
+                for (int i = SourcePlaylists.Count - 1; i >= 0; i--)
+                {
+                    var item = SourcePlaylists[i];
+
+                    if (!part.Contains(item))
+                    {
+                        SourcePlaylists.Remove(item);
+                    }
+                }
+
+                foreach (var item in part)
+                {
+                    if (!SourcePlaylists.Contains(item))
+                    {
+                        SourcePlaylists.Add(item);
+                    }
+                }
+            }
+
+            StaticSettings.StopSelectionChangedEvent = false;
+        }
+        #endregion
 
         private ObservableCollection<Playlist> _targetPlaylists;
         public ObservableCollection<Playlist> TargetPlaylists
@@ -119,7 +175,7 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
             _stationService = stationService;
             _localDataService = localDataService;
 
-            SelectedSourcePlaylists = new ObservableCollection<Playlist>();
+            SelectedSourcePlaylists = new ObservableCollectionFast<Playlist>();
 
             LoadData();
         }
@@ -134,11 +190,11 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
                 var stationsTotalCount = await _stationService.CountAsync();
                 var playlistsTotalCount = await _playlistService.CountAsync();
 
-                var playlists = await _playlistService.TakeAsync(int.MaxValue);
+                _playlists = await _playlistService.TakeAsync(int.MaxValue);
                 var stations = await _stationService.TakeAsync(int.MaxValue);
 
-                SourcePlaylists = new ObservableCollection<Playlist>(playlists);
-                TargetPlaylists = new ObservableCollection<Playlist>(playlists);
+                SourcePlaylists = new ObservableCollectionFast<Playlist>(_playlists);
+                TargetPlaylists = new ObservableCollection<Playlist>(_playlists);
                 Stations = new ObservableCollection<Station>(stations);
             }
             finally

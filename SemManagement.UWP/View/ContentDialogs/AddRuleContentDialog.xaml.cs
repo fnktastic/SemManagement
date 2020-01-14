@@ -1,4 +1,5 @@
-﻿using SemManagement.UWP.Model;
+﻿using SemManagement.UWP.Helper;
+using SemManagement.UWP.Model;
 using SemManagement.UWP.ViewModel.ContentDialog;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,14 @@ namespace SemManagement.UWP.View.ContentDialogs
         {
             AddRuleViewModel = vm;
             this.InitializeComponent();
+
+            sourcePlaylists.ItemsSource = AddRuleViewModel.SourcePlaylists;
         }
 
         private void SourcePlaylists_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (StaticSettings.StopSelectionChangedEvent == true) return;
+
             foreach (var item in e.AddedItems)
             {
                 if (item is Playlist playlist)
@@ -44,6 +49,11 @@ namespace SemManagement.UWP.View.ContentDialogs
                 if (item is Playlist playlist)
                     AddRuleViewModel.SelectedSourcePlaylists.Remove(playlist);
             }
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
         }
     }

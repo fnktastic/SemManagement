@@ -126,6 +126,9 @@
     <Compile Include="Converters\BoolToVisibleOrCollapsed.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
+    <Compile Include="Helper\ObservableCollectionFast.cs" />
+    <Compile Include="Helper\PlaylistComparer.cs" />
+    <Compile Include="Helper\StaticSettings.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Model\Api\Count.cs" />
     <Compile Include="Model\Local\Storage\Playlist.cs" />

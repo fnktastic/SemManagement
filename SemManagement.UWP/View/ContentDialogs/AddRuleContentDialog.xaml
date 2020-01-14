@@ -60,7 +60,9 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="40" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" PlaceholderText="filter source playlists" />
+                    <TextBox Grid.Column="0"
+                             Text="{x:Bind AddRuleViewModel.SourcePlaylistsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="filter source playlists" />
                     <Button Grid.Column="1">
                         <SymbolIcon Symbol="List" />
                         <Button.Flyout>

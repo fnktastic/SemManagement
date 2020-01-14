@@ -1,4 +1,5 @@
 ﻿using SemManagement.UWP.Model;
+using SemManagement.UWP.Model.Api;
 using SemManagement.UWP.Services.StationModule.Provider;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,9 @@ namespace SemManagement.UWP.Services.StationModule.Service
         Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId);
         Task<List<Song>> GetStationSongsAsync(int stationId);
         Task<User> GetStationUserAsync(int stationId);
-
-
         Task<List<Station>> GetFakeDataAsync();
         Task<List<SongsDeleted>> GetFakeDeletedSongsAsync(int stationId);
+        Task<Count> CountAsync();
 
     }
     public class StationService : IStationService
@@ -47,6 +47,11 @@ namespace SemManagement.UWP.Services.StationModule.Service
         public Task<User> GetStationUserAsync(int stationId)
         {
             return _stationProvider.GetStationUserAsync(stationId);
+        }
+
+        public Task<Count> CountAsync()
+        {
+            return _stationProvider.CountAsync();
         }
 
         #region fake data

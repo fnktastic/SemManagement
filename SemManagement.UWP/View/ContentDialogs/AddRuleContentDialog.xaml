@@ -5,7 +5,12 @@
     xmlns:local="using:SemManagement.UWP.View.ContentDialogs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d" Height="1000"
+    FullSizeDesired="True"
     
     Title="{x:Bind AddRuleViewModel.Title}"
     PrimaryButtonText="Save"
@@ -15,26 +20,116 @@
     >
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.33*" />
-            <ColumnDefinition Width="0.33*" />
-            <ColumnDefinition Width="0.33*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="30" />
-        </Grid.RowDefinitions>
-
-        <ListBox Grid.Column="0" />
-        <ListBox Grid.Column="1" />
-        <ListBox Grid.Column="2" />
-
-        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                    Grid.Column="0" Grid.ColumnSpan="3"
-                    Grid.Row="1">
-            <CheckBox Content="One time" IsChecked="{x:Bind AddRuleViewModel.IsOneTimeRule,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <TextBox Text="{x:Bind AddRuleViewModel.RuleName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            <TextBlock Text="Lorem ipsum dolor sit amet, adipisicing elit." TextWrapping="Wrap" />
+        <StackPanel HorizontalAlignment="Center"
+                    Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
+                    VerticalAlignment="Center" Visibility="{x:Bind AddRuleViewModel.IsLoading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibleOrCollapsed}}" >
+            <ProgressRing IsActive="True" 
+                      Height="70"
+                      Width="70"
+                      />
+            <TextBlock Margin="0 10 0 0" Text="Fetching from server..." />
         </StackPanel>
+        <Grid Visibility="{x:Bind AddRuleViewModel.IsLoading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="275"  />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="275" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="275" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="15" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBox Text="{x:Bind AddRuleViewModel.RuleName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                     Grid.Column="0" Grid.Row="0" PlaceholderText="rule name" />
+            <CheckBox 
+                      Grid.Column="2" Grid.Row="0"
+                      Content="Repeat" HorizontalAlignment="Left" IsChecked="{x:Bind AddRuleViewModel.IsRepeat,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+            <Grid Grid.Column="0" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" PlaceholderText="filter source playlists" />
+                    <Button Grid.Column="1">
+                        <SymbolIcon Symbol="List" />
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListView Grid.Row="1" 
+                                      MaxHeight="500"
+                                      ItemsSource="{x:Bind AddRuleViewModel.SelectedSourcePlaylists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      SelectionMode="None"
+                                      >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Grid>
+                <ListView x:Name="sourcePlaylists" Grid.Row="1" 
+                          ItemsSource="{x:Bind AddRuleViewModel.SourcePlaylists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionMode="Multiple"
+                          SelectionChanged="SourcePlaylists_SelectionChanged"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+                <TextBox PlaceholderText="filter source stations" Grid.Row="0" />
+                <ListView Grid.Row="1" ItemsSource="{x:Bind AddRuleViewModel.Stations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionMode="Multiple"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Grid Grid.Column="4" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" PlaceholderText="filter target playlists" />
+                <ListView Grid.Row="1" ItemsSource="{x:Bind AddRuleViewModel.TargetPlaylists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionMode="Multiple"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
     </Grid>
 </ContentDialog>

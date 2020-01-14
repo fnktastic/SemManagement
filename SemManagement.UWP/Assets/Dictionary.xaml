@@ -8,6 +8,8 @@
     xmlns:converters="using:SemManagement.UWP.Converters"
     xmlns:media="using:Windows.UI.Xaml.Media">
 
+    <x:Double x:Key="ContentDialogMaxWidth">900</x:Double>
+
     <converters:StringFormatConverter x:Key="StringFormatConverter" />
     <converters:BoolToVisibleOrCollapsed x:Key="BoolToVisibleOrCollapsed" />
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />

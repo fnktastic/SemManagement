@@ -1,5 +1,6 @@
 ﻿using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Model;
+using SemManagement.UWP.Model.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace SemManagement.UWP.Services.StationModule.Provider
         Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId);
         Task<List<Song>> GetStationSongsAsync(int stationId);
         Task<User> GetStationUserAsync(int stationId);
+        Task<Count> CountAsync();
     }
 
     public class StationProvider : WebApiProvider, IStationProvider
@@ -48,6 +50,13 @@ namespace SemManagement.UWP.Services.StationModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationUserAsync");
 
             return GetStationUserAsync(endpoint, stationId);
+        }
+
+        public Task<Count> CountAsync()
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "count");
+
+            return CountAsync<Count>(endpoint);
         }
     }
 }

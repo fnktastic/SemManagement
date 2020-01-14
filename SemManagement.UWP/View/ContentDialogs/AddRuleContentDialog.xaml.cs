@@ -1,4 +1,5 @@
-﻿using SemManagement.UWP.ViewModel.ContentDialog;
+﻿using SemManagement.UWP.Model;
+using SemManagement.UWP.ViewModel.ContentDialog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +29,22 @@ namespace SemManagement.UWP.View.ContentDialogs
         {
             AddRuleViewModel = vm;
             this.InitializeComponent();
+        }
+
+        private void SourcePlaylists_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var item in e.AddedItems)
+            {
+                if (item is Playlist playlist)
+                    AddRuleViewModel.SelectedSourcePlaylists.Add(playlist);
+            }
+
+            foreach (var item in e.RemovedItems)
+            {
+                if (item is Playlist playlist)
+                    AddRuleViewModel.SelectedSourcePlaylists.Remove(playlist);
+            }
+
         }
     }
 }

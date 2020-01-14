@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SemManagement.Model.Model;
+using SemManagement.Model.Model.Api;
 using SemManagement.Model.Repository;
 
 namespace SemManagement.API.Controllers
@@ -56,6 +57,12 @@ namespace SemManagement.API.Controllers
                 return await _stationRepository.GetStationUserAsync(stationId);
 
             return NotFound();
+        }
+
+        [HttpGet("count")]
+        public async Task<ActionResult<Count>> CountAsync()
+        {
+            return await _stationRepository.CountAsync();
         }
 
         // POST api/values

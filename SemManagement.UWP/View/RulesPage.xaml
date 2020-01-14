@@ -8,16 +8,16 @@
     mc:Ignorable="d"
     DataContext="{Binding RulesPageInstance, Source={StaticResource Locator}}">
 
-    <Grid>
+    <Grid Margin="15">
         <ProgressRing IsActive="True" 
                       Height="60"
                       Width="60"
                       Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                      Visibility="{Binding IsLoading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
 
-        <Grid Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+        <Grid Visibility="{Binding IsLoading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*" />
                 <ColumnDefinition Width="0.7*" />

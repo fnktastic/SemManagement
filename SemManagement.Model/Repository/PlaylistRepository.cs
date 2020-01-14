@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SemManagement.Model.DataAccess;
 using SemManagement.Model.Model;
+using SemManagement.Model.Model.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace SemManagement.Model.Repository
     public interface IPlaylistRepository
     {
         Task<List<Playlist>> TakeAsync(int take = 0, int skip = 0);
+        Task<Count> CountAsync();
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -21,6 +23,13 @@ namespace SemManagement.Model.Repository
         public PlaylistRepository(SemContext context)
         {
             _context = context;
+        }
+
+        public async Task<Count> CountAsync()
+        {
+            int count = await _context.Playlists.CountAsync();
+
+            return new Count(count);
         }
 
         public Task<List<Playlist>> TakeAsync(int take = 0, int skip = 0)

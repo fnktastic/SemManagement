@@ -7,6 +7,7 @@ using System.Text;
 using System.Net;
 using System.Threading.Tasks;
 using SemManagement.UWP.Model;
+using SemManagement.UWP.Model.Api;
 
 namespace SemManagement.UWP.Configurations
 {
@@ -38,6 +39,21 @@ namespace SemManagement.UWP.Configurations
             request.AddParameter("take", take);
 
             _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
+        protected Task<Count> CountAsync<T>(string endpoint)
+        {
+            TaskCompletionSource<Count> tcs = new TaskCompletionSource<Count>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            _restClient.ExecuteAsync(request, (IRestResponse<Count> response) => ResponseHandler<Count>(response, tcs));
 
             return tcs.Task;
         }

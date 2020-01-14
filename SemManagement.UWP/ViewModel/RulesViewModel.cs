@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Services.Local.Storage;
+using SemManagement.UWP.Services.PlaylistModule.Service;
+using SemManagement.UWP.Services.StationModule.Service;
 using SemManagement.UWP.View.ContentDialogs;
 using SemManagement.UWP.ViewModel.ContentDialog;
 using System;
@@ -16,6 +18,9 @@ namespace SemManagement.UWP.ViewModel
     {
         #region fields
         private readonly ILocalDataService _localDataService;
+
+        private readonly IPlaylistService _playlistService;
+        private readonly IStationService _stationService;
         #endregion
 
         #region properties
@@ -33,9 +38,11 @@ namespace SemManagement.UWP.ViewModel
         }
         #endregion
 
-        public RulesViewModel(ILocalDataService localDataService)
+        public RulesViewModel(ILocalDataService localDataService, IPlaylistService playlistService, IStationService stationService)
         {
             _localDataService = localDataService;
+            _playlistService = playlistService;
+            _stationService = stationService;
 
             LoadData();
         }
@@ -60,7 +67,7 @@ namespace SemManagement.UWP.ViewModel
         public RelayCommand AddRuleCommand => _addRuleCommand ?? (_addRuleCommand = new RelayCommand(AddRule));
         private async void AddRule()
         {
-            var addRuleViewModel = new AddRuleViewModel();
+            var addRuleViewModel = new AddRuleViewModel(_playlistService, _stationService, _localDataService);
 
             var addRuleContentDialog = new AddRuleContentDialog(addRuleViewModel);
 

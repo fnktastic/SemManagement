@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using SemManagement.Model.DataAccess;
 using SemManagement.Model.Model;
+using SemManagement.Model.Model.Api;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace SemManagement.Model.Repository
         Task<List<Song>> GetStationSongsAsync(int stationId);
 
         Task<User> GetStationUserAsync(int stationId);
+
+        Task<Count> CountAsync();
     }
     public class StationRepository : IStationRepository
     {
@@ -60,6 +63,13 @@ namespace SemManagement.Model.Repository
         public Task<User> GetStationUserAsync(int stationId)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<Count> CountAsync()
+        {
+            int count = await _context.Stations.CountAsync();
+
+            return new Count(count);
         }
     }
 }

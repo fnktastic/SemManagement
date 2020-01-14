@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SemManagement.Model.Model;
+using SemManagement.Model.Model.Api;
 using SemManagement.Model.Repository;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,12 @@ namespace SemManagement.API.Controllers
                 return await _playlistRepository.TakeAsync(take, skip);
 
             return await _playlistRepository.TakeAsync();
+        }
+
+        [HttpGet("count")]
+        public async Task<ActionResult<Count>> CountAsync()
+        {
+            return await _playlistRepository.CountAsync();
         }
     }
 }

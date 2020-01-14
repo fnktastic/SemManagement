@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.View.ContentDialogs;
 using SemManagement.UWP.ViewModel.ContentDialog;
 using System;
@@ -14,18 +15,44 @@ namespace SemManagement.UWP.ViewModel
     public class RulesViewModel : ViewModelBase
     {
         #region fields
+        private readonly ILocalDataService _localDataService;
         #endregion
 
         #region properties
+        private bool _isLoading = false;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                if (value == _isLoading) return;
+                _isLoading = value;
+                RaisePropertyChanged(nameof(IsLoading));
+
+            }
+        }
         #endregion
 
-        public RulesViewModel()
+        public RulesViewModel(ILocalDataService localDataService)
         {
+            _localDataService = localDataService;
 
+            LoadData();
         }
 
         #region private methods
-
+        private async void LoadData()
+        {
+            try
+            {
+                IsLoading = true;
+                var playlists = await _localDataService.GetAllRulesAsync();
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
         #endregion
 
         #region commands

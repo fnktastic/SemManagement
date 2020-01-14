@@ -14,11 +14,27 @@
     DefaultButton="Primary"
     >
 
-    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <CheckBox Content="One time" IsChecked="{x:Bind AddRuleViewModel.IsOneTimeRule,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-        <TextBox Text="{x:Bind AddRuleViewModel.RuleName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-        <TextBlock Text="Lorem ipsum dolor sit amet, adipisicing elit." 
-            TextWrapping="Wrap" />
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.33*" />
+            <ColumnDefinition Width="0.33*" />
+            <ColumnDefinition Width="0.33*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
 
+        <ListBox Grid.Column="0" />
+        <ListBox Grid.Column="1" />
+        <ListBox Grid.Column="2" />
+
+        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                    Grid.Column="0" Grid.ColumnSpan="3"
+                    Grid.Row="1">
+            <CheckBox Content="One time" IsChecked="{x:Bind AddRuleViewModel.IsOneTimeRule,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBox Text="{x:Bind AddRuleViewModel.RuleName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            <TextBlock Text="Lorem ipsum dolor sit amet, adipisicing elit." TextWrapping="Wrap" />
+        </StackPanel>
+    </Grid>
 </ContentDialog>

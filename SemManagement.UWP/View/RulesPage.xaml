@@ -17,14 +17,15 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel>
-            <Button Content="Add Rule" Command="{Binding AddRuleCommand}" />
-            <ListBox>
+            <TextBox PlaceholderText="filter rules" HorizontalAlignment="Stretch" />
+            <ListBox HorizontalAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <Button Content="Add Rule" Command="{Binding AddRuleCommand}" HorizontalAlignment="Stretch" />
         </StackPanel>
     </Grid>
 </Page>

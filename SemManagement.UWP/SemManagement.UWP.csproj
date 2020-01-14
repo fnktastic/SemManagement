@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Configurations\MapperConfig.cs" />
     <Compile Include="Configurations\PublicApiConfiguration.cs" />
     <Compile Include="Configurations\RestEndPoins.cs" />
     <Compile Include="Configurations\WebApiProvider.cs" />
@@ -126,12 +127,16 @@
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
+    <Compile Include="Model\Local\Storage\Playlist.cs" />
+    <Compile Include="Model\Local\Storage\Rule.cs" />
+    <Compile Include="Model\Local\Storage\Station.cs" />
     <Compile Include="Model\Playlist.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="Model\SongsDeleted.cs" />
     <Compile Include="Model\Station.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Local\Storage\DataService.cs" />
     <Compile Include="Services\PlaylistModule\Provider\PlaylistProvider.cs" />
     <Compile Include="Services\PlaylistModule\Service\PlaylistService.cs" />
     <Compile Include="Services\SchedulerModule\Service\SchedulerService.cs" />
@@ -221,7 +226,12 @@
       <Version>106.6.10</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SemManagement.Local.Storage\SemManagement.Local.Storage.csproj">
+      <Project>{09DBC422-7A5B-4ED3-A702-CA9885076B3F}</Project>
+      <Name>SemManagement.Local.Storage</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Assets\Dictionary.xaml">
       <SubType>Designer</SubType>

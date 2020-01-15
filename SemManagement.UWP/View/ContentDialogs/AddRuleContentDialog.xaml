@@ -102,9 +102,38 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="32" />
                 </Grid.RowDefinitions>
-                <TextBox PlaceholderText="filter source stations" Grid.Row="0" />
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{x:Bind AddRuleViewModel.StationsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="filter stations" />
+                    <Button Grid.Column="1">
+                        <SymbolIcon Symbol="List" />
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListView Grid.Row="1" 
+                                      MaxHeight="500"
+                                      ItemsSource="{x:Bind AddRuleViewModel.SelectedStations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      SelectionMode="None"
+                                      >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Grid>
                 <ListView Grid.Row="1" ItemsSource="{x:Bind AddRuleViewModel.Stations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectionMode="Multiple"
+                          x:Name="stations"
+                          SelectionChanged="Stations_SelectionChanged"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                          >
                     <ListView.ItemTemplate>
@@ -120,9 +149,39 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="32" />
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" PlaceholderText="filter target playlists" />
-                <ListView Grid.Row="1" ItemsSource="{x:Bind AddRuleViewModel.TargetPlaylists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{x:Bind AddRuleViewModel.TargetPlaylistsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="filter target playlists" />
+                    <Button Grid.Column="1">
+                        <SymbolIcon Symbol="List" />
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListView Grid.Row="1" 
+                                      MaxHeight="500"
+                                      ItemsSource="{x:Bind AddRuleViewModel.SelectedTargetPlaylists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      SelectionMode="None"
+                                      >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Grid>
+                <ListView Grid.Row="1"
+                          x:Name="targetPlaylists"
+                          ItemsSource="{x:Bind AddRuleViewModel.TargetPlaylists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectionMode="Multiple"
+                          SelectionChanged="TargetPlaylists_SelectionChanged"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                          >
                     <ListView.ItemTemplate>

@@ -49,12 +49,40 @@ namespace SemManagement.UWP.View.ContentDialogs
                 if (item is Playlist playlist)
                     AddRuleViewModel.SelectedSourcePlaylists.Remove(playlist);
             }
-
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void TargetPlaylists_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (StaticSettings.StopSelectionChangedEvent == true) return;
 
+            foreach (var item in e.AddedItems)
+            {
+                if (item is Playlist playlist)
+                    AddRuleViewModel.SelectedTargetPlaylists.Add(playlist);
+            }
+
+            foreach (var item in e.RemovedItems)
+            {
+                if (item is Playlist playlist)
+                    AddRuleViewModel.SelectedTargetPlaylists.Remove(playlist);
+            }
+        }
+
+        private void Stations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (StaticSettings.StopSelectionChangedEvent == true) return;
+
+            foreach (var item in e.AddedItems)
+            {
+                if (item is Station station)
+                    AddRuleViewModel.SelectedStations.Add(station);
+            }
+
+            foreach (var item in e.RemovedItems)
+            {
+                if (item is Station station)
+                    AddRuleViewModel.SelectedStations.Remove(station);
+            }
         }
     }
 }

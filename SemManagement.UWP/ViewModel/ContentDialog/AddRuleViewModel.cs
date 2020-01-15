@@ -24,7 +24,8 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
         private readonly ILocalDataService _localDataService;
-        private List<Playlist> _playlists;
+        private IEnumerable<Playlist> _originPlaylists;
+        private IEnumerable<Station> _originStations;
         #endregion
 
         #region properties
@@ -110,40 +111,25 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
         {
             StaticSettings.StopSelectionChangedEvent = true;
 
-            if (_playlists != null)
+            if (_originPlaylists != null)
             {
                 IEnumerable<Playlist> part = null;
 
                 if (string.IsNullOrWhiteSpace(_sourcePlaylistsSearchTerm))
-                    part = _playlists.OrderBy(x => x, new PlaylistsComparer());
+                    part = _originPlaylists.OrderBy(x => x, new PlaylistsComparer());
                 else
-                    part = _playlists
+                    part = _originPlaylists
                         .Where(x => x.Name.Contains(_sourcePlaylistsSearchTerm, StringComparison.OrdinalIgnoreCase))
                         .OrderBy(x => x, new PlaylistsComparer());
 
-                for (int i = SourcePlaylists.Count - 1; i >= 0; i--)
-                {
-                    var item = SourcePlaylists[i];
-
-                    if (!part.Contains(item))
-                    {
-                        SourcePlaylists.Remove(item);
-                    }
-                }
-
-                foreach (var item in part)
-                {
-                    if (!SourcePlaylists.Contains(item))
-                    {
-                        SourcePlaylists.Add(item);
-                    }
-                }
+                SourcePlaylists = new ObservableCollectionFast<Playlist>(part);
             }
 
             StaticSettings.StopSelectionChangedEvent = false;
         }
         #endregion
 
+        #region target
         private ObservableCollection<Playlist> _targetPlaylists;
         public ObservableCollection<Playlist> TargetPlaylists
         {
@@ -156,6 +142,55 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
             }
         }
 
+        private string _targetPlaylistsSearchTerm;
+        public string TargetPlaylistsSearchTerm
+        {
+            get { return _targetPlaylistsSearchTerm; }
+            set
+            {
+                if (_targetPlaylistsSearchTerm == value) return;
+                _targetPlaylistsSearchTerm = value;
+                RaisePropertyChanged(nameof(TargetPlaylistsSearchTerm));
+
+                Filter_TargetPlaylists();
+            }
+        }
+
+        private ObservableCollectionFast<Playlist> _selectedTargetPlaylists;
+        public ObservableCollectionFast<Playlist> SelectedTargetPlaylists
+        {
+            get { return _selectedTargetPlaylists; }
+            set
+            {
+                if (_selectedTargetPlaylists == value) return;
+                _selectedTargetPlaylists = value;
+                RaisePropertyChanged(nameof(SelectedTargetPlaylists));
+            }
+        }
+
+        private void Filter_TargetPlaylists()
+        {
+            StaticSettings.StopSelectionChangedEvent = true;
+
+            if (_originPlaylists != null)
+            {
+                IEnumerable<Playlist> part = null;
+
+                if (string.IsNullOrWhiteSpace(_targetPlaylistsSearchTerm))
+                    part = _originPlaylists.OrderBy(x => x, new PlaylistsComparer());
+                else
+                    part = _originPlaylists
+                        .Where(x => x.Name.Contains(_targetPlaylistsSearchTerm, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(x => x, new PlaylistsComparer());
+
+                TargetPlaylists = new ObservableCollectionFast<Playlist>(part);
+            }
+
+            StaticSettings.StopSelectionChangedEvent = false;
+        }
+        #endregion
+
+        #region station
         private ObservableCollection<Station> _stations;
         public ObservableCollection<Station> Stations
         {
@@ -167,6 +202,54 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
                 RaisePropertyChanged(nameof(Stations));
             }
         }
+
+        private string _stationsSearchTerm;
+        public string StationsSearchTerm
+        {
+            get { return _stationsSearchTerm; }
+            set
+            {
+                if (_stationsSearchTerm == value) return;
+                _stationsSearchTerm = value;
+                RaisePropertyChanged(nameof(StationsSearchTerm));
+
+                Filter_Stations();
+            }
+        }
+
+        private ObservableCollectionFast<Station> _selectedStations;
+        public ObservableCollectionFast<Station> SelectedStations
+        {
+            get { return _selectedStations; }
+            set
+            {
+                if (_selectedStations == value) return;
+                _selectedStations = value;
+                RaisePropertyChanged(nameof(SelectedStations));
+            }
+        }
+
+        private void Filter_Stations()
+        {
+            StaticSettings.StopSelectionChangedEvent = true;
+
+            if (_originPlaylists != null)
+            {
+                IEnumerable<Station> part = null;
+
+                if (string.IsNullOrWhiteSpace(_stationsSearchTerm))
+                    part = _originStations.OrderBy(x => x, new StationComparer());
+                else
+                    part = _originStations
+                        .Where(x => x.Name.Contains(_stationsSearchTerm, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(x => x, new StationComparer());
+
+                Stations = new ObservableCollectionFast<Station>(part);
+            }
+
+            StaticSettings.StopSelectionChangedEvent = false;
+        }
+        #endregion
         #endregion
 
         public AddRuleViewModel(IPlaylistService playlistService, IStationService stationService, ILocalDataService localDataService)
@@ -176,6 +259,8 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
             _localDataService = localDataService;
 
             SelectedSourcePlaylists = new ObservableCollectionFast<Playlist>();
+            SelectedStations = new ObservableCollectionFast<Station>();
+            SelectedTargetPlaylists = new ObservableCollectionFast<Playlist>();
 
             LoadData();
         }
@@ -190,12 +275,12 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
                 var stationsTotalCount = await _stationService.CountAsync();
                 var playlistsTotalCount = await _playlistService.CountAsync();
 
-                _playlists = await _playlistService.TakeAsync(int.MaxValue);
-                var stations = await _stationService.TakeAsync(int.MaxValue);
+                _originPlaylists = (await _playlistService.TakeAsync(int.MaxValue)).OrderBy(x => x, new PlaylistsComparer());
+                _originStations = (await _stationService.TakeAsync(int.MaxValue)).OrderBy(x => x, new StationComparer());
 
-                SourcePlaylists = new ObservableCollectionFast<Playlist>(_playlists);
-                TargetPlaylists = new ObservableCollection<Playlist>(_playlists);
-                Stations = new ObservableCollection<Station>(stations);
+                SourcePlaylists = new ObservableCollectionFast<Playlist>(_originPlaylists);
+                TargetPlaylists = new ObservableCollection<Playlist>(_originPlaylists);
+                Stations = new ObservableCollection<Station>(_originStations);
             }
             finally
             {

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SemManagement.UWP.Model.Local.Storage;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
@@ -7,6 +8,7 @@ using SemManagement.UWP.View.ContentDialogs;
 using SemManagement.UWP.ViewModel.ContentDialog;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +23,8 @@ namespace SemManagement.UWP.ViewModel
 
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
+
+        private IEnumerable<Rule> originRules;
         #endregion
 
         #region properties
@@ -34,6 +38,18 @@ namespace SemManagement.UWP.ViewModel
                 _isLoading = value;
                 RaisePropertyChanged(nameof(IsLoading));
 
+            }
+        }
+
+        private ObservableCollection<Rule> _rules;
+        public ObservableCollection<Rule> Rules
+        {
+            get { return _rules; }
+            set
+            {
+                if (_rules == value) return;
+                _rules = value;
+                RaisePropertyChanged(nameof(Rules));
             }
         }
         #endregion
@@ -53,12 +69,23 @@ namespace SemManagement.UWP.ViewModel
             try
             {
                 IsLoading = true;
-                var playlists = await _localDataService.GetAllRulesAsync();
+
+                originRules = await _localDataService.GetAllRulesAsync();
+
+                Rules = new ObservableCollection<Rule>();
             }
             finally
             {
                 IsLoading = false;
             }
+        }
+
+        private Rule BuildRule(AddRuleViewModel addRuleViewModel)
+        {
+            return new Rule()
+            {
+                Name = addRuleViewModel.RuleName
+            };
         }
         #endregion
 
@@ -76,8 +103,10 @@ namespace SemManagement.UWP.ViewModel
             switch (descision)
             {
                 case ContentDialogResult.Primary:
+                    Rules.Add(BuildRule(addRuleViewModel));
                     break;
                 case ContentDialogResult.Secondary:
+                    Rules.Add(BuildRule(addRuleViewModel));
                     break;
                 case ContentDialogResult.None:
                     break;

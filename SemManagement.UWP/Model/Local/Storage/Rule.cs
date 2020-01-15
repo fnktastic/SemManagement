@@ -14,6 +14,8 @@ namespace SemManagement.UWP.Model.Local.Storage
 
         public DateTime Created { get; set; }
 
+        public bool IsDraft { get; set; }
+
         public ICollection<Playlist> SourcePlaylists { get; set; }
 
         public ICollection<Playlist> TargetPlaylists { get; set; }

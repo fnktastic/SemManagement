@@ -1,20 +1,18 @@
 ﻿using SemManagement.UWP.Model;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SemManagement.UWP.Helper
 {
-    public class PlaylistsComparer : IComparer<Playlist>
+    public class StationComparer : IComparer<Station>
     {
-        public int Compare(Playlist o1, Playlist o2)
+        public int Compare(Station o1, Station o2)
         {
-            string x = ((Playlist)o1).Name;
-            string y = ((Playlist)o2).Name;
+            string x = ((Station)o1).Name;
+            string y = ((Station)o2).Name;
             x = x ?? "";
             y = y ?? "";
 

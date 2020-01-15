@@ -27,8 +27,11 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Column="0" Grid.Row="0" >
-                <TextBox PlaceholderText="filter rules" HorizontalAlignment="Stretch" />
-                <ListBox HorizontalAlignment="Stretch" ItemsSource="{Binding Rules}">
+                <TextBox PlaceholderText="filter rules" HorizontalAlignment="Stretch" 
+                         Text="{Binding RulesSearchTerm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <ListBox HorizontalAlignment="Stretch" ItemsSource="{Binding Rules}"
+                         SelectedItem="{Binding SelectedRule}"
+                         >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}" />

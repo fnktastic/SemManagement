@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model.Local.Storage;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
@@ -24,7 +25,7 @@ namespace SemManagement.UWP.ViewModel
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
 
-        private IEnumerable<Rule> originRules;
+        private List<Rule> _originRules;
         #endregion
 
         #region properties
@@ -41,8 +42,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<Rule> _rules;
-        public ObservableCollection<Rule> Rules
+        private ObservableCollectionFast<Rule> _rules;
+        public ObservableCollectionFast<Rule> Rules
         {
             get { return _rules; }
             set
@@ -50,6 +51,53 @@ namespace SemManagement.UWP.ViewModel
                 if (_rules == value) return;
                 _rules = value;
                 RaisePropertyChanged(nameof(Rules));
+            }
+        }
+
+        private string _rulesSearchTerm;
+        public string RulesSearchTerm
+        {
+            get { return _rulesSearchTerm; }
+            set
+            {
+                if (_rulesSearchTerm == value) return;
+                _rulesSearchTerm = value;
+                RaisePropertyChanged(nameof(RulesSearchTerm));
+
+                Filter_Rules();
+            }
+        }
+
+        private void Filter_Rules()
+        {
+            StaticSettings.StopSelectionChangedEvent = true;
+
+            if (_originRules != null)
+            {
+                IEnumerable<Rule> part = null;
+
+                if (string.IsNullOrWhiteSpace(_rulesSearchTerm))
+                    part = _originRules.OrderBy(x => x, new RulesComparer());
+                else
+                    part = _originRules
+                        .Where(x => x.Name.Contains(_rulesSearchTerm, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(x => x, new RulesComparer());
+
+                Rules = new ObservableCollectionFast<Rule>(part);
+            }
+
+            StaticSettings.StopSelectionChangedEvent = false;
+        }
+
+        private Rule _selectedRule;
+        public Rule SelectedRule
+        {
+            get { return _selectedRule; }
+            set
+            {
+                if (value == _selectedRule) return;
+                _selectedRule = value;
+                RaisePropertyChanged(nameof(SelectedRule));
             }
         }
         #endregion
@@ -70,9 +118,9 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsLoading = true;
 
-                originRules = await _localDataService.GetAllRulesAsync();
+                _originRules = await _localDataService.GetAllRulesAsync();
 
-                Rules = new ObservableCollection<Rule>();
+                Rules = new ObservableCollectionFast<Rule>(_originRules);
             }
             finally
             {
@@ -103,10 +151,10 @@ namespace SemManagement.UWP.ViewModel
             switch (descision)
             {
                 case ContentDialogResult.Primary:
-                    Rules.Add(BuildRule(addRuleViewModel));
-                    break;
                 case ContentDialogResult.Secondary:
-                    Rules.Add(BuildRule(addRuleViewModel));
+                    var rule = BuildRule(addRuleViewModel);
+                    _originRules.Add(rule);
+                    Rules.Add(rule);
                     break;
                 case ContentDialogResult.None:
                     break;

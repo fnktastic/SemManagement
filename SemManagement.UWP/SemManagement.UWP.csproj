@@ -128,6 +128,7 @@
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Helper\ObservableCollectionFast.cs" />
     <Compile Include="Helper\PlaylistComparer.cs" />
+    <Compile Include="Helper\RulesComparer.cs" />
     <Compile Include="Helper\StaticSettings.cs" />
     <Compile Include="Helper\StationComparer.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />

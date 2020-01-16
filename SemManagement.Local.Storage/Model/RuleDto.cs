@@ -18,10 +18,10 @@ namespace SemManagement.Local.Storage.Model
 
         public DateTime Created { get; set; }
 
-        public ICollection<PlaylistDto> SourcePlaylists { get; set; }
+        public bool IsRepeat { get; set; }
 
-        public ICollection<PlaylistDto> TargetPlaylists { get; set; }
+        public virtual ICollection<PlaylistDto> Playlists { get; set; }
 
-        public ICollection<StationDto> Stations { get; set; }
+        public virtual ICollection<StationDto> Stations { get; set; }
     }
 }

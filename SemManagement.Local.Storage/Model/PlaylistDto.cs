@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SemManagement.Local.Storage.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,5 +14,10 @@ namespace SemManagement.Local.Storage.Model
     {
         [Key]
         public Guid Id { get; set; }
+        public int Plid { get; set; }
+        public string Name { get; set; }
+        public int Changed { get; set; }
+        public RulePlaylistTypeEnum RulePlaylistType { get; set; }
+
     }
 }

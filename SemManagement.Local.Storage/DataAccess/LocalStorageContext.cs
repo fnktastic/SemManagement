@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SemManagement.Local.Storage.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +14,7 @@ namespace SemManagement.Local.Storage.DataAccess
     {
         public LocalStorageContext()
         {
-            Database.EnsureCreated();
+            Database.EnsureCreatedAsync().ConfigureAwait(false);
         }
 
         public DbSet<Model.RuleDto> Rules { get; set; }
@@ -22,6 +23,11 @@ namespace SemManagement.Local.Storage.DataAccess
         {
             var dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "semLocalStorage.db");
             options.UseSqlite("Data Source=" + dbPath);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
         }
     }
 }

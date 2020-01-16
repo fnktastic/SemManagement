@@ -17,7 +17,7 @@
     <media:AcrylicBrush x:Key="CustomAcrylicBrush" 
                         BackgroundSource="HostBackdrop"
                         TintOpacity="0.2" 
-                        TintColor="#FFDCFCFC" 
+                        TintColor="Black" 
                         FallbackColor="White" />
 
     <Style TargetType="ListBox">
@@ -28,13 +28,13 @@
 
     <AcrylicBrush x:Key="GridViewItemBackground"
                   BackgroundSource="HostBackdrop"
-                  TintColor="White"
+                  TintColor="Black"
                   TintOpacity="0.75"
                   FallbackColor="#FFB5B5B5"/>
 
     <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
                   BackgroundSource="HostBackdrop"
-                  TintColor="White"
+                  TintColor="Black"
                   TintOpacity="0.6"
                   FallbackColor="White"/>
 

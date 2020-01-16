@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using AutoMapper;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model.Local.Storage;
@@ -24,6 +25,8 @@ namespace SemManagement.UWP.ViewModel
 
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
+
+        private readonly IMapper _mapper;
 
         private List<Rule> _originRules;
         #endregion
@@ -102,11 +105,12 @@ namespace SemManagement.UWP.ViewModel
         }
         #endregion
 
-        public RulesViewModel(ILocalDataService localDataService, IPlaylistService playlistService, IStationService stationService)
+        public RulesViewModel(ILocalDataService localDataService, IPlaylistService playlistService, IStationService stationService, IMapper mapper)
         {
             _localDataService = localDataService;
             _playlistService = playlistService;
             _stationService = stationService;
+            _mapper = mapper;
 
             LoadData();
         }
@@ -128,11 +132,17 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private Rule BuildRule(AddRuleViewModel addRuleViewModel)
+        private Rule BuildRule(AddRuleViewModel addRuleViewModel, bool isDraft = false)
         {
             return new Rule()
             {
-                Name = addRuleViewModel.RuleName
+                Name = addRuleViewModel.RuleName,
+                Created = DateTime.UtcNow,
+                IsDraft = isDraft,
+                IsRepeat = addRuleViewModel.IsRepeat,
+                SourcePlaylists = _mapper.Map<List<Playlist>>(addRuleViewModel.SelectedSourcePlaylists),
+                TargetPlaylists = _mapper.Map<List<Playlist>>(addRuleViewModel.SelectedTargetPlaylists),
+                Stations = _mapper.Map<List<Station>>(addRuleViewModel.SelectedStations)
             };
         }
         #endregion
@@ -148,17 +158,25 @@ namespace SemManagement.UWP.ViewModel
 
             var descision = await addRuleContentDialog.ShowAsync();
 
+            Rule rule = null;
+
             switch (descision)
             {
                 case ContentDialogResult.Primary:
+                    rule = BuildRule(addRuleViewModel);
+                    break;
                 case ContentDialogResult.Secondary:
-                    var rule = BuildRule(addRuleViewModel);
-                    _originRules.Add(rule);
-                    Rules.Add(rule);
+                    rule = BuildRule(addRuleViewModel, true);
                     break;
-                case ContentDialogResult.None:
-                    break;
+                default:
+                    return;
             }
+
+            _originRules.Add(rule);
+
+            Rules.Add(rule);
+
+            await _localDataService.SaveRuleAsync(rule);
         }
         #endregion
     }

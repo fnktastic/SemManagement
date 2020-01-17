@@ -56,6 +56,6 @@ namespace SemManagement.Model.Repository
                 return _context.Songs.Skip(skip).Take(take).ToListAsync();
 
             return _context.Songs.Take(take).ToListAsync();
-        }        
+        }
     }
 }

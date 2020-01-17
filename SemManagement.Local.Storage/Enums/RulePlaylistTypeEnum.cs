@@ -8,7 +8,9 @@ namespace SemManagement.Local.Storage.Enums
 {
     public enum RulePlaylistTypeEnum
     {
+        None,
         Source,
-        Target
+        Target,
+        Extracted
     }
 }

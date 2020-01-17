@@ -19,5 +19,8 @@ namespace SemManagement.Local.Storage.Model
         public int Changed { get; set; }
         public RulePlaylistTypeEnum RulePlaylistType { get; set; }
 
+        public Guid RuleDtoId { get; set; }
+        public virtual RuleDto Rule { get; set; }
+
     }
 }

@@ -36,5 +36,11 @@ namespace SemManagement.API.Controllers
         {
             return await _playlistRepository.CountAsync();
         }
+
+        [HttpGet("getPlaylistsByStation")]
+        public async Task<ActionResult<List<Playlist>>> GetPlaylistsByStationAsync(int stationId)
+        {
+            return await _playlistRepository.GetPlaylistsByStationAsync(stationId);
+        }
     }
 }

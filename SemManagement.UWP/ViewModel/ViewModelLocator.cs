@@ -7,6 +7,7 @@ using SemManagement.Local.Storage.DataAccess;
 using SemManagement.Local.Storage.Repository;
 using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Helper;
+using SemManagement.UWP.Services.Local.RuleModule;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Provider;
 using SemManagement.UWP.Services.PlaylistModule.Service;
@@ -62,6 +63,7 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<LocalStorageContext>();
             SimpleIoc.Default.Register<IRulesRepository, RulesRepository>();
             SimpleIoc.Default.Register<ILocalDataService, LocalDataService>();
+            SimpleIoc.Default.Register<IRuleService, RuleService>();
 
             SetupNavigation();
         }

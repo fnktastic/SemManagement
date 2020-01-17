@@ -33,5 +33,8 @@ namespace SemManagement.Local.Storage.Model
         public int Synchronized { get; set; }
 
         public int Autosync { get; set; }
+
+        public Guid RuleDtoId { get; set; }
+        public virtual RuleDto Rule { get; set; }
     }
 }

@@ -47,11 +47,10 @@ namespace SemManagement.Model.Repository
             };
 
             return await _context.SongsDeleteds.FromSql<SongsDeleted>(
-                "SELECT songs.*, playlists.* " +
-                "FROM songsdeleted " +
-                "INNER JOIN songs ON songs.sgid = songsdeleted.sgid " +
-                "INNER JOIN playlists ON playlists.plid = songsdeleted.plid " +
-                "WHERE sid = @stationId", stationIdParameter)
+                "SELECT playlists.* " +
+                "FROM stationsplaylists " +
+                "INNER JOIN playlists ON playlists.plid = stationsplaylists.plid " +
+                "WHERE stationsplaylists.sid =  @stationId", stationIdParameter)
                 .ToListAsync();
         }
 

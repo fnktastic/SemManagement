@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model.Local.Storage;
+using SemManagement.UWP.Services.Local.RuleModule;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
@@ -25,6 +26,7 @@ namespace SemManagement.UWP.ViewModel
 
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
+        private readonly IRuleService _ruleService;
 
         private readonly IMapper _mapper;
 
@@ -105,12 +107,13 @@ namespace SemManagement.UWP.ViewModel
         }
         #endregion
 
-        public RulesViewModel(ILocalDataService localDataService, IPlaylistService playlistService, IStationService stationService, IMapper mapper)
+        public RulesViewModel(ILocalDataService localDataService, IPlaylistService playlistService, IStationService stationService, IMapper mapper, IRuleService ruleService)
         {
             _localDataService = localDataService;
             _playlistService = playlistService;
             _stationService = stationService;
             _mapper = mapper;
+            _ruleService = ruleService;
 
             LoadData();
         }
@@ -136,7 +139,7 @@ namespace SemManagement.UWP.ViewModel
         {
             return new Rule()
             {
-                Name = addRuleViewModel.RuleName,
+                Name = string.IsNullOrWhiteSpace(addRuleViewModel.RuleName) ? DateTime.Now.ToString() : addRuleViewModel.RuleName,
                 Created = DateTime.UtcNow,
                 IsDraft = isDraft,
                 IsRepeat = addRuleViewModel.IsRepeat,
@@ -177,6 +180,8 @@ namespace SemManagement.UWP.ViewModel
             Rules.Add(rule);
 
             await _localDataService.SaveRuleAsync(rule);
+
+            var stationPlaylistsExtractedKeyValue = _ruleService.ExtractPlaylists(rule);
         }
         #endregion
     }

@@ -142,6 +142,7 @@
     <Compile Include="Model\Station.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Local\RuleModule\RuleService.cs" />
     <Compile Include="Services\Local\Storage\LocalDataService.cs" />
     <Compile Include="Services\PlaylistModule\Provider\PlaylistProvider.cs" />
     <Compile Include="Services\PlaylistModule\Service\PlaylistService.cs" />

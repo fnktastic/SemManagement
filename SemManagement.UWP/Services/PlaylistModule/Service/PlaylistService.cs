@@ -13,6 +13,7 @@ namespace SemManagement.UWP.Services.PlaylistModule.Service
     {
         Task<List<Playlist>> TakeAsync(int take, int skip = 0);
         Task<Count> CountAsync();
+        Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId);
     }
 
     public class PlaylistService : IPlaylistService
@@ -32,6 +33,11 @@ namespace SemManagement.UWP.Services.PlaylistModule.Service
         public Task<List<Playlist>> TakeAsync(int take, int skip = 0)
         {
             return _playlistProvider.TakeAsync(take, skip);
+        }
+
+        public Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId)
+        {
+            return _playlistProvider.GetPlaylistsByStationAsync(stationId);
         }
     }
 }

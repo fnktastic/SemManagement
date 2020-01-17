@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using SemManagement.Model.DataAccess;
 using SemManagement.Model.Model;
 using SemManagement.Model.Model.Api;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,8 @@ namespace SemManagement.Model.Repository
     {
         Task<List<Playlist>> TakeAsync(int take = 0, int skip = 0);
         Task<Count> CountAsync();
+
+        Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -41,6 +45,23 @@ namespace SemManagement.Model.Repository
                 return _context.Playlists.Skip(skip).Take(take).ToListAsync();
 
             return _context.Playlists.Take(take).ToListAsync();
+        }
+
+        public Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId)
+        {
+            var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
+            {
+                Value = stationId
+            };
+
+            var playlists = _context.Playlists.FromSql<Playlist>(
+                "SELECT playlists.* " +
+                "FROM stationsplaylists " +
+                "INNER JOIN playlists ON playlists.plid = stationsplaylists.plid " +
+                "WHERE sid = @stationId", stationIdParameter)
+                .ToListAsync();
+
+            return playlists;
         }
     }
 }

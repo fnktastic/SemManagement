@@ -13,6 +13,7 @@
     <converters:StringFormatConverter x:Key="StringFormatConverter" />
     <converters:BoolToVisibleOrCollapsed x:Key="BoolToVisibleOrCollapsed" />
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+    <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
 
     <media:AcrylicBrush x:Key="CustomAcrylicBrush" 
                         BackgroundSource="HostBackdrop"

@@ -20,6 +20,8 @@ namespace SemManagement.Local.Storage.Model
 
         public bool IsRepeat { get; set; }
 
+        public bool AllStations { get; set; }
+
         public virtual ICollection<PlaylistDto> Playlists { get; set; }
 
         public virtual ICollection<StationDto> Stations { get; set; }

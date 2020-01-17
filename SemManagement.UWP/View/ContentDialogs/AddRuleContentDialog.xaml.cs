@@ -84,5 +84,27 @@ namespace SemManagement.UWP.View.ContentDialogs
                     AddRuleViewModel.SelectedStations.Remove(station);
             }
         }
+
+        private void WholeStations_Checked(object sender, RoutedEventArgs e)
+        {
+            if(sender is ToggleButton toggleButton)
+            {
+                if (toggleButton.IsChecked.HasValue && toggleButton.IsChecked.Value)
+                    stations.SelectAll();
+                else
+                {
+                    stations.SelectedItems.Clear();
+                }
+            }
+        }
+
+        private void WholeStations_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton toggleButton)
+            {
+                if (toggleButton.IsChecked.HasValue && toggleButton.IsChecked.Value == false)
+                    stations.SelectedItems.Clear();
+            }
+        }
     }
 }

@@ -18,6 +18,8 @@ namespace SemManagement.UWP.Model.Local.Storage
 
         public bool IsRepeat { get; set; }
 
+        public bool AllStations { get; set; }
+
         public ICollection<Playlist> SourcePlaylists { get; set; }
 
         public ICollection<Playlist> TargetPlaylists { get; set; }

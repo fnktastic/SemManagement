@@ -34,6 +34,19 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
+        private bool _isRuleInProcess = false;
+        public bool IsRuleInProcess
+        {
+            get { return _isRuleInProcess; }
+            set
+            {
+                if (value == _isRuleInProcess) return;
+                _isRuleInProcess = value;
+                RaisePropertyChanged(nameof(IsRuleInProcess));
+
+            }
+        }
+
         private bool _isLoading = false;
         public bool IsLoading
         {
@@ -143,6 +156,7 @@ namespace SemManagement.UWP.ViewModel
                 Created = DateTime.UtcNow,
                 IsDraft = isDraft,
                 IsRepeat = addRuleViewModel.IsRepeat,
+                AllStations = addRuleViewModel.AllStations,
                 SourcePlaylists = _mapper.Map<List<Playlist>>(addRuleViewModel.SelectedSourcePlaylists),
                 TargetPlaylists = _mapper.Map<List<Playlist>>(addRuleViewModel.SelectedTargetPlaylists),
                 Stations = _mapper.Map<List<Station>>(addRuleViewModel.SelectedStations)
@@ -181,7 +195,18 @@ namespace SemManagement.UWP.ViewModel
 
             await _localDataService.SaveRuleAsync(rule);
 
-            var stationPlaylistsExtractedKeyValue = _ruleService.ExtractPlaylists(rule);
+            var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(rule);
+        }
+
+        private RelayCommand _fireRuleCommand;
+        public RelayCommand FireRuleCommand => _fireRuleCommand ?? (_fireRuleCommand = new RelayCommand(FireRule));
+        private async void FireRule()
+        {
+            IsRuleInProcess = true;
+
+            var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(_selectedRule);
+
+            IsRuleInProcess = false;
         }
         #endregion
     }

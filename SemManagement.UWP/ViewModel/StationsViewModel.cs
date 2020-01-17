@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Model;
+using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
 using System;
@@ -16,7 +17,7 @@ namespace SemManagement.UWP.ViewModel
     {
         #region fields
         private readonly ISongService _songService;
-
+        private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
         #endregion
 
@@ -60,6 +61,9 @@ namespace SemManagement.UWP.ViewModel
                 if (_isDeletedSongsTabSelected)
                     LoadDeletedSongsCommand.Execute(null);
 
+                if (_isPlaylistsTabSelected)
+                    LoadStationPlaylistsCommand.Execute(null);
+
 
             }
         }
@@ -101,6 +105,18 @@ namespace SemManagement.UWP.ViewModel
 
         }
 
+        private ObservableCollection<Playlist> _playlists;
+        public ObservableCollection<Playlist> Playlists
+        {
+            get { return _playlists; }
+            set
+            {
+                if (_playlists == value) return;
+                _playlists = value;
+                RaisePropertyChanged(nameof(Playlists));
+            }
+        }
+
         private bool _isDataLoading = false;
         public bool IsDataLoading
         {
@@ -136,6 +152,19 @@ namespace SemManagement.UWP.ViewModel
                 if (value == _isDeletedSongsTabSelected) return;
                 _isDeletedSongsTabSelected = value;
                 RaisePropertyChanged(nameof(IsDeletedSongsTabSelected));
+
+            }
+        }
+
+        private bool _isPlaylistsTabSelected = false;
+        public bool IsPlaylistsTabSelected
+        {
+            get { return _isPlaylistsTabSelected; }
+            set
+            {
+                if (value == _isPlaylistsTabSelected) return;
+                _isPlaylistsTabSelected = value;
+                RaisePropertyChanged(nameof(IsPlaylistsTabSelected));
 
             }
         }
@@ -203,7 +232,6 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                //var songsDeleted = await _stationService.GetFakeDeletedSongsAsync(_selectedStation.Sid);
                 var songsDeleted = await _stationService.GetDeletedSongsAsync(_selectedStation.Sid);
                 SongsDeleted = new ObservableCollection<SongsDeleted>(songsDeleted);
             }
@@ -229,13 +257,32 @@ namespace SemManagement.UWP.ViewModel
                 IsDataLoading = false;
             }
         }
+
+        private RelayCommand _loadStationPlaylistsCommand;
+        public RelayCommand LoadStationPlaylistsCommand => _loadStationPlaylistsCommand ?? (_loadStationPlaylistsCommand = new RelayCommand(LoadStationPlaylists));
+        private async void LoadStationPlaylists()
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                var stationPlaylists = await _playlistService.GetPlaylistsByStationAsync(_selectedStation.Sid);
+
+                Playlists = new ObservableCollection<Playlist>(stationPlaylists);
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
         #endregion
 
         #region constructor
-        public StationsViewModel(ISongService songService, IStationService stationService)
+        public StationsViewModel(ISongService songService, IStationService stationService, IPlaylistService playlistService)
         {
             _songService = songService;
             _stationService = stationService;
+            _playlistService = playlistService;
 
             LoadData();
 

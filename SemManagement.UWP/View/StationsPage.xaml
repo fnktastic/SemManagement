@@ -50,6 +50,22 @@
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
                 </Grid>
             </controls:TabViewItem>
+            <controls:TabViewItem Header="Playlists" IsSelected="{Binding IsPlaylistsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid VerticalAlignment="Top">
+                    <ProgressRing IsActive="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="15"
+                                  Height="60"
+                                  Width="60"
+                                  Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                    <ListBox Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
+                             VerticalAlignment="Top"
+                             ItemsSource="{Binding Playlists}"
+                             ItemTemplate="{StaticResource PlaylistItemTemplate}">
+                    </ListBox>
+                </Grid>
+            </controls:TabViewItem>
             <controls:TabViewItem Header="Songs" IsSelected="{Binding IsSongsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid VerticalAlignment="Top">
                     <ProgressRing IsActive="True" 

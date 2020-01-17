@@ -106,6 +106,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="40" />
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0"
                              Text="{x:Bind AddRuleViewModel.StationsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -129,8 +130,16 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
+                    <ToggleButton Grid.Column="2" 
+                                  x:Name="wholeStations"
+                                  IsChecked="{x:Bind AddRuleViewModel.AllStations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="WholeStations_Checked" Unchecked="WholeStations_Unchecked">
+                        <ToggleButton.Content>
+                            <SymbolIcon Symbol="SelectAll" />
+                        </ToggleButton.Content>
+                    </ToggleButton>
                 </Grid>
                 <ListView Grid.Row="1" ItemsSource="{x:Bind AddRuleViewModel.Stations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsEnabled="{x:Bind AddRuleViewModel.AllStations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBoolConverter}, FallbackValue=Visible}"
                           SelectionMode="Multiple"
                           x:Name="stations"
                           SelectionChanged="Stations_SelectionChanged"

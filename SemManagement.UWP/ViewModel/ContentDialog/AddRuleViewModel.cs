@@ -68,6 +68,18 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
             }
         }
 
+        private bool _allStations;
+        public bool AllStations
+        {
+            get { return _allStations; }
+            set
+            {
+                if (value == _allStations) return;
+                _allStations = value;
+                RaisePropertyChanged(nameof(AllStations));
+            }
+        }
+
         #region source
         private ObservableCollectionFast<Playlist> _sourcePlaylists;
         public ObservableCollectionFast<Playlist> SourcePlaylists

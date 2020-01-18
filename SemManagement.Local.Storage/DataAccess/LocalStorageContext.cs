@@ -58,37 +58,37 @@ namespace SemManagement.Local.Storage.DataAccess
                 .HasOne(x => x.Rule)
                 .WithMany(p => p.RulePlaylists)
                 .HasForeignKey(pc => pc.RuleId)
-                    .IsRequired();
+                .IsRequired();
 
             modelBuilder.Entity<RulePlaylistDto>()
                 .HasOne(x => x.Playlist)
                 .WithMany(p => p.RulePlaylists)
                 .HasForeignKey(pc => pc.PlaylistId)
-                    .IsRequired();
+                .IsRequired();
 
             modelBuilder.Entity<PlaylistTagDto>()
                 .HasOne(pc => pc.Tag)
                 .WithMany(c => c.PlaylistTags)
                 .HasForeignKey(pc => pc.TagId)
-                    .IsRequired();
+                .IsRequired();
 
             modelBuilder.Entity<PlaylistTagDto>()
                 .HasOne(pc => pc.Playlist)
                 .WithMany(c => c.PlaylistTags)
                 .HasForeignKey(pc => pc.PlaylistId)
-                    .IsRequired();
+                .IsRequired();
 
             modelBuilder.Entity<StationPlaylistDto>()
                 .HasOne(pc => pc.Playlist)
                 .WithMany(c => c.StationPlaylists)
                 .HasForeignKey(pc => pc.PlaylistId)
-                    .IsRequired();
+                .IsRequired();
 
             modelBuilder.Entity<StationPlaylistDto>()
                 .HasOne(pc => pc.Station)
                 .WithMany(c => c.StationPlaylists)
                 .HasForeignKey(pc => pc.StationId)
-                    .IsRequired();
+                .IsRequired();
 
             base.OnModelCreating(modelBuilder);
         }

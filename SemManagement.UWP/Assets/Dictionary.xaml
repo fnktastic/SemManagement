@@ -19,7 +19,7 @@
                         BackgroundSource="HostBackdrop"
                         TintOpacity="0.2" 
                         TintColor="Black" 
-                        FallbackColor="White" />
+                        FallbackColor="Black" />
 
     <Style TargetType="ListBox">
         <Setter Property="Background" Value="{ThemeResource GridViewItemBackground}" />
@@ -31,13 +31,13 @@
                   BackgroundSource="HostBackdrop"
                   TintColor="Black"
                   TintOpacity="0.75"
-                  FallbackColor="#FFB5B5B5"/>
+                  FallbackColor="Black"/>
 
     <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
                   BackgroundSource="HostBackdrop"
                   TintColor="Black"
                   TintOpacity="0.6"
-                  FallbackColor="White"/>
+                  FallbackColor="Black"/>
 
     <DataTemplate x:Key="SongItemTemplate">
         <Grid>

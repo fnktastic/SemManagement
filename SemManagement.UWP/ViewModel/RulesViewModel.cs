@@ -34,19 +34,6 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
-        private bool _isRuleInProcess = false;
-        public bool IsRuleInProcess
-        {
-            get { return _isRuleInProcess; }
-            set
-            {
-                if (value == _isRuleInProcess) return;
-                _isRuleInProcess = value;
-                RaisePropertyChanged(nameof(IsRuleInProcess));
-
-            }
-        }
-
         private bool _isLoading = false;
         public bool IsLoading
         {
@@ -195,18 +182,22 @@ namespace SemManagement.UWP.ViewModel
 
             await _localDataService.SaveRuleAsync(rule);
 
+            rule.IsRuleInProcess = true;
+
             var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(rule);
+
+            rule.IsRuleInProcess = false;
         }
 
         private RelayCommand _fireRuleCommand;
         public RelayCommand FireRuleCommand => _fireRuleCommand ?? (_fireRuleCommand = new RelayCommand(FireRule));
         private async void FireRule()
         {
-            IsRuleInProcess = true;
+            _selectedRule.IsRuleInProcess = true;
 
             var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(_selectedRule);
 
-            IsRuleInProcess = false;
+            _selectedRule.IsRuleInProcess = false;
         }
         #endregion
     }

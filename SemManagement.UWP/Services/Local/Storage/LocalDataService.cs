@@ -49,7 +49,7 @@ namespace SemManagement.UWP.Services.Local.Storage
 
                 mappedRule.TargetPlaylists = _mapper.Map<List<Playlist>>(rule.RulePlaylists.Where(x => x.RulePlaylistType == RulePlaylistTypeEnum.Target).Select(y => y.Playlist));
 
-                mappedRule.Stations = _mapper.Map<List<Station>>(rule.RuleStations.Select(x => x.Station);
+                mappedRule.Stations = _mapper.Map<List<Station>>(rule.RuleStations.Select(x => x.Station));
             }
 
             return mappedRules;

@@ -12,6 +12,8 @@ namespace SemManagement.Local.Storage.Model
     public class StationPlaylistDto
     {
         [Key]
+        public Guid StationPlaylistId { get; set; }
+
         public int StationId { get; set; }
         public StationDto Station { get; set; }
 

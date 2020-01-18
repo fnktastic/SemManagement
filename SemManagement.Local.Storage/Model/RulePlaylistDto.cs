@@ -13,10 +13,11 @@ namespace SemManagement.Local.Storage.Model
     public class RulePlaylistDto
     {
         [Key]
+        public Guid RulePlaylistId { get; set; }
+
         public Guid RuleId { get; set; }
         public RuleDto Rule { get; set; }
 
-        [Key]
         public int PlaylistId { get; set; }
         public PlaylistDto Playlist { get; set; }
         

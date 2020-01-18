@@ -12,6 +12,8 @@ namespace SemManagement.Local.Storage.Model
     public class RuleStationDto
     {
         [Key]
+        public Guid RuleStationId { get; set; }
+
         public Guid RuleId { get; set; }
         public RuleDto Rule { get; set; }
 

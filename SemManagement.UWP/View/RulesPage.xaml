@@ -88,7 +88,7 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                           Margin="10 0"
-                                      Visibility="{Binding IsRuleInProcess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                                      Visibility="{Binding SelectedRule.IsRuleInProcess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
 
                         </StackPanel>
                         

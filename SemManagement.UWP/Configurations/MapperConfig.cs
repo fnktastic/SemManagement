@@ -28,6 +28,7 @@ namespace SemManagement.UWP.Configurations
             cfg.CreateMap<Model.Station, StationDto>();
             cfg.CreateMap<Playlist, PlaylistDto>();
             cfg.CreateMap<Model.Playlist, PlaylistDto>();
+            cfg.CreateMap<Tag, TagDto>();
 
             cfg.CreateMap<RuleDto, Rule>();
             cfg.CreateMap<Model.Playlist, Playlist>();
@@ -36,6 +37,7 @@ namespace SemManagement.UWP.Configurations
             cfg.CreateMap<StationDto, Model.Station>();
             cfg.CreateMap<PlaylistDto, Playlist>();
             cfg.CreateMap<PlaylistDto, Model.Playlist>();
+            cfg.CreateMap<TagDto, Tag>();
         })
         {
 

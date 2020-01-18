@@ -66,7 +66,8 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<IRuleService, RuleService>();
             SimpleIoc.Default.Register<Local.Storage.Repository.IPlaylistRepository, Local.Storage.Repository.PlaylistRepository>();
             SimpleIoc.Default.Register<Local.Storage.Repository.IStationRepository, Local.Storage.Repository.StationRepository>();
-
+            SimpleIoc.Default.Register<Local.Storage.Repository.ITagRepository, Local.Storage.Repository.TagRepository>();
+ 
             SetupNavigation();
         }
 

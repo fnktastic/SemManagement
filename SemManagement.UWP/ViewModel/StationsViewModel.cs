@@ -64,7 +64,8 @@ namespace SemManagement.UWP.ViewModel
                 if (_isPlaylistsTabSelected)
                     LoadStationPlaylistsCommand.Execute(null);
 
-
+                if (_isUserDetailsTabSelected)
+                    LoadTagsCommand.Execute(null);
             }
         }
 
@@ -114,6 +115,18 @@ namespace SemManagement.UWP.ViewModel
                 if (_playlists == value) return;
                 _playlists = value;
                 RaisePropertyChanged(nameof(Playlists));
+            }
+        }
+
+        private ObservableCollection<Model.Local.Storage.Tag> _tags;
+        public ObservableCollection<Model.Local.Storage.Tag> Tags
+        {
+            get { return _tags; }
+            set
+            {
+                if (value == _tags) return;
+                _tags = value;
+                RaisePropertyChanged(nameof(Tags));
             }
         }
 
@@ -261,6 +274,24 @@ namespace SemManagement.UWP.ViewModel
         private RelayCommand _loadStationPlaylistsCommand;
         public RelayCommand LoadStationPlaylistsCommand => _loadStationPlaylistsCommand ?? (_loadStationPlaylistsCommand = new RelayCommand(LoadStationPlaylists));
         private async void LoadStationPlaylists()
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                var stationPlaylists = await _playlistService.GetPlaylistsByStationAsync(_selectedStation.Sid);
+
+                Playlists = new ObservableCollection<Playlist>(stationPlaylists);
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
+
+        private RelayCommand _loadTagsCommand;
+        public RelayCommand LoadTagsCommand => _loadTagsCommand ?? (_loadTagsCommand = new RelayCommand(LoadTags));
+        private async void LoadTags()
         {
             try
             {

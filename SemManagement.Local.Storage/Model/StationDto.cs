@@ -33,5 +33,7 @@ namespace SemManagement.Local.Storage.Model
         public int Autosync { get; set; }
 
         public virtual ICollection<StationPlaylistDto> StationPlaylists { get; set; }
+
+        public virtual ICollection<StationTagDto> StationTags { get; set; }
     }
 }

@@ -90,6 +90,12 @@ namespace SemManagement.Local.Storage.DataAccess
                 .HasForeignKey(pc => pc.StationId)
                 .IsRequired();
 
+            modelBuilder.Entity<StationTagDto>()
+                .HasOne(pc => pc.Station)
+                .WithMany(c => c.StationTags)
+                .HasForeignKey(pc => pc.StationId)
+                .IsRequired();
+
             base.OnModelCreating(modelBuilder);
         }
     }

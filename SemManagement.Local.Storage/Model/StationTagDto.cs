@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace SemManagement.Local.Storage.Model
 {
-    [Table("Tag")]
-    public class TagDto
+    [Table("StationTag")]
+    public class StationTagDto
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid StationTagId { get; set; }
 
-        public string Name { get; set; }
+        public int StationId { get; set; }
+        public StationDto Station { get; set; }
 
-        public virtual ICollection<PlaylistTagDto> PlaylistTags { get; set; }
-
-        public virtual ICollection<StationTagDto> StationTags { get; set; }
+        public Guid TagId { get; set; }
+        public TagDto Tag { get; set; }
     }
 }

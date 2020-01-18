@@ -8,8 +8,6 @@ namespace SemManagement.UWP.Model.Local.Storage
 {
     public class Station
     {
-        public Guid Id { get; set; }
-
         public int Sid { get; set; }
 
         public int Uid { get; set; }

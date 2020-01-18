@@ -12,8 +12,6 @@ namespace SemManagement.Local.Storage.Model
     public class StationDto
     {
         [Key]
-        public Guid Id { get; set; }
-
         public int Sid { get; set; }
 
         public int Uid { get; set; }
@@ -34,7 +32,6 @@ namespace SemManagement.Local.Storage.Model
 
         public int Autosync { get; set; }
 
-        public Guid RuleDtoId { get; set; }
-        public virtual RuleDto Rule { get; set; }
+        public virtual ICollection<StationPlaylistDto> StationPlaylists { get; set; }
     }
 }

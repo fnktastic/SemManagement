@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SemManagement.Local.Storage.DataAccess;
 using SemManagement.Local.Storage.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SemManagement.Local.Storage.Repository
@@ -13,7 +11,11 @@ namespace SemManagement.Local.Storage.Repository
     {
         Task<List<Model.RuleDto>> GetAllAsync();
 
-        Task SaveAsync(Model.RuleDto rule);
+        Task<RuleDto> SaveAsync(RuleDto rule);
+
+        Task AddRulePlaylistRangeAsync(List<RulePlaylistDto> rulePlaylists);
+
+        Task AddRuleStationRangeAsync(List<RuleStationDto> ruleStations);
     }
 
     public class RulesRepository : IRulesRepository
@@ -28,14 +30,32 @@ namespace SemManagement.Local.Storage.Repository
         public async Task<List<Model.RuleDto>> GetAllAsync()
         {
             return await _context.Rules
-                .Include(x => x.Playlists)
-                .Include(x => x.Stations)
+                .Include(x => x.RulePlaylists)
+                    .ThenInclude(y => y.Playlist)
+                .Include(x => x.RuleStations)
+                    .ThenInclude(y => y.Station)
                 .ToListAsync();
         }
 
-        public async Task SaveAsync(RuleDto rule)
+        public async Task<RuleDto> SaveAsync(RuleDto rule)
         {
-            _context.Rules.Add(rule);
+            var savedRule = _context.Rules.Add(rule);
+
+            await _context.SaveChangesAsync();
+
+            return savedRule.Entity;
+        }
+
+        public async Task AddRulePlaylistRangeAsync(List<RulePlaylistDto> rulePlaylists)
+        {
+            await _context.RulePlaylists.AddRangeAsync(rulePlaylists);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddRuleStationRangeAsync(List<RuleStationDto> ruleStations)
+        {
+            await _context.RuleStations.AddRangeAsync(ruleStations);
 
             await _context.SaveChangesAsync();
         }

@@ -13,14 +13,14 @@ namespace SemManagement.Local.Storage.Model
     public class PlaylistDto
     {
         [Key]
-        public Guid Id { get; set; }
         public int Plid { get; set; }
         public string Name { get; set; }
         public int Changed { get; set; }
-        public RulePlaylistTypeEnum RulePlaylistType { get; set; }
 
-        public Guid RuleDtoId { get; set; }
-        public virtual RuleDto Rule { get; set; }
+        public virtual ICollection<PlaylistTagDto> PlaylistTags { get; set; }
 
+        public virtual ICollection<RulePlaylistDto> RulePlaylists { get; set; }
+
+        public virtual ICollection<StationPlaylistDto> StationPlaylists { get; set; }
     }
 }

@@ -14,6 +14,7 @@
     <converters:BoolToVisibleOrCollapsed x:Key="BoolToVisibleOrCollapsed" />
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
     <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    <converters:StringToTagConverter x:Key="StringToTagConverter" />
 
     <media:AcrylicBrush x:Key="CustomAcrylicBrush" 
                         BackgroundSource="HostBackdrop"

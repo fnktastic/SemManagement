@@ -23,6 +23,14 @@ namespace SemManagement.Local.Storage.DataAccess
 
         public DbSet<RuleStationDto> RuleStations { get; set; }
 
+        public DbSet<StationTagDto> StationTags { get; set; }
+
+        public DbSet<PlaylistTagDto> PlaylistTags { get; set; }
+
+        public DbSet<TagDto> Tags { get; set; }
+
+        public DbSet<StationDto> Stations { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             var dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "semLocalStorage.db");
@@ -45,8 +53,11 @@ namespace SemManagement.Local.Storage.DataAccess
             modelBuilder.Entity<StationPlaylistDto>()
                 .HasKey(pa => pa.StationPlaylistId);
 
+            modelBuilder.Entity<StationTagDto>()
+                .HasKey(pa => new { pa.StationId, pa.TagId });
+
             modelBuilder.Entity<PlaylistTagDto>()
-                .HasKey(pa => pa.PlaylistTagId);
+                .HasKey(pa => new { pa.PlaylistId, pa.TagId });
 
             modelBuilder.Entity<RuleStationDto>()
                 .HasOne(x => x.Rule)
@@ -66,18 +77,6 @@ namespace SemManagement.Local.Storage.DataAccess
                 .HasForeignKey(pc => pc.PlaylistId)
                 .IsRequired();
 
-            modelBuilder.Entity<PlaylistTagDto>()
-                .HasOne(pc => pc.Tag)
-                .WithMany(c => c.PlaylistTags)
-                .HasForeignKey(pc => pc.TagId)
-                .IsRequired();
-
-            modelBuilder.Entity<PlaylistTagDto>()
-                .HasOne(pc => pc.Playlist)
-                .WithMany(c => c.PlaylistTags)
-                .HasForeignKey(pc => pc.PlaylistId)
-                .IsRequired();
-
             modelBuilder.Entity<StationPlaylistDto>()
                 .HasOne(pc => pc.Playlist)
                 .WithMany(c => c.StationPlaylists)
@@ -87,12 +86,6 @@ namespace SemManagement.Local.Storage.DataAccess
             modelBuilder.Entity<StationPlaylistDto>()
                 .HasOne(pc => pc.Station)
                 .WithMany(c => c.StationPlaylists)
-                .HasForeignKey(pc => pc.StationId)
-                .IsRequired();
-
-            modelBuilder.Entity<StationTagDto>()
-                .HasOne(pc => pc.Station)
-                .WithMany(c => c.StationTags)
                 .HasForeignKey(pc => pc.StationId)
                 .IsRequired();
 

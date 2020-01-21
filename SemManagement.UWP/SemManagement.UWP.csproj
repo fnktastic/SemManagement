@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collection\TagsCollection.cs" />
     <Compile Include="Configurations\MapperConfig.cs" />
     <Compile Include="Configurations\PublicApiConfiguration.cs" />
     <Compile Include="Configurations\RestEndPoins.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
+    <Compile Include="Converters\StringToTagConveter.cs" />
     <Compile Include="Helper\ObservableCollectionFast.cs" />
     <Compile Include="Helper\PlaylistComparer.cs" />
     <Compile Include="Helper\RulesComparer.cs" />

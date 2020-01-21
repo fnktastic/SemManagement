@@ -87,7 +87,7 @@
                                       Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
-                                          Margin="10 0"
+                                      Margin="10 0"
                                       Visibility="{Binding SelectedRule.IsRuleInProcess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
 
                         </StackPanel>

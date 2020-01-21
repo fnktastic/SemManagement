@@ -128,6 +128,8 @@ namespace SemManagement.UWP.ViewModel
                 _originRules = await _localDataService.GetAllRulesAsync();
 
                 Rules = new ObservableCollectionFast<Rule>(_originRules);
+
+                SelectedRule = new Rule();
             }
             finally
             {

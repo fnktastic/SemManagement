@@ -19,6 +19,8 @@ namespace SemManagement.UWP.Services.Local.Storage
     {
         Task<List<Rule>> GetAllRulesAsync();
         Task SaveRuleAsync(Rule rule);
+        Task SaveStationTagRangeAsync(Model.Station station, IEnumerable<Tag> tags);
+        Task<List<Tag>> GetAllTagsAsync(int sid);
     }
 
     public class LocalDataService : ILocalDataService
@@ -26,13 +28,15 @@ namespace SemManagement.UWP.Services.Local.Storage
         private readonly IRulesRepository _rulesRepository;
         private readonly IPlaylistRepository _playlistRepository;
         private readonly IStationRepository _stationRepository;
+        private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
-        public LocalDataService(IRulesRepository rulesRepository, IMapper mapper, IPlaylistRepository playlistRepository, IStationRepository stationRepository)
+        public LocalDataService(IRulesRepository rulesRepository, IMapper mapper, IPlaylistRepository playlistRepository, IStationRepository stationRepository, ITagRepository tagRepository)
         {
             _rulesRepository = rulesRepository;
             _mapper = mapper;
             _playlistRepository = playlistRepository;
             _stationRepository = stationRepository;
+            _tagRepository = tagRepository;
         }
 
         public async Task<List<Rule>> GetAllRulesAsync()
@@ -53,6 +57,13 @@ namespace SemManagement.UWP.Services.Local.Storage
             }
 
             return mappedRules;
+        }
+
+        public async Task<List<Tag>> GetAllTagsAsync(int sid)
+        {
+            var tags = await _tagRepository.GetAllAsync(sid);
+
+            return _mapper.Map<List<Tag>>(tags);
         }
 
         public async Task SaveRuleAsync(Rule rule)
@@ -88,6 +99,21 @@ namespace SemManagement.UWP.Services.Local.Storage
             }).ToList();
 
             await _rulesRepository.AddRuleStationRangeAsync(stations);
+        }
+
+        public async Task SaveStationTagRangeAsync(Model.Station station, IEnumerable<Tag> tags)
+        {
+            await _stationRepository.SaveAsync(_mapper.Map<StationDto>(station));
+
+            var savedTags = await _tagRepository.SaveRangeAsync(_mapper.Map<List<TagDto>>(tags));
+
+            var stationTags = savedTags.Select(x => new StationTagDto()
+            {
+                StationId = station.Sid,
+                TagId = x.Id,
+            }).ToList();
+
+            await _tagRepository.SaveRangeAsync(stationTags);
         }
     }
 }

@@ -40,19 +40,14 @@
 
         <controls:TabView Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsStationSelected}"  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
             <controls:TabViewItem Header="Details" IsSelected="{Binding IsUserDetailsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid VerticalAlignment="Top">
+                <Grid VerticalAlignment="Top"
+                      Margin="10"
+                      Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                      >
                     <Grid.RowDefinitions>
-                        <RowDefinition />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="35" />
                     </Grid.RowDefinitions>
-                    <GridView ItemsSource="{Binding Tags}">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid>
-                                    <ContentPresenter />
-                                </ItemsWrapGrid>
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                    </GridView>
                     <ProgressRing IsActive="True" 
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
@@ -60,6 +55,36 @@
                                   Height="60"
                                   Width="60"
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+
+                    <ListBox ItemsSource="{Binding Tags}" Grid.Row="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name, Converter={StaticResource StringToTagConverter}}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox
+                            Grid.Column="0"
+                            PlaceholderText="#tag, #tag2, #tag3..."
+                            Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button 
+                            Grid.Column="1"
+                            Height="50" Width="50"
+                            Command="{Binding AddNewTagCommand}">
+                            <SymbolIcon Symbol="Add" />
+                        </Button>
+                    </Grid>
+              
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Playlists" IsSelected="{Binding IsPlaylistsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

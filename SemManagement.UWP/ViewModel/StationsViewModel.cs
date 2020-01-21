@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SemManagement.UWP.Collection;
 using SemManagement.UWP.Model;
+using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
@@ -19,6 +21,7 @@ namespace SemManagement.UWP.ViewModel
         private readonly ISongService _songService;
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
+        private readonly ILocalDataService _localDataService;
         #endregion
 
         #region properties
@@ -118,8 +121,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<Model.Local.Storage.Tag> _tags;
-        public ObservableCollection<Model.Local.Storage.Tag> Tags
+        private TagsCollection _tags;
+        public TagsCollection Tags
         {
             get { return _tags; }
             set
@@ -234,9 +237,52 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
+
+        private string _newTag;
+        public string NewTag
+        {
+            get { return _newTag; }
+            set
+            {
+                if (value == _newTag) return;
+                _newTag = value;
+                RaisePropertyChanged(nameof(NewTag));
+            }
+        }
+
+
         #endregion
 
         #region commands
+        private RelayCommand _addNewTagCommand;
+        public RelayCommand AddNewTagCommand => _addNewTagCommand ?? (_addNewTagCommand = new RelayCommand(AddNewTag));
+        private async void AddNewTag()
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                if (string.IsNullOrWhiteSpace(_newTag)) return;
+
+                var tags = _newTag
+                    .Split(',')
+                    .Select(x => x.Trim())
+                    .Select(x => new Model.Local.Storage.Tag(x))
+                    .ToList();
+
+                _tags.AddRange(tags);
+
+                await _localDataService.SaveStationTagRangeAsync(_selectedStation, _tags);
+
+                NewTag = string.Empty;
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
+
+
         private RelayCommand _loadDeletedSongsCommand;
         public RelayCommand LoadDeletedSongsCommand => _loadDeletedSongsCommand ?? (_loadDeletedSongsCommand = new RelayCommand(LoadDeletedSongs));
         private async void LoadDeletedSongs()
@@ -297,9 +343,9 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                var stationPlaylists = await _playlistService.GetPlaylistsByStationAsync(_selectedStation.Sid);
+                var stationTags = await _localDataService.GetAllTagsAsync(_selectedStation.Sid);
 
-                Playlists = new ObservableCollection<Playlist>(stationPlaylists);
+                Tags = new TagsCollection(stationTags);
             }
             finally
             {
@@ -309,11 +355,12 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region constructor
-        public StationsViewModel(ISongService songService, IStationService stationService, IPlaylistService playlistService)
+        public StationsViewModel(ISongService songService, IStationService stationService, IPlaylistService playlistService, ILocalDataService localDataService)
         {
             _songService = songService;
             _stationService = stationService;
             _playlistService = playlistService;
+            _localDataService = localDataService;
 
             LoadData();
 

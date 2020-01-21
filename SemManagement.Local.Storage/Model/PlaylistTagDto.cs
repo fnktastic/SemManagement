@@ -12,11 +12,10 @@ namespace SemManagement.Local.Storage.Model
     public class PlaylistTagDto
     {
         [Key]
-        public Guid PlaylistTagId { get; set; }
-
         public int PlaylistId { get; set; }
         public PlaylistDto Playlist { get; set; }
 
+        [Key]
         public Guid TagId { get; set; }
         public TagDto Tag { get; set; }
     }

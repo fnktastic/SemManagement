@@ -19,6 +19,8 @@ namespace SemManagement.Local.Storage.Repository
         Task SaveRangeAsync(List<PlaylistTagDto> playlistTags);
 
         Task<List<TagDto>> GetAllAsync(int sid);
+
+        Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags);
     }
 
     public class TagRepository : ITagRepository
@@ -36,6 +38,19 @@ namespace SemManagement.Local.Storage.Repository
                 .Include(x => x.Tag)
                 .Select(x => x.Tag)
                 .ToListAsync();
+        }
+
+        public async Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags)
+        {
+            var tagNames = tags.Select(x => x.Name).ToList();
+
+            var stations = await _context.StationTags
+                .Include(x => x.Tag)
+                .Where(x => tagNames.Contains(x.Tag.Name))
+                .Select(x => x.Station)
+                .ToListAsync();
+
+            return stations;
         }
 
         public async Task<List<TagDto>> SaveRangeAsync(List<TagDto> tags)

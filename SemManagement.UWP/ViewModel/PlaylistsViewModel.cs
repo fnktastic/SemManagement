@@ -1,6 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Model;
+using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
+using SemManagement.UWP.Services.StationModule.Service;
+using SemManagement.UWP.View.ContentDialogs;
+using SemManagement.UWP.ViewModel.ContentDialog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +19,8 @@ namespace SemManagement.UWP.ViewModel
     {
         #region fields
         private readonly IPlaylistService _playlistService;
+        private readonly IStationService _stationService;
+        private readonly ILocalDataService _localDataService;
         #endregion
 
         #region properties
@@ -43,9 +50,11 @@ namespace SemManagement.UWP.ViewModel
         }
         #endregion
 
-        public PlaylistsViewModel(IPlaylistService playlistService)
+        public PlaylistsViewModel(IPlaylistService playlistService, IStationService stationService, ILocalDataService localDataService)
         {
             _playlistService = playlistService;
+            _stationService = stationService;
+            _localDataService = localDataService;
 
             LoadData();
         }
@@ -62,6 +71,26 @@ namespace SemManagement.UWP.ViewModel
             finally
             {
                 IsLoading = false;
+            }
+        }
+        #endregion
+
+        #region commands
+        private RelayCommand _sendToStationCommand;
+        public RelayCommand SendToStationCommand => _sendToStationCommand ?? (_sendToStationCommand = new RelayCommand(SendToStation));
+        private async void SendToStation()
+        {
+            try
+            {
+                var sendToStationViewModel = new SendToStationViewModel(_stationService, _localDataService);
+
+                var sendToStationContentDialog = new SendToStationContentDialog(sendToStationViewModel);
+
+                var descision = await sendToStationContentDialog.ShowAsync();
+            }
+            finally
+            {
+
             }
         }
         #endregion

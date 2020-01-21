@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
+    x:Name="Me"
     DataContext="{Binding StationsPageInstance, Source={StaticResource Locator}}">
 
     <Grid Margin="15">
@@ -98,6 +99,7 @@
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
                     <ListBox Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                              VerticalAlignment="Top"
+                             HorizontalAlignment="Stretch"
                              ItemsSource="{Binding Playlists}"
                              ItemTemplate="{StaticResource PlaylistItemTemplate}">
                     </ListBox>

@@ -160,6 +160,7 @@
     <Compile Include="Services\UserModule\Service\UserService.cs" />
     <Compile Include="ViewModel\AudiosViewModel.cs" />
     <Compile Include="ViewModel\ContentDialog\AddRuleViewModel.cs" />
+    <Compile Include="ViewModel\ContentDialog\SendToStationViewModel.cs" />
     <Compile Include="ViewModel\PlaylistsViewModel.cs" />
     <Compile Include="ViewModel\RulesViewModel.cs" />
     <Compile Include="ViewModel\SettingsPageViewModel.cs" />
@@ -171,6 +172,9 @@
     </Compile>
     <Compile Include="View\ContentDialogs\AddRuleContentDialog.xaml.cs">
       <DependentUpon>AddRuleContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ContentDialogs\SendToStationContentDialog.xaml.cs">
+      <DependentUpon>SendToStationContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PlaylistsPage.xaml.cs">
       <DependentUpon>PlaylistsPage.xaml</DependentUpon>
@@ -254,6 +258,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ContentDialogs\AddRuleContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ContentDialogs\SendToStationContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

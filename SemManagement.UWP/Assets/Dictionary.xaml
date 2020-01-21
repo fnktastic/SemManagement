@@ -70,7 +70,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="SongDeletedItemTemplate">
+    <DataTemplate x:Key="SongExtendedItemTemplate">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20" />

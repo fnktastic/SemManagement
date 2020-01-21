@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SemManagement.Model.Model
 {
-    public class SongsDeleted
+    public class StationQueue
     {
         [Key]
         public int Sgid { get; set; }
@@ -17,8 +17,8 @@ namespace SemManagement.Model.Model
         public string File_MD5_Gained { get; set; }
         public int Uploaded { get; set; }
 
-        public int Plid { get; set; }
-        public string Name { get; set; }
-        public int Changed { get; set; }
+        public string Creation_Date { get; set; }
+        public int Position { get; set; }
+        public int Semid { get; set; }
     }
 }

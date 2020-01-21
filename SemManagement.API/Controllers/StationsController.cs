@@ -33,7 +33,7 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("getDeletedSongs")]
-        public async Task<ActionResult<IList<SongsDeleted>>> GetDeletedSongsAsync(int stationId)
+        public async Task<ActionResult<IList<SongExtended>>> GetDeletedSongsAsync(int stationId)
         {
             if (stationId != 0)
                 return await _stationRepository.GetDeletedSongsAsync(stationId);
@@ -42,10 +42,19 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("getStationSongsAsync")]
-        public async Task<ActionResult<IList<Song>>> GetStationSongsAsync(int stationId)
+        public async Task<ActionResult<IList<SongExtended>>> GetStationSongsAsync(int stationId)
         {
             if (stationId != 0)
                 return await _stationRepository.GetStationSongsAsync(stationId);
+
+            return NotFound();
+        }
+
+        [HttpGet("getStationQueueAsync")]
+        public async Task<ActionResult<IList<StationQueue>>> GetStationQueueAsync(int stationId)
+        {
+            if (stationId != 0)
+                return await _stationRepository.GetStationQueueAsync(stationId);
 
             return NotFound();
         }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace SemManagement.UWP.Model
+namespace SemManagement.Model.Model
 {
     public class SongExtended
     {
+        [Key]
         public int Sgid { get; set; }
         public string Artist { get; set; }
         public string Title { get; set; }

@@ -14,9 +14,11 @@ namespace SemManagement.Model.Repository
     {
         Task<List<Station>> TakeAsync(int take, int skip = 0);
 
-        Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId);
+        Task<List<SongExtended>> GetDeletedSongsAsync(int stationId);
 
-        Task<List<Song>> GetStationSongsAsync(int stationId);
+        Task<List<SongExtended>> GetStationSongsAsync(int stationId);
+
+        Task<List<StationQueue>> GetStationQueueAsync(int stationId);
 
         Task<User> GetStationUserAsync(int stationId);
 
@@ -39,14 +41,14 @@ namespace SemManagement.Model.Repository
             return await _context.Stations.Take(take).ToListAsync();
         }
 
-        public async Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId)
+        public async Task<List<SongExtended>> GetDeletedSongsAsync(int stationId)
         {
             var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
             {
                 Value = stationId
             };
 
-            return await _context.SongsDeleteds.FromSql<SongsDeleted>(
+            return await _context.SongsDeleteds.FromSql<SongExtended>(
                 "SELECT songs.*, playlists.* " +
                 "FROM songsdeleted " +
                 "INNER JOIN songs ON songs.sgid = songsdeleted.sgid " +
@@ -55,9 +57,34 @@ namespace SemManagement.Model.Repository
                 .ToListAsync();
         }
 
-        public Task<List<Song>> GetStationSongsAsync(int stationId)
+        public async Task<List<SongExtended>> GetStationSongsAsync(int stationId)
         {
-            throw new System.NotImplementedException();
+            var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
+            {
+                Value = stationId
+            };
+
+            return await _context.SongsDeleteds.FromSql<SongExtended>(
+                "SELECT songs.*, playlists.* FROM stationsplaylists " +
+                "INNER JOIN playlists ON playlists.plid = stationsplaylists.plid " +
+                "INNER JOIN playlistssongs ON playlistssongs.plid = playlists.plid " +
+                "INNER JOIN songs ON songs.sgid = playlistssongs.sgid " +
+                "WHERE stationsplaylists.sid = @stationId", stationIdParameter)
+                .ToListAsync();
+        }
+
+        public async Task<List<StationQueue>> GetStationQueueAsync(int stationId)
+        {
+            var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
+            {
+                Value = stationId
+            };
+
+            return await _context.StationQueues.FromSql<StationQueue>(
+                "SELECT songs.*, stationsqueue.position, stationsqueue.creation_date, stationsqueue.semid FROM sem.stationsqueue  " +
+                "INNER JOIN songs ON songs.sgid = stationsqueue.sgid " +
+                "WHERE sid = @stationId", stationIdParameter)
+                .ToListAsync();
         }
 
         public Task<User> GetStationUserAsync(int stationId)

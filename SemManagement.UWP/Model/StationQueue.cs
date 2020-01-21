@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace SemManagement.UWP.Model
 {
-    public class SongExtended
+    public class StationQueue
     {
         public int Sgid { get; set; }
         public string Artist { get; set; }
         public string Title { get; set; }
         public string Genre { get; set; }
         public string Filename { get; set; }
-        public string File_MD5 { get; set; }
-        public string File_MD5_Gained { get; set; }
+        public string file_MD5 { get; set; }
+        public string file_MD5_Gained { get; set; }
         public int Uploaded { get; set; }
 
-        public int Plid { get; set; }
-        public string Name { get; set; }
-        public int Changed { get; set; }
+        public string creation_Date { get; set; }
+        public int Position { get; set; }
+        public int Semid { get; set; }
     }
 }

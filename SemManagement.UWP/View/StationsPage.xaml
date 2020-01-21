@@ -104,7 +104,7 @@
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Songs" IsSelected="{Binding IsSongsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid VerticalAlignment="Top">
+                <Grid Margin="15">
                     <ProgressRing IsActive="True" 
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
@@ -112,26 +112,33 @@
                                   Height="60"
                                   Width="60"
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
-                </Grid>
-            </controls:TabViewItem>
-            <controls:TabViewItem Header="Deleted Songs" IsSelected="{Binding IsDeletedSongsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid VerticalAlignment="Top">
-                    <ProgressRing IsActive="True" 
-                                  VerticalAlignment="Center"
-                                  HorizontalAlignment="Center"
-                                  Margin="15"
-                                  Height="60"
-                                  Width="60"
-                                  Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
-                    <ListBox Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
+                    <Grid Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <ToggleSwitch Grid.Row="0" OffContent="All Songs" OnContent="Deleted Songs"
+                                      IsOn="{Binding IsDeletedSongs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <ListBox Grid.Row="1"
+                             Visibility="{Binding IsDeletedSongs, Converter={StaticResource BoolToVisibleOrCollapsed}}"
                              VerticalAlignment="Top"
                              ItemsSource="{Binding SongsDeleted}"
-                             ItemTemplate="{StaticResource SongDeletedItemTemplate}">
-                    </ListBox>
+                             ItemTemplate="{StaticResource SongExtendedItemTemplate}">
+                        </ListBox>
+                        <ListBox Grid.Row="1"
+                             Visibility="{Binding IsDeletedSongs, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                             VerticalAlignment="Top"
+                             ItemsSource="{Binding Songs}"
+                             ItemTemplate="{StaticResource SongExtendedItemTemplate}">
+                        </ListBox>
+                    </Grid>
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Station Queue" IsSelected="{Binding IsStationQueueTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
                     <ProgressRing IsActive="True" 
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
@@ -139,6 +146,12 @@
                                   Height="60"
                                   Width="60"
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+
+                    <controls:DataGrid 
+                        Grid.Row="0"
+                        VerticalAlignment="Top"
+                        ItemsSource="{Binding StationQueues}" AutoGenerateColumns="True">
+                    </controls:DataGrid>
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Stats" IsSelected="{Binding IsStatsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

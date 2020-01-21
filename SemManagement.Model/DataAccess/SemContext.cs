@@ -14,9 +14,11 @@ namespace SemManagement.Model.DataAccess
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<SongsDeleted> SongsDeleteds { get; set; }
+        public DbSet<SongExtended> SongsDeleteds { get; set; }
 
         public DbSet<Playlist> Playlists { get; set; } 
+
+        public DbSet<StationQueue> StationQueues { get; set; }
 
         public SemContext(DbContextOptions<SemContext> options) : base(options)
         {
@@ -29,7 +31,8 @@ namespace SemManagement.Model.DataAccess
             modelBuilder.Entity<Station>().ToTable("Stations");
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Playlist>().ToTable("Playlists");
-            modelBuilder.Entity<SongsDeleted>(); //.ToTable("SongsDeleted");
+            modelBuilder.Entity<SongExtended>();
+            modelBuilder.Entity<StationQueue>();
         }
     }
 }

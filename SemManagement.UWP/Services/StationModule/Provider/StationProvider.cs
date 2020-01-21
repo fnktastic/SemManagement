@@ -12,10 +12,11 @@ namespace SemManagement.UWP.Services.StationModule.Provider
     public interface IStationProvider
     {
         Task<List<Station>> TakeAsync(int take, int skip = 0);
-        Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId);
-        Task<List<Song>> GetStationSongsAsync(int stationId);
+        Task<List<SongExtended>> GetDeletedSongsAsync(int stationId);
+        Task<List<SongExtended>> GetStationSongsAsync(int stationId);
         Task<User> GetStationUserAsync(int stationId);
         Task<Count> CountAsync();
+        Task<List<StationQueue>> GetStationQueueAsync(int stationId);
     }
 
     public class StationProvider : WebApiProvider, IStationProvider
@@ -31,18 +32,18 @@ namespace SemManagement.UWP.Services.StationModule.Provider
             return TakeAsync<Station>(endpoint, take, skip);
         }
 
-        public Task<List<SongsDeleted>> GetDeletedSongsAsync(int stationId)
+        public Task<List<SongExtended>> GetDeletedSongsAsync(int stationId)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getDeletedSongs");
 
-            return GetDeletedSongsAsync<SongsDeleted>(endpoint, stationId);
+            return GetDeletedSongsAsync<SongExtended>(endpoint, stationId);
         }
 
-        public Task<List<Song>> GetStationSongsAsync(int stationId)
+        public Task<List<SongExtended>> GetStationSongsAsync(int stationId)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationSongsAsync");
 
-            return GetStationSongsAsync<Song>(endpoint, stationId);
+            return GetStationSongsAsync<SongExtended>(endpoint, stationId);
         }
 
         public Task<User> GetStationUserAsync(int stationId)
@@ -57,6 +58,13 @@ namespace SemManagement.UWP.Services.StationModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "count");
 
             return CountAsync<Count>(endpoint);
+        }
+
+        public Task<List<StationQueue>> GetStationQueueAsync(int stationId)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationQueueAsync");
+
+            return GetStationQueueAsync<StationQueue>(endpoint: endpoint, stationId: stationId);
         }
     }
 }

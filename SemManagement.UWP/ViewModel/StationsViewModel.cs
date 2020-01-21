@@ -61,14 +61,17 @@ namespace SemManagement.UWP.ViewModel
                 if (_isStatsTabSelected)
                     LoadStatsCommand.Execute(null);
 
-                if (_isDeletedSongsTabSelected)
-                    LoadDeletedSongsCommand.Execute(null);
+                if (_isSongsTabSelected)
+                    LoadSongsCommand.Execute(null);
 
                 if (_isPlaylistsTabSelected)
                     LoadStationPlaylistsCommand.Execute(null);
 
                 if (_isUserDetailsTabSelected)
                     LoadTagsCommand.Execute(null);
+
+                if (_isStationQueueTabSelected)
+                    LoadStationQueueCommand.Execute(null);
             }
         }
 
@@ -84,8 +87,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<SongsDeleted> _songsDeleted;
-        public ObservableCollection<SongsDeleted> SongsDeleted
+        private ObservableCollection<SongExtended> _songsDeleted;
+        public ObservableCollection<SongExtended> SongsDeleted
         {
             get { return _songsDeleted; }
             set
@@ -93,6 +96,18 @@ namespace SemManagement.UWP.ViewModel
                 if (value == _songsDeleted) return;
                 _songsDeleted = value;
                 RaisePropertyChanged(nameof(SongsDeleted));
+            }
+        }
+
+        private ObservableCollection<SongExtended> _songs;
+        public ObservableCollection<SongExtended> Songs
+        {
+            get { return _songs; }
+            set
+            {
+                if (_songs == value) return;
+                _songs = value;
+                RaisePropertyChanged(nameof(Songs));
             }
         }
 
@@ -105,6 +120,19 @@ namespace SemManagement.UWP.ViewModel
                 if (value == _mostPopularSongs) return;
                 _mostPopularSongs = value;
                 RaisePropertyChanged(nameof(MostPopularSongs));
+            }
+
+        }
+
+        private ObservableCollection<StationQueue> _stationQueues;
+        public ObservableCollection<StationQueue> StationQueues
+        {
+            get { return _stationQueues; }
+            set
+            {
+                if (value == _stationQueues) return;
+                _stationQueues = value;
+                RaisePropertyChanged(nameof(StationQueues));
             }
 
         }
@@ -159,19 +187,6 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private bool _isDeletedSongsTabSelected = false;
-        public bool IsDeletedSongsTabSelected
-        {
-            get { return _isDeletedSongsTabSelected; }
-            set
-            {
-                if (value == _isDeletedSongsTabSelected) return;
-                _isDeletedSongsTabSelected = value;
-                RaisePropertyChanged(nameof(IsDeletedSongsTabSelected));
-
-            }
-        }
-
         private bool _isPlaylistsTabSelected = false;
         public bool IsPlaylistsTabSelected
         {
@@ -195,6 +210,18 @@ namespace SemManagement.UWP.ViewModel
                 _isSongsTabSelected = value;
                 RaisePropertyChanged(nameof(IsSongsTabSelected));
 
+            }
+        }
+
+        private bool _isDeletedSongs;
+        public bool IsDeletedSongs
+        {
+            get { return _isDeletedSongs; }
+            set
+            {
+                if (value == _isDeletedSongs) return;
+                _isDeletedSongs = value;
+                RaisePropertyChanged(nameof(IsDeletedSongs));
             }
         }
 
@@ -283,16 +310,22 @@ namespace SemManagement.UWP.ViewModel
         }
 
 
-        private RelayCommand _loadDeletedSongsCommand;
-        public RelayCommand LoadDeletedSongsCommand => _loadDeletedSongsCommand ?? (_loadDeletedSongsCommand = new RelayCommand(LoadDeletedSongs));
-        private async void LoadDeletedSongs()
+        private RelayCommand _loadSongsCommand;
+        public RelayCommand LoadSongsCommand => _loadSongsCommand ?? (_loadSongsCommand = new RelayCommand(LoadSongs));
+        private async void LoadSongs()
         {
             try
             {
                 IsDataLoading = true;
 
                 var songsDeleted = await _stationService.GetDeletedSongsAsync(_selectedStation.Sid);
-                SongsDeleted = new ObservableCollection<SongsDeleted>(songsDeleted);
+
+                var songs = await _stationService.GetStationSongsAsync(_selectedStation.Sid);
+
+                SongsDeleted = new ObservableCollection<SongExtended>(songsDeleted);
+
+                Songs = new ObservableCollection<SongExtended>(songs);
+
             }
             finally
             {
@@ -346,6 +379,26 @@ namespace SemManagement.UWP.ViewModel
                 var stationTags = await _localDataService.GetAllTagsAsync(_selectedStation.Sid);
 
                 Tags = new TagsCollection(stationTags);
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
+
+        private RelayCommand _loadStationQueueCommand;
+        public RelayCommand LoadStationQueueCommand => _loadStationQueueCommand ?? (_loadStationQueueCommand = new RelayCommand(LoadStationQueue));
+        private async void LoadStationQueue()
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                var stationQueues = (await _stationService.GetStationQueueAsync(_selectedStation.Sid))
+                    .OrderByDescending(x => x.creation_Date)
+                    .ToList();
+
+                StationQueues = new ObservableCollection<StationQueue>(stationQueues);
             }
             finally
             {

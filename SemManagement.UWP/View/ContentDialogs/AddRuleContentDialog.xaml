@@ -46,7 +46,7 @@
                      Grid.Column="0" Grid.Row="0" PlaceholderText="rule name" />
             <CheckBox 
                       Grid.Column="2" Grid.Row="0"
-                      Content="Repeat" HorizontalAlignment="Left" IsChecked="{x:Bind AddRuleViewModel.IsRepeat,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                      Content="Continous" HorizontalAlignment="Left" IsChecked="{x:Bind AddRuleViewModel.IsRepeat,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             <Grid Grid.Column="0" Grid.Row="2">
                 <Grid.RowDefinitions>

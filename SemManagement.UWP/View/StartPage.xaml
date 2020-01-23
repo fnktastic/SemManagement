@@ -28,7 +28,8 @@
         </i:Interaction.Behaviors>
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="XboxOneConsole" Content="Stations" Tag="StartPageStations" />
-            <NavigationViewItem Icon="Audio" Content="Songs" Tag="StartPageAudios" />
+            <NavigationViewItem Icon="WebCam" Content="Monitoring" Tag="StartPageMonitoring" />
+            <NavigationViewItem Icon="Audio" Content="Library" Tag="StartPageAudios" />
             <NavigationViewItem Icon="List" Content="Playlists" Tag="StartPagePlaylists" />
             <NavigationViewItem Icon="Manage" Content="Rules" Tag="StartPageRules" />
         </NavigationView.MenuItems>

@@ -6,8 +6,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    
     DataContext="{Binding SettingsPageInstance, Source={StaticResource Locator}}">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="55" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBox Header="Continious Rules period (days)" PlaceholderText="in days" 
+                     Text="{Binding RulePeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+        </StackPanel>
 
-    <Grid>
+        <Button Grid.Row="2" Content="Save settings" Command="{Binding SaveSettingsCommand}" />
     </Grid>
 </Page>

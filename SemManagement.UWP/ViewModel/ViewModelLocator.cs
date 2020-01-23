@@ -8,6 +8,7 @@ using SemManagement.Local.Storage.Repository;
 using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Services.Local.RuleModule;
+using SemManagement.UWP.Services.Local.Settings;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Provider;
 using SemManagement.UWP.Services.PlaylistModule.Service;
@@ -46,6 +47,7 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<PlaylistsViewModel>();
             SimpleIoc.Default.Register<AudiosViewModel>();
             SimpleIoc.Default.Register<RulesViewModel>();
+            SimpleIoc.Default.Register<MonitoringViewModel>();
 
             SimpleIoc.Default.Register<PublicApiConfiguration>();
             SimpleIoc.Default.Register<IRestEndpoints, RestEndpoints>();
@@ -55,6 +57,7 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<IStationService, StationService>();
             SimpleIoc.Default.Register<IPlaylistProvider, PlaylistProvider>();
             SimpleIoc.Default.Register<IPlaylistService, PlaylistService>();
+            SimpleIoc.Default.Register<ISettingsService, SettingsService>();
 
             SimpleIoc.Default.Register<IConfigurationProvider, MyConfig>();
             SimpleIoc.Default.Register<IMapper, MyMapper>();
@@ -79,6 +82,7 @@ namespace SemManagement.UWP.ViewModel
             navigationService.Configure("StartPageSettings", typeof(SettingsPage));
             navigationService.Configure("StartPagePlaylists", typeof(PlaylistsPage));
             navigationService.Configure("StartPageRules", typeof(RulesPage));
+            navigationService.Configure("StartPageMonitoring", typeof(MonitoringPage));
 
             SimpleIoc.Default.Register<NavigationService>(() => navigationService);
         }
@@ -129,6 +133,14 @@ namespace SemManagement.UWP.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<RulesViewModel>();
+            }
+        }
+
+        public MonitoringViewModel MonitoringPageInstance
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MonitoringViewModel>();
             }
         }
 

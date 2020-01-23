@@ -122,11 +122,14 @@
   <ItemGroup>
     <Compile Include="DataAccess\LocalStorageContext.cs" />
     <Compile Include="Enums\RulePlaylistTypeEnum.cs" />
+    <Compile Include="Model\MonitoringDto.cs" />
     <Compile Include="Model\PlaylistDto.cs" />
     <Compile Include="Model\PlaylistTagDto.cs" />
     <Compile Include="Model\RuleDto.cs" />
     <Compile Include="Model\RulePlaylistDto.cs" />
     <Compile Include="Model\RuleStationDto.cs" />
+    <Compile Include="Model\SnapshotDto.cs" />
+    <Compile Include="Model\SnapshotPlaylistDto.cs" />
     <Compile Include="Model\StationDto.cs" />
     <Compile Include="Model\StationPlaylistDto.cs" />
     <Compile Include="Model\StationTagDto.cs" />

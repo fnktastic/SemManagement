@@ -1,0 +1,13 @@
+﻿Monitoring feature.
+
+Set minimal % of requiered updates in period
+
+Station monitoring needs:
+	1. Playlists
+	2. --- PlaylistAudios
+
+Every day snapshot of station playlists
+
+Every day snapshots of playlists which is under monitoring
+
+Do comparison between snapshots in order to detect new items and count percentage

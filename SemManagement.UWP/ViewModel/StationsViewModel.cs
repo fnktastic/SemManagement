@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace SemManagement.UWP.ViewModel
 {
@@ -418,7 +419,18 @@ namespace SemManagement.UWP.ViewModel
 
                 var sendToStationContentDialog = new SendToStationContentDialog(sendToStationViewModel);
 
-                var descision = await sendToStationContentDialog.ShowAsync();
+                var decision = await sendToStationContentDialog.ShowAsync();
+
+                switch(decision)
+                {
+                    case ContentDialogResult.Primary:
+
+                        foreach(var station in sendToStationViewModel.SelectedStations)
+                        {
+                            await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
+                        }
+                        break;
+                }
             }
             finally
             {

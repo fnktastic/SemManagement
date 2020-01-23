@@ -200,6 +200,27 @@ namespace SemManagement.UWP.Configurations
             });
         }
 
+        protected Task AddPlaylistToStationAsync(string endpoint, int playlistId, int stationId)
+        {
+            return Task.Run(() =>
+            {
+                IRestRequest request = new RestRequest(endpoint, Method.PUT, DataFormat.Json)
+                {
+                    Timeout = 30 * 60 * 1000,
+                    ReadWriteTimeout = 30 * 60 * 1000
+                };
+
+                request.AddParameter("playlistId", playlistId, ParameterType.QueryString);
+
+                request.AddParameter("stationId", stationId, ParameterType.QueryString);
+
+                _restClient.ExecuteAsync(request, (IRestResponse response) =>
+                {
+                    // handle response
+                });
+            });
+        }
+
         private void ResponseHandler<T>(IRestResponse<T> response, TaskCompletionSource<T> tcs) where T : class
         {
             Console.WriteLine(response.StatusCode);

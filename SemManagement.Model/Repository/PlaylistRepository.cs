@@ -20,6 +20,8 @@ namespace SemManagement.Model.Repository
         Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId);
 
         Task<int> RemovePlaylistFromStationAsync(int playlistId, int stationId);
+
+        Task<int> AddPlaylistToStationAsync(int playlistId, int stationId);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -81,6 +83,23 @@ namespace SemManagement.Model.Repository
             return await _context.Database.ExecuteSqlCommandAsync(
                 "DELETE FROM sem.stationsplaylists " +
                 "WHERE sid =  @stationId AND plid = @playlistId ", stationIdParameter, playlistIdParameter);
+        }
+
+        public async Task<int> AddPlaylistToStationAsync(int playlistId, int stationId)
+        {
+            var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
+            {
+                Value = stationId
+            };
+
+            var playlistIdParameter = new MySqlParameter("@playlistId", SqlDbType.Int)
+            {
+                Value = playlistId
+            };
+
+            return await _context.Database.ExecuteSqlCommandAsync(
+                "INSERT INTO sem.stationsplaylists(sid, plid, syncronized) " +
+                "VALUES(@stationId, @playlistId, 0) ", stationIdParameter, playlistIdParameter);
         }
     }
 }

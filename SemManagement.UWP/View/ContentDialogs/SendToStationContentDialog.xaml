@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Send To Stations"
-    PrimaryButtonText="Save"
-    SecondaryButtonText="Save as draft"
+    PrimaryButtonText="Send"
+    IsSecondaryButtonEnabled="False"
     CloseButtonText="Cancel"
     DefaultButton="Primary">
 

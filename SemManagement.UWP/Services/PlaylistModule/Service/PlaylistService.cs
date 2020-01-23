@@ -15,6 +15,8 @@ namespace SemManagement.UWP.Services.PlaylistModule.Service
         Task<Count> CountAsync();
         Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId);
         Task RemovePlaylistFromStationAsync(int playlistId, int stationId);
+
+        Task AddPlaylistToStationAsync(int playlistId, int stationId);
     }
 
     public class PlaylistService : IPlaylistService
@@ -44,6 +46,11 @@ namespace SemManagement.UWP.Services.PlaylistModule.Service
         public Task RemovePlaylistFromStationAsync(int playlistId, int stationId)
         {
             return _playlistProvider.RemovePlaylistFromStationAsync(playlistId, stationId);
+        }
+
+        public Task AddPlaylistToStationAsync(int playlistId, int stationId)
+        {
+            return _playlistProvider.AddPlaylistToStationAsync(playlistId, stationId);
         }
     }
 }

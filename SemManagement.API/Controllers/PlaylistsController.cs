@@ -50,5 +50,13 @@ namespace SemManagement.API.Controllers
 
             return Ok();
         }
+
+        [HttpPut("addPlaylistToStationAsync")]
+        public async Task<ActionResult> AddPlaylistToStationAsync(int playlistId, int stationId)
+        {
+            var result = await _playlistRepository.AddPlaylistToStationAsync(playlistId, stationId);
+
+            return Ok();
+        }
     }
 }

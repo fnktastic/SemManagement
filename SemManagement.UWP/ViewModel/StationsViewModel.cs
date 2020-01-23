@@ -408,9 +408,9 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private RelayCommand _sendToStationCommand;
-        public RelayCommand SendToStationCommand => _sendToStationCommand ?? (_sendToStationCommand = new RelayCommand(SendToStation));
-        private async void SendToStation()
+        private RelayCommand<Playlist> _sendToStationCommand;
+        public RelayCommand<Playlist> SendToStationCommand => _sendToStationCommand ?? (_sendToStationCommand = new RelayCommand<Playlist>(SendToStation));
+        private async void SendToStation(Playlist playlist)
         {
             try
             {
@@ -419,6 +419,22 @@ namespace SemManagement.UWP.ViewModel
                 var sendToStationContentDialog = new SendToStationContentDialog(sendToStationViewModel);
 
                 var descision = await sendToStationContentDialog.ShowAsync();
+            }
+            finally
+            {
+
+            }
+        }
+
+        private RelayCommand<Playlist> _removePlaylistCommand;
+        public RelayCommand<Playlist> RemovePlaylistCommand => _removePlaylistCommand ?? (_removePlaylistCommand = new RelayCommand<Playlist>(RemovePlaylist));
+        private async void RemovePlaylist(Playlist playlist)
+        {
+            try
+            {
+                _playlists.Remove(playlist);
+
+                await _playlistService.RemovePlaylistFromStationAsync(playlist.Plid, _selectedStation.Sid);
             }
             finally
             {

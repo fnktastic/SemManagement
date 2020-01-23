@@ -190,7 +190,8 @@
                     <Flyout>
                         <StackPanel>
                             <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Actions" Margin="0,0,0,12" />
-                            <Button Content="Send To Station" Command="{Binding ElementName=Me, Path=DataContext.SendToStationCommand}" />
+                            <Button Content="Send To Station" Command="{Binding ElementName=Me, Path=DataContext.SendToStationCommand}"  CommandParameter="{Binding}" />
+                            <Button Content="Remove" Command="{Binding ElementName=Me, Path=DataContext.RemovePlaylistCommand}" CommandParameter="{Binding}" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>

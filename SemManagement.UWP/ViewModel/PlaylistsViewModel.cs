@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
@@ -23,6 +24,8 @@ namespace SemManagement.UWP.ViewModel
         private readonly ISongService _songService;
         private readonly IStationService _stationService;
         private readonly ILocalDataService _localDataService;
+        private IEnumerable<Playlist> _originPlaylists;
+        private IEnumerable<Song> _originAudios;
         #endregion
 
         #region properties
@@ -72,7 +75,65 @@ namespace SemManagement.UWP.ViewModel
                 if (value == _selectedPlaylist) return;
                 _selectedPlaylist = value;
                 RaisePropertyChanged(nameof(SelectedPlaylist));
-                LoadPlaylistAudioCommand.Execute(null);
+
+                if (_selectedPlaylist != null)
+                {
+                    AudiosSearchTerm = string.Empty;
+                    SelectedSongs.Clear();
+                    LoadPlaylistAudioCommand.Execute(null);
+                }
+            }
+        }
+
+        private string _playlistsSearchTerm;
+        public string PlaylistsSearchTerm
+        {
+            get { return _playlistsSearchTerm; }
+            set
+            {
+                if (_playlistsSearchTerm == value) return;
+                _playlistsSearchTerm = value;
+                RaisePropertyChanged(nameof(PlaylistsSearchTerm));
+
+                Filter_Playlists();
+            }
+        }
+
+        private ObservableCollection<Playlist> _selectedPlaylists;
+        public ObservableCollection<Playlist> SelectedPlaylists
+        {
+            get { return _selectedPlaylists; }
+            set
+            {
+                if (_selectedPlaylists == value) return;
+                _selectedPlaylists = value;
+                RaisePropertyChanged(nameof(SelectedPlaylists));
+            }
+        }
+
+        private string _audiosSearchTerm;
+        public string AudiosSearchTerm
+        {
+            get { return _audiosSearchTerm; }
+            set
+            {
+                if (_audiosSearchTerm == value) return;
+                _audiosSearchTerm = value;
+                RaisePropertyChanged(nameof(AudiosSearchTerm));
+
+                Filter_Audios();
+            }
+        }
+
+        private ObservableCollection<Song> _selectedSongs;
+        public ObservableCollection<Song> SelectedSongs
+        {
+            get { return _selectedSongs; }
+            set
+            {
+                if (_selectedSongs == value) return;
+                _selectedSongs = value;
+                RaisePropertyChanged(nameof(SelectedSongs));
             }
         }
         #endregion
@@ -93,13 +154,58 @@ namespace SemManagement.UWP.ViewModel
             try
             {
                 IsLoading = true;
-                var playlists = await _playlistService.TakeAsync(100);
+                var playlists = await _playlistService.TakeAsync(int.MaxValue);
+                _originPlaylists = playlists.ToList();
                 Playlists = new ObservableCollection<Playlist>(playlists);
+                SelectedPlaylists = new ObservableCollection<Playlist>();
+                SelectedSongs = new ObservableCollection<Song>();
             }
             finally
             {
                 IsLoading = false;
             }
+        }
+
+        private void Filter_Playlists()
+        {
+            StaticSettings.StopSelectionChangedEvent = true;
+
+            if (_originPlaylists != null)
+            {
+                IEnumerable<Playlist> part = null;
+
+                if (string.IsNullOrWhiteSpace(_playlistsSearchTerm))
+                    part = _originPlaylists.OrderBy(x => x, new PlaylistsComparer());
+                else
+                    part = _originPlaylists
+                        .Where(x => x.Name.Contains(_playlistsSearchTerm, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(x => x, new PlaylistsComparer());
+
+                Playlists = new ObservableCollectionFast<Playlist>(part);
+            }
+
+            StaticSettings.StopSelectionChangedEvent = false;
+        }
+
+        private void Filter_Audios()
+        {
+            StaticSettings.StopSelectionChangedEvent = true;
+
+            if (_originAudios != null)
+            {
+                IEnumerable<Song> part = null;
+
+                if (string.IsNullOrWhiteSpace(_audiosSearchTerm))
+                    part = _originAudios.OrderBy(x => x, new SongsComparer());
+                else
+                    part = _originAudios
+                        .Where(x => (x.Artist + " " + x.Title).Contains(_audiosSearchTerm, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(x => x, new SongsComparer());
+
+                Songs = new ObservableCollectionFast<Song>(part);
+            }
+
+            StaticSettings.StopSelectionChangedEvent = false;
         }
         #endregion
 
@@ -131,6 +237,24 @@ namespace SemManagement.UWP.ViewModel
                 var songs = await _songService.GetSongsByPlaylistAsync(_selectedPlaylist.Plid);
 
                 Songs = new ObservableCollection<Song>(songs);
+
+                _originAudios = songs.ToList();
+            }
+            finally
+            {
+
+            }
+        }
+
+        private RelayCommand<Playlist> _removePlaylistCommand;
+        public RelayCommand<Playlist> RemovePlaylistCommand => _removePlaylistCommand ?? (_removePlaylistCommand = new RelayCommand<Playlist>(RemovePlaylist));
+        private async void RemovePlaylist(Playlist playlist)
+        {
+            try
+            {
+                //_playlists.Remove(playlist);
+
+                //await _playlistService.RemovePlaylistFromStationAsync(playlist.Plid, _selectedStation.Sid);
             }
             finally
             {

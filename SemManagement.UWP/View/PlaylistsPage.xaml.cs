@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SemManagement.UWP.Helper;
+using SemManagement.UWP.Model;
+using SemManagement.UWP.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +28,46 @@ namespace SemManagement.UWP.View
         public PlaylistsPage()
         {
             this.InitializeComponent();
+        }
+
+        private void Playlists_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (StaticSettings.StopSelectionChangedEvent == true) return;
+
+            if(DataContext is PlaylistsViewModel playlistsViewModel)
+            {
+                foreach (var item in e.AddedItems)
+                {
+                    if (item is Playlist playlist)
+                        playlistsViewModel.SelectedPlaylists.Add(playlist);
+                }
+
+                foreach (var item in e.RemovedItems)
+                {
+                    if (item is Playlist playlist)
+                        playlistsViewModel.SelectedPlaylists.Remove(playlist);
+                }
+            }
+        }
+
+        private void Audios_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (StaticSettings.StopSelectionChangedEvent == true) return;
+
+            if (DataContext is PlaylistsViewModel playlistsViewModel)
+            {
+                foreach (var item in e.AddedItems)
+                {
+                    if (item is Song song)
+                        playlistsViewModel.SelectedSongs.Add(song);
+                }
+
+                foreach (var item in e.RemovedItems)
+                {
+                    if (item is Song song)
+                        playlistsViewModel.SelectedSongs.Remove(song);
+                }
+            }
         }
     }
 }

@@ -27,7 +27,41 @@
                       Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
 
         <Grid Grid.Row="0" Grid.Column="0">
-            <ListBox 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                             Text="{Binding PlaylistsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="filter playlists" />
+                <Button Grid.Column="1" Visibility="Collapsed">
+                    <SymbolIcon Symbol="List" />
+                    <Button.Flyout>
+                        <Flyout>
+                            <ListView Grid.Row="1" 
+                                      MaxHeight="500"
+                                      ItemsSource="{Binding SelectedPlaylists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      SelectionMode="None"
+                                      >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+            <ListBox Grid.Row="1"
+                      x:Name="playlists"
+                      SelectionChanged="Playlists_SelectionChanged"
                  ItemsSource="{Binding Playlists}"
                  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                  ItemTemplate="{StaticResource PlaylistItemTemplate}"
@@ -38,7 +72,38 @@
         </Grid>
 
         <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                             Text="{Binding AudiosSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="filter audios" />
+                <Button Grid.Column="1">
+                    <SymbolIcon Symbol="List" />
+                    <Button.Flyout>
+                        <Flyout>
+                            <ListView Grid.Row="1" 
+                                      MaxHeight="500"
+                                      ItemsSource="{Binding SelectedSongs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      SelectionMode="None"
+                                      ItemTemplate="{StaticResource SongItemTemplate}"
+                                      >
+                            </ListView>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
             <ListBox 
+                 Grid.Row="1"
+                 x:Name="audios"
+                 SelectionChanged="Audios_SelectionChanged"
                  ItemsSource="{Binding Songs}"
                  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                  ItemTemplate="{StaticResource SongItemTemplate}"

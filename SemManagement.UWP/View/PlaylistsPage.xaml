@@ -14,8 +14,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.45*" />
-            <ColumnDefinition Width="0.55*" />
+            <ColumnDefinition Width="0.3*" />
+            <ColumnDefinition Width="0.7*" />
         </Grid.ColumnDefinitions>
 
         <ProgressRing IsActive="True" 
@@ -31,6 +31,17 @@
                  ItemsSource="{Binding Playlists}"
                  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                  ItemTemplate="{StaticResource PlaylistItemTemplate}"
+                 SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 SelectionMode="Single"
+                 CanDrag="True"
+                />
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <ListBox 
+                 ItemsSource="{Binding Songs}"
+                 Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
+                 ItemTemplate="{StaticResource SongItemTemplate}"
                  SelectionMode="Single"
                  CanDrag="True"
                 />

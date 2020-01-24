@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
+using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
 using SemManagement.UWP.View.ContentDialogs;
 using SemManagement.UWP.ViewModel.ContentDialog;
@@ -19,6 +20,7 @@ namespace SemManagement.UWP.ViewModel
     {
         #region fields
         private readonly IPlaylistService _playlistService;
+        private readonly ISongService _songService;
         private readonly IStationService _stationService;
         private readonly ILocalDataService _localDataService;
         #endregion
@@ -36,6 +38,18 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private ObservableCollection<Song> _songs;
+        public ObservableCollection<Song> Songs
+        {
+            get { return _songs; }
+            set
+            {
+                if (_songs == value) return;
+                _songs = value;
+                RaisePropertyChanged(nameof(Songs));
+            }
+        }
+
         private bool _isLoading = false;
         public bool IsLoading
         {
@@ -48,13 +62,27 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
+
+        private Playlist _selectedPlaylist;
+        public Playlist SelectedPlaylist
+        {
+            get { return _selectedPlaylist; }
+            set
+            {
+                if (value == _selectedPlaylist) return;
+                _selectedPlaylist = value;
+                RaisePropertyChanged(nameof(SelectedPlaylist));
+                LoadPlaylistAudioCommand.Execute(null);
+            }
+        }
         #endregion
 
-        public PlaylistsViewModel(IPlaylistService playlistService, IStationService stationService, ILocalDataService localDataService)
+        public PlaylistsViewModel(IPlaylistService playlistService, IStationService stationService, ILocalDataService localDataService, ISongService songService)
         {
             _playlistService = playlistService;
             _stationService = stationService;
             _localDataService = localDataService;
+            _songService = songService;
 
             LoadData();
         }
@@ -87,6 +115,22 @@ namespace SemManagement.UWP.ViewModel
                 var sendToStationContentDialog = new SendToStationContentDialog(sendToStationViewModel);
 
                 var descision = await sendToStationContentDialog.ShowAsync();
+            }
+            finally
+            {
+
+            }
+        }
+
+        private RelayCommand _loadPlaylistAudioCommand;
+        public RelayCommand LoadPlaylistAudioCommand => _loadPlaylistAudioCommand ?? (_loadPlaylistAudioCommand = new RelayCommand(LoadPlaylistAudio));
+        private async void LoadPlaylistAudio()
+        {
+            try
+            {
+                var songs = await _songService.GetSongsByPlaylistAsync(_selectedPlaylist.Plid);
+
+                Songs = new ObservableCollection<Song>(songs);
             }
             finally
             {

@@ -13,6 +13,8 @@ namespace SemManagement.UWP.Services.SongModule.Service
         Task<List<Song>> TakeAsync(int take, int skip = 0);
 
         Task<List<Song>> MostPopularSongs(int stationId, int top = 10);
+
+        Task<List<Song>> GetSongsByPlaylistAsync(int playlistId);
     }
 
     public class SongService : ISongService
@@ -22,6 +24,11 @@ namespace SemManagement.UWP.Services.SongModule.Service
         public SongService(ISongProvider songProvider)
         {
             _songProvider = songProvider;
+        }
+
+        public Task<List<Song>> GetSongsByPlaylistAsync(int playlistId)
+        {
+            return _songProvider.GetSongsByPlaylistAsync(playlistId);
         }
 
         public Task<List<Song>> MostPopularSongs(int stationId, int top = 10)

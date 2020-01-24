@@ -14,6 +14,8 @@ namespace SemManagement.UWP.Services.SongModule.Provider
         Task<List<Song>> TakeAsync(int take, int skip = 0);
 
         Task<List<Song>> MostPopularSongs(int stationId, int top = 10);
+
+        Task<List<Song>> GetSongsByPlaylistAsync(int playlistId);
     }
 
     public class SongProvider : WebApiProvider, ISongProvider
@@ -34,6 +36,13 @@ namespace SemManagement.UWP.Services.SongModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Songs, "mostPopularSongs");
 
             return MostPopularSongs<Song>(endpoint, stationId, top);
+        }
+
+        public Task<List<Song>> GetSongsByPlaylistAsync(int playlistId)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Songs, "getSongsByPlaylist");
+
+            return GetSongsByPlaylistAsync<Song>(endpoint, playlistId);
         }
     }
 }

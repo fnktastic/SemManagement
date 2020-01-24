@@ -16,6 +16,8 @@ namespace SemManagement.Model.Repository
         Task<List<Song>> TakeAsync(int take, int skip = 0);
 
         Task<List<Song>> MostPopularSongsAsync(int stationId, int top = 10);
+
+        Task<List<Song>> GetSongsByPlaylistAsync(int playlistId);
     }
 
     public class SongRepository : ISongRepository
@@ -25,6 +27,20 @@ namespace SemManagement.Model.Repository
         public SongRepository(SemContext context)
         {
             _context = context;
+        }
+
+        public async Task<List<Song>> GetSongsByPlaylistAsync(int playlistId)
+        {
+            var playlistIdParameter = new MySqlParameter("@playlistId", SqlDbType.Int)
+            {
+                Value = playlistId
+            };
+
+            return await _context.Songs.FromSql<Song>(
+                "SELECT songs.* FROM songs " +
+                "INNER JOIN playlistssongs ON songs.sgid = playlistssongs.sgid " +
+                "WHERE playlistssongs.plid = @playlistId", playlistIdParameter)
+                .ToListAsync();
         }
 
         public async Task<List<Song>> MostPopularSongsAsync(int stationId, int top = 10)

@@ -12,6 +12,8 @@ namespace SemManagement.Local.Storage.Model
         [Key]
         public Guid Id { get; set; }
 
+        public int WantedAmountOfUpdates { get; set; }
+
         public int StationId { get; set; }
         public StationDto Station { get; set; }
 

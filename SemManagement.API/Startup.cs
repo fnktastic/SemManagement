@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Quartz;
+using Quartz.Impl;
+using SemManagement.API.Scheduler;
+using SemManagement.API.Scheduler.Jobs;
+using SemManagement.MonitoringContext.DataAccess;
+using SemManagement.MonitoringContext.Repository;
 using SemManagement.SemContext;
 using SemManagement.SemContext.Repository;
 
@@ -33,9 +32,27 @@ namespace SemManagement.API
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IStationRepository, StationRepository>();
             services.AddTransient<IPlaylistRepository, PlaylistRepository>();
+
+            services.AddDbContext<MonitoringDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MonitoringDBConnection")));
+            services.AddTransient<IMonitoringRepositry, MonitoringRepositry>();
+
+            services.AddTransient<HelloJob>();
+            var container = services.BuildServiceProvider();
+            // Create an instance of the job factory
+            var jobFactory = new JobFactory(container);
+            // Create a Quartz.NET scheduler
+            var schedulerFactory = new StdSchedulerFactory();
+            var scheduler = schedulerFactory.GetScheduler().GetAwaiter().GetResult();
+            // Tell the scheduler to use the custom job factory
+            scheduler.JobFactory = jobFactory;
+            services.AddSingleton<IScheduler>(scheduler);
+            scheduler.Start().Wait();
+
+            var monitoringScheduler = new MonitoringScheduler(scheduler);
+            services.AddSingleton<MonitoringScheduler>(monitoringScheduler);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime, MonitoringDbContext monitoringDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -45,6 +62,8 @@ namespace SemManagement.API
             {
                 app.UseHsts();
             }
+
+            DbInitializer.Initialize(monitoringDbContext);
 
             app.UseHttpsRedirection();
             app.UseMvc();

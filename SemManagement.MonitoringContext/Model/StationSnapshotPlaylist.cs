@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SemManagement.MonitoringContext.Model
 {
-    public class StationSnapshot
+    public class StationSnapshotPlaylist
     {
         [Key]
         public Guid Id { get; set; }
+        public Guid StationSnapshot { get; set; }
+        public int PlaylistId { get; set; }
         public DateTime DateTime { get; set; }
-        public int StationId { get; set; }
-        public virtual ICollection<StationSnapshotPlaylist> SnapshotPlaylists { get; set; }
     }
 }

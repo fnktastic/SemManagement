@@ -23,11 +23,7 @@ namespace SemManagement.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            _monitoringScheduler.AddJob<HelloJob>("test", "testGroup", 5);
-
-            //JobManager.AddJob(new HelloJob(_monitoringRepositry), i => i.ToRunEvery(5).Seconds());
-
-            //JobManager.AddJob(() => Console.WriteLine("Late job!"), (s) => s.ToRunEvery(5).Seconds());
+            _monitoringScheduler.AddJob<HelloJob>("hello", "hello", 5);
 
             return await Task.FromResult<OkResult>(Ok());
         }

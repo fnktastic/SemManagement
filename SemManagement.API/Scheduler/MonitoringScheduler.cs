@@ -1,8 +1,4 @@
 ﻿using Quartz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SemManagement.API.Scheduler
 {
@@ -15,7 +11,7 @@ namespace SemManagement.API.Scheduler
             _scheduler = scheduler;
         }
 
-        public async void AddJob<T>(string name, string group, int interval) where T : Quartz.IJob
+        public async void AddJob<T>(string name, string group, int interval) where T : IJob
         {
             IJobDetail job = JobBuilder.Create<T>()
                 .WithIdentity(name, group)

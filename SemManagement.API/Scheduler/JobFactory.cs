@@ -3,9 +3,6 @@ using Quartz;
 using Quartz.Spi;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SemManagement.API.Scheduler
 {
@@ -31,15 +28,12 @@ namespace SemManagement.API.Scheduler
             }
             catch
             {
-                // Failed to create the job -> ensure scope gets disposed
                 scope.Dispose();
                 throw;
             }
 
-            // Add scope to dictionary so we can dispose it once the job finishes
             if (!_scopes.TryAdd(job, scope))
             {
-                // Failed to track DI scope -> ensure scope gets disposed
                 scope.Dispose();
                 throw new Exception("Failed to track DI scope");
             }
@@ -51,8 +45,6 @@ namespace SemManagement.API.Scheduler
         {
             if (_scopes.TryRemove(job, out var scope))
             {
-                // The Dispose() method ends the scope lifetime.
-                // Once Dispose is called, any scoped services that have been resolved from ServiceProvider will be disposed.
                 scope.Dispose();
             }
         }

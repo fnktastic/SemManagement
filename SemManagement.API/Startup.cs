@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Quartz;
-using Quartz.Impl;
 using SemManagement.API.Scheduler;
-using SemManagement.API.Scheduler.Jobs;
 using SemManagement.MonitoringContext.DataAccess;
 using SemManagement.MonitoringContext.Repository;
 using SemManagement.SemContext;
@@ -36,20 +33,7 @@ namespace SemManagement.API
             services.AddDbContext<MonitoringDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MonitoringDBConnection")));
             services.AddTransient<IMonitoringRepositry, MonitoringRepositry>();
 
-            services.AddTransient<HelloJob>();
-            var container = services.BuildServiceProvider();
-            // Create an instance of the job factory
-            var jobFactory = new JobFactory(container);
-            // Create a Quartz.NET scheduler
-            var schedulerFactory = new StdSchedulerFactory();
-            var scheduler = schedulerFactory.GetScheduler().GetAwaiter().GetResult();
-            // Tell the scheduler to use the custom job factory
-            scheduler.JobFactory = jobFactory;
-            services.AddSingleton<IScheduler>(scheduler);
-            scheduler.Start().Wait();
-
-            var monitoringScheduler = new MonitoringScheduler(scheduler);
-            services.AddSingleton<MonitoringScheduler>(monitoringScheduler);
+            services.AddQuartz();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime, MonitoringDbContext monitoringDbContext)

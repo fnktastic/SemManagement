@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.Local.Storage.Model
+namespace SemManagement.LocalContext.Model
 {
     public class MonitoringDto
     {
@@ -19,6 +19,5 @@ namespace SemManagement.Local.Storage.Model
 
         public DateTime? StartDateTime { get; set; }
         public int RepeatInterval { get; set; }
-        public DayOfWeek? DayOfWeek { get; set; }
     }
 }

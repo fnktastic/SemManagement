@@ -1,4 +1,4 @@
-﻿using SemManagement.Local.Storage.Enums;
+﻿using SemManagement.LocalContext.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.Local.Storage.Model
+namespace SemManagement.LocalContext.Model
 {
     [Table("RulePlaylist")]
     public class RulePlaylistDto

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace SemManagement.Model.Model
+namespace SemManagement.SemContext.Model
 {
     public class Playlist
     {

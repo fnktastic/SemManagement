@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SemManagement.Local.Storage.Model;
+using SemManagement.LocalContext.Model;
 using SemManagement.UWP.Model.Local.Storage;
 using System;
 using System.Collections.Generic;

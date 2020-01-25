@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using SemManagement.Model.DataAccess;
-using SemManagement.Model.Model;
-using SemManagement.Model.Model.Api;
+using SemManagement.SemContext.Api;
+using SemManagement.SemContext.Model;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SemManagement.Model.Repository
+namespace SemManagement.SemContext.Repository
 {
     public interface IStationRepository
     {
@@ -26,9 +25,9 @@ namespace SemManagement.Model.Repository
     }
     public class StationRepository : IStationRepository
     {
-        private readonly SemContext _context;
+        private readonly SemDbContext _context;
 
-        public StationRepository(SemContext context)
+        public StationRepository(SemDbContext context)
         {
             _context = context;
         }

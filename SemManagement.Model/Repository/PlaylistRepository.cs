@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using SemManagement.Model.DataAccess;
-using SemManagement.Model.Model;
-using SemManagement.Model.Model.Api;
+using SemManagement.SemContext.Api;
+using SemManagement.SemContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.Model.Repository
+namespace SemManagement.SemContext.Repository
 {
     public interface IPlaylistRepository
     {
@@ -26,9 +25,9 @@ namespace SemManagement.Model.Repository
 
     public class PlaylistRepository : IPlaylistRepository
     {
-        private readonly SemContext _context;
+        private readonly SemDbContext _context;
 
-        public PlaylistRepository(SemContext context)
+        public PlaylistRepository(SemDbContext context)
         {
             _context = context;
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SemManagement.Model.Model;
-using SemManagement.Model.Model.Api;
-using SemManagement.Model.Repository;
+using SemManagement.SemContext.Api;
+using SemManagement.SemContext.Model;
+using SemManagement.SemContext.Repository;
 
 namespace SemManagement.API.Controllers
 {

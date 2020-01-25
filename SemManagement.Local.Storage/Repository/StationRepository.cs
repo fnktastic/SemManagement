@@ -1,14 +1,14 @@
 ﻿using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
-using SemManagement.Local.Storage.DataAccess;
-using SemManagement.Local.Storage.Model;
+using SemManagement.LocalContext.DataAccess;
+using SemManagement.LocalContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.Local.Storage.Repository
+namespace SemManagement.LocalContext.Repository
 {
     public interface IStationRepository
     {
@@ -19,9 +19,9 @@ namespace SemManagement.Local.Storage.Repository
 
     public class StationRepository : IStationRepository
     {
-        private LocalStorageContext _context;
+        private LocalDbContext _context;
 
-        public StationRepository(LocalStorageContext context)
+        public StationRepository(LocalDbContext context)
         {
             _context = context;
         }

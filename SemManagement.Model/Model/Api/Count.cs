@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SemManagement.Model.Model.Api
+namespace SemManagement.SemContext.Api
 {
     public class Count
     {

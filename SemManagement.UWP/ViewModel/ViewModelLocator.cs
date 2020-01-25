@@ -3,8 +3,8 @@ using CommonServiceLocator;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
-using SemManagement.Local.Storage.DataAccess;
-using SemManagement.Local.Storage.Repository;
+using SemManagement.LocalContext.DataAccess;
+using SemManagement.LocalContext.Repository;
 using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Services.Local.RuleModule;
@@ -63,13 +63,13 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<IMapper, MyMapper>();
 
             //local storage
-            SimpleIoc.Default.Register<LocalStorageContext>();
+            SimpleIoc.Default.Register<LocalDbContext>();
             SimpleIoc.Default.Register<IRulesRepository, RulesRepository>();
             SimpleIoc.Default.Register<ILocalDataService, LocalDataService>();
             SimpleIoc.Default.Register<IRuleService, RuleService>();
-            SimpleIoc.Default.Register<Local.Storage.Repository.IPlaylistRepository, Local.Storage.Repository.PlaylistRepository>();
-            SimpleIoc.Default.Register<Local.Storage.Repository.IStationRepository, Local.Storage.Repository.StationRepository>();
-            SimpleIoc.Default.Register<Local.Storage.Repository.ITagRepository, Local.Storage.Repository.TagRepository>();
+            SimpleIoc.Default.Register<LocalContext.Repository.IPlaylistRepository, LocalContext.Repository.PlaylistRepository>();
+            SimpleIoc.Default.Register<LocalContext.Repository.IStationRepository, LocalContext.Repository.StationRepository>();
+            SimpleIoc.Default.Register<LocalContext.Repository.ITagRepository, LocalContext.Repository.TagRepository>();
  
             SetupNavigation();
         }

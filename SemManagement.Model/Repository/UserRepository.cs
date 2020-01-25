@@ -1,11 +1,10 @@
-﻿using SemManagement.Model.DataAccess;
-using SemManagement.Model.Model;
+﻿using SemManagement.SemContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SemManagement.Model.Repository
+namespace SemManagement.SemContext.Repository
 {
     public interface IUserRepository
     {
@@ -14,9 +13,9 @@ namespace SemManagement.Model.Repository
 
     public class UserRepository : IUserRepository
     {
-        private readonly SemContext _context;
+        private readonly SemDbContext _context;
 
-        public UserRepository(SemContext context)
+        public UserRepository(SemDbContext context)
         {
             _context = context;
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SemManagement.Model.Repository;
+using SemManagement.SemContext.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;

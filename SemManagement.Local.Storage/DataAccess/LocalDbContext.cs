@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SemManagement.Local.Storage.Model;
+using SemManagement.LocalContext.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace SemManagement.Local.Storage.DataAccess
+namespace SemManagement.LocalContext.DataAccess
 {
-    public class LocalStorageContext : DbContext
+    public class LocalDbContext : DbContext
     {
-        public LocalStorageContext()
+        public LocalDbContext()
         {
             Database.EnsureCreatedAsync().ConfigureAwait(false);
         }

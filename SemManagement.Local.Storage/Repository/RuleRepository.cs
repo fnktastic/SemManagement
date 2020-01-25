@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SemManagement.Local.Storage.DataAccess;
-using SemManagement.Local.Storage.Model;
+using SemManagement.LocalContext.DataAccess;
+using SemManagement.LocalContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SemManagement.Local.Storage.Repository
+namespace SemManagement.LocalContext.Repository
 {
     public interface IRulesRepository
     {
@@ -21,9 +21,9 @@ namespace SemManagement.Local.Storage.Repository
 
     public class RulesRepository : IRulesRepository
     {
-        private LocalStorageContext _context;
+        private LocalDbContext _context;
 
-        public RulesRepository(LocalStorageContext context)
+        public RulesRepository(LocalDbContext context)
         {
             _context = context;
         }

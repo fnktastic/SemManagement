@@ -1,5 +1,4 @@
-﻿using SemManagement.Local.Storage.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.Local.Storage.Model
+namespace SemManagement.LocalContext.Model
 {
     [Table("Playlist")]
     public class PlaylistDto

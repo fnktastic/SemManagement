@@ -1,13 +1,13 @@
 ﻿using EFCore.BulkExtensions;
-using SemManagement.Local.Storage.DataAccess;
-using SemManagement.Local.Storage.Model;
+using SemManagement.LocalContext.DataAccess;
+using SemManagement.LocalContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.Local.Storage.Repository
+namespace SemManagement.LocalContext.Repository
 {
     public interface IPlaylistRepository
     {
@@ -16,9 +16,9 @@ namespace SemManagement.Local.Storage.Repository
 
     public class PlaylistRepository : IPlaylistRepository
     {
-        private LocalStorageContext _context;
+        private LocalDbContext _context;
 
-        public PlaylistRepository(LocalStorageContext context)
+        public PlaylistRepository(LocalDbContext context)
         {
             _context = context;
         }

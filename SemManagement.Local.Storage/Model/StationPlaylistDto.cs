@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.Local.Storage.Model
+namespace SemManagement.LocalContext.Model
 {
     [Table("StationPlaylist")]
     public class StationPlaylistDto

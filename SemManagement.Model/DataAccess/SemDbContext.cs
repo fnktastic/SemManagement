@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SemManagement.Model.Model;
+using SemManagement.SemContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SemManagement.Model.DataAccess
+namespace SemManagement.SemContext
 {
-    public class SemContext : DbContext
+    public class SemDbContext : DbContext
     {
         public DbSet<Song> Songs { get; set; }
 
@@ -20,7 +20,7 @@ namespace SemManagement.Model.DataAccess
 
         public DbSet<StationQueue> StationQueues { get; set; }
 
-        public SemContext(DbContextOptions<SemContext> options) : base(options)
+        public SemDbContext(DbContextOptions<SemDbContext> options) : base(options)
         {
 
         }

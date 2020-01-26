@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SemManagement.API.Scheduler.Jobs
 {
-    public class HelloJob : Quartz.IJob
+    public class HelloJob : IJob
     {
         private readonly IMonitoringService _monitoringService;
 

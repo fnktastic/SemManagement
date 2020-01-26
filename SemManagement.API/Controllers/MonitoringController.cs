@@ -11,11 +11,11 @@ namespace SemManagement.API.Controllers
     [ApiController]
     public class MonitoringController : ControllerBase
     {
-        private readonly IMonitoringService _monitoringService;
+        private readonly ISchedulerService _schedulerService;
 
-        public MonitoringController(IMonitoringService monitoringService) 
+        public MonitoringController(ISchedulerService schedulerService) 
         {
-            _monitoringService = monitoringService;
+            _schedulerService = schedulerService;
         }
 
         [HttpPost("addMonitoringStation")]
@@ -23,7 +23,7 @@ namespace SemManagement.API.Controllers
         {
             if(ModelState.IsValid)
             {
-                await _monitoringService.AddMonitoringStation(model);
+                await _schedulerService.ScheduleMonitoring(model);
 
                 return Ok();
             }

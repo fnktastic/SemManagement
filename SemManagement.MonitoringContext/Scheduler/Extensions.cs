@@ -31,9 +31,9 @@ namespace SemManagement.MonitoringContext.Scheduler
 
             await scheduler.Start();
 
-            //monitoringScheduler.AddJob<HelloJob>("hello", "hello", 5);
+            monitoringScheduler.AddJob<HelloJob>("hello", "hello", 5);
 
-            //monitoringScheduler.AddJob<StartMonitoringJob>("stations", "stations", 60);
+            monitoringScheduler.AddJob<StartMonitoringJob>("stations", "stations", 60);
         }
     }
 }

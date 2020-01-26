@@ -14,7 +14,6 @@ namespace SemManagement.MonitoringContext.Services
     public interface IMonitoringService
     {
         Task MonitorStations();
-        Task AddMonitoringStation(StationMonitoring stationMonitoring);
     }
 
     public class MonitoringService : IMonitoringService
@@ -28,11 +27,6 @@ namespace SemManagement.MonitoringContext.Services
             _monitoringRepositry = monitoringRepositry;
             _playlistRepository = playlistRepository;
             _songRepository = songRepository;
-        }
-
-        public async Task AddMonitoringStation(StationMonitoring stationMonitoring)
-        {
-            await _monitoringRepositry.AddMonitoringStation(stationMonitoring);
         }
 
         public async Task MonitorStations()

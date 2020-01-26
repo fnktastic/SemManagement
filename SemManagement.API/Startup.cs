@@ -34,6 +34,7 @@ namespace SemManagement.API
             services.AddDbContext<MonitoringDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MonitoringDBConnection")));
             services.AddTransient<IMonitoringRepositry, MonitoringRepositry>();
             services.AddTransient<IMonitoringService, MonitoringService>();
+            services.AddTransient<ISchedulerService, SchedulerService>();
 
             services.AddQuartz();
         }

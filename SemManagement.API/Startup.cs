@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SemManagement.API.Scheduler;
 using SemManagement.MonitoringContext.DataAccess;
 using SemManagement.MonitoringContext.Repository;
+using SemManagement.MonitoringContext.Services;
 using SemManagement.SemContext;
 using SemManagement.SemContext.Repository;
 
@@ -32,6 +33,7 @@ namespace SemManagement.API
 
             services.AddDbContext<MonitoringDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MonitoringDBConnection")));
             services.AddTransient<IMonitoringRepositry, MonitoringRepositry>();
+            services.AddTransient<IMonitoringService, MonitoringService>();
 
             services.AddQuartz();
         }

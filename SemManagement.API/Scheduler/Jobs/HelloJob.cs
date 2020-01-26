@@ -1,5 +1,8 @@
 ﻿using Quartz;
 using SemManagement.MonitoringContext.Repository;
+using SemManagement.MonitoringContext.Services;
+using SemManagement.SemContext.Repository;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -7,17 +10,19 @@ namespace SemManagement.API.Scheduler.Jobs
 {
     public class HelloJob : Quartz.IJob
     {
-        private readonly IMonitoringRepositry _monitoringRepositry;
+        private readonly IMonitoringService _monitoringService;
 
-        public HelloJob(IMonitoringRepositry monitoringRepositry)
+        public HelloJob(IMonitoringService monitoringService)
         {
-            _monitoringRepositry = monitoringRepositry;
+            _monitoringService = monitoringService;
         }
 
 
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
-            return Task.Run(() => Debug.WriteLine("Boom"));
+            await _monitoringService.MonitorPlaylists();
+
+            await Task.Run(() => Debug.WriteLine(DateTime.UtcNow));
         }
     }
 }

@@ -8,6 +8,7 @@ namespace SemManagement.MonitoringContext.Model
         [Key]
         public Guid Id { get; set; }
         public Guid PlaylistSnapshotId { get; set; }
+        public PlaylistSnapshot PlaylistSnapshot { get; set; }
         public int SongId { get; set; }
         public DateTime DateTime { get; set; }
     }

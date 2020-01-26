@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SemManagement.API.Scheduler;
 using SemManagement.MonitoringContext.DataAccess;
 using SemManagement.MonitoringContext.Repository;
+using SemManagement.MonitoringContext.Scheduler;
 using SemManagement.MonitoringContext.Services;
 using SemManagement.SemContext;
 using SemManagement.SemContext.Repository;
@@ -52,6 +52,7 @@ namespace SemManagement.API
             DbInitializer.Initialize(monitoringDbContext);
 
             app.UseHttpsRedirection();
+
             app.UseMvc();
         }
     }

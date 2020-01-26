@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SemManagement.MonitoringContext.Model
+namespace SemManagement.UWP.Model
 {
-    public class StationMonitoring
+    public class Monitoring
     {
         [Key]
         public Guid Id { get; set; }
@@ -12,6 +15,5 @@ namespace SemManagement.MonitoringContext.Model
         public int StationId { get; set; }
         public DateTime? StartDateTime { get; set; }
         public int RepeatInterval { get; set; }
-        public virtual ICollection<StationSnapshot> Snapshots { get; set; }
     }
 }

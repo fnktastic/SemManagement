@@ -141,6 +141,7 @@
     <Compile Include="Model\Local\Storage\Rule.cs" />
     <Compile Include="Model\Local\Storage\Station.cs" />
     <Compile Include="Model\Local\Storage\Tag.cs" />
+    <Compile Include="Model\Monitoring.cs" />
     <Compile Include="Model\Playlist.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="Model\SongsDeleted.cs" />
@@ -151,6 +152,8 @@
     <Compile Include="Services\Local\RuleModule\RuleService.cs" />
     <Compile Include="Services\Local\Settings\SettingsService.cs" />
     <Compile Include="Services\Local\Storage\LocalDataService.cs" />
+    <Compile Include="Services\Monitoring\Provider\MonitoringProvider.cs" />
+    <Compile Include="Services\Monitoring\Service\MonitoringService.cs" />
     <Compile Include="Services\PlaylistModule\Provider\PlaylistProvider.cs" />
     <Compile Include="Services\PlaylistModule\Service\PlaylistService.cs" />
     <Compile Include="Services\SchedulerModule\Service\SchedulerService.cs" />

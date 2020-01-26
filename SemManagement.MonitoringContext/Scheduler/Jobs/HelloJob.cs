@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace SemManagement.API.Scheduler.Jobs
+namespace SemManagement.MonitoringContext.Scheduler.Jobs
 {
     public class HelloJob : IJob
     {
@@ -20,9 +20,7 @@ namespace SemManagement.API.Scheduler.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await _monitoringService.MonitorPlaylists();
-
-            await Task.Run(() => Debug.WriteLine(DateTime.UtcNow));
+            await Task.Run(() => Debug.WriteLine("Boom"));
         }
     }
 }

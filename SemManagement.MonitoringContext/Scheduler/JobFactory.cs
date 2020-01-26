@@ -4,7 +4,7 @@ using Quartz.Spi;
 using System;
 using System.Collections.Concurrent;
 
-namespace SemManagement.API.Scheduler
+namespace SemManagement.MonitoringContext.Scheduler
 {
     public class JobFactory : IJobFactory
     {

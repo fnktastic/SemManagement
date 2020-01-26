@@ -7,7 +7,8 @@ namespace SemManagement.MonitoringContext.Model
     {
         [Key]
         public Guid Id { get; set; }
-        public Guid StationSnapshot { get; set; }
+        public Guid StationSnapshotId { get; set; }
+        public StationSnapshot StationSnapshot { get; set; }
         public int PlaylistId { get; set; }
         public DateTime DateTime { get; set; }
     }

@@ -196,6 +196,22 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task AddAsync<T>(string endpoint, T entity)
+        {
+            return Task.Run(() =>
+            {
+                IRestRequest request = new RestRequest(endpoint, Method.POST, DataFormat.Json)
+                {
+                    Timeout = 30 * 60 * 1000,
+                    ReadWriteTimeout = 30 * 60 * 1000
+                };
+
+                request.AddJsonBody(entity);
+
+                _restClient.ExecuteAsync(request, (IRestResponse response) => { });
+            });
+        }
+
         protected Task RemovePlaylistFromStationAsync(string endpoint, int playlistId, int stationId)
         {
             return Task.Run(() =>

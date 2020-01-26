@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Quartz;
-using SemManagement.API.Scheduler;
-using SemManagement.API.Scheduler.Jobs;
+using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Repository;
+using SemManagement.MonitoringContext.Services;
 using System.Threading.Tasks;
 
 namespace SemManagement.API.Controllers
@@ -11,21 +11,24 @@ namespace SemManagement.API.Controllers
     [ApiController]
     public class MonitoringController : ControllerBase
     {
-        private readonly IMonitoringRepositry _monitoringRepositry;
-        private readonly MonitoringScheduler _monitoringScheduler;
+        private readonly IMonitoringService _monitoringService;
 
-        public MonitoringController(IMonitoringRepositry monitoringRepositry, MonitoringScheduler monitoringScheduler) 
+        public MonitoringController(IMonitoringService monitoringService) 
         {
-            _monitoringRepositry = monitoringRepositry;
-            _monitoringScheduler = monitoringScheduler;
+            _monitoringService = monitoringService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> Get()
+        [HttpPost("addMonitoringStation")]
+        public async Task<ActionResult> MonitorStation([FromBody] StationMonitoring model)
         {
-            _monitoringScheduler.AddJob<HelloJob>("hello", "hello", 15);
+            if(ModelState.IsValid)
+            {
+                await _monitoringService.AddMonitoringStation(model);
 
-            return await Task.FromResult<OkResult>(Ok());
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

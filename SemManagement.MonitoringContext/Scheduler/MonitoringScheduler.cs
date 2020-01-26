@@ -1,6 +1,6 @@
 ﻿using Quartz;
 
-namespace SemManagement.API.Scheduler
+namespace SemManagement.MonitoringContext.Scheduler
 {
     public class MonitoringScheduler
     {

@@ -10,6 +10,8 @@ using SemManagement.UWP.Helper;
 using SemManagement.UWP.Services.Local.RuleModule;
 using SemManagement.UWP.Services.Local.Settings;
 using SemManagement.UWP.Services.Local.Storage;
+using SemManagement.UWP.Services.Monitoring.Provider;
+using SemManagement.UWP.Services.Monitoring.Service;
 using SemManagement.UWP.Services.PlaylistModule.Provider;
 using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.Services.SongModule.Provider;
@@ -58,6 +60,8 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<IPlaylistProvider, PlaylistProvider>();
             SimpleIoc.Default.Register<IPlaylistService, PlaylistService>();
             SimpleIoc.Default.Register<ISettingsService, SettingsService>();
+            SimpleIoc.Default.Register<IMonitoringProvider, MonitoringProvider>();
+            SimpleIoc.Default.Register<IMonitoringService, MonitoringService>();
 
             SimpleIoc.Default.Register<IConfigurationProvider, MyConfig>();
             SimpleIoc.Default.Register<IMapper, MyMapper>();

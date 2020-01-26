@@ -25,7 +25,10 @@ namespace SemManagement.MonitoringContext.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<StationMonitoring>().HasKey(a => a.Id);
 
+            modelBuilder.Entity<StationMonitoring>()
+                .HasMany(x => x.Snapshots);
         }
     }
 

@@ -1,15 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
-using SemManagement.API.Scheduler.Jobs;
+using SemManagement.MonitoringContext.Scheduler.Jobs;
 
-namespace SemManagement.API.Scheduler
+namespace SemManagement.MonitoringContext.Scheduler
 {
     public static class Extensions
     {
         public static async void AddQuartz(this IServiceCollection services)
         {
             services.AddTransient<HelloJob>();
+
+            services.AddTransient<StartMonitoringJob>();
 
             var container = services.BuildServiceProvider();
 
@@ -28,6 +30,10 @@ namespace SemManagement.API.Scheduler
             services.AddSingleton<MonitoringScheduler>(monitoringScheduler);
 
             await scheduler.Start();
+
+            //monitoringScheduler.AddJob<HelloJob>("hello", "hello", 5);
+
+            //monitoringScheduler.AddJob<StartMonitoringJob>("stations", "stations", 60);
         }
     }
 }

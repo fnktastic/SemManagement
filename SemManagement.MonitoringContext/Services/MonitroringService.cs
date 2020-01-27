@@ -13,7 +13,7 @@ namespace SemManagement.MonitoringContext.Services
 {
     public interface IMonitoringService
     {
-        Task MonitorStations();
+        Task MonitorStation(int stationId);
     }
 
     public class MonitoringService : IMonitoringService
@@ -29,9 +29,11 @@ namespace SemManagement.MonitoringContext.Services
             _songRepository = songRepository;
         }
 
-        public async Task MonitorStations()
+        public async Task MonitorStation(int stationId)
         {
-            var monitoredStations = await _monitoringRepositry.GetMonitoredStations();
+            var monitoredStation = (await _monitoringRepositry.GetMonitoredStations()).FirstOrDefault(x => x.StationId == stationId);
+
+            if (monitoredStation == null) return;
 
             DateTime now = DateTime.UtcNow;
 
@@ -41,30 +43,27 @@ namespace SemManagement.MonitoringContext.Services
 
             var monitoredPlaylistsIds = new List<int>();
 
-            foreach (var monitoredStation in monitoredStations)
+            var stationSnapshot = new StationSnapshot()
             {
-                var stationSnapshot = new StationSnapshot()
+                Id = Guid.NewGuid(),
+                DateTime = now,
+                StationId = monitoredStation.StationId,
+                StationMonitoringId = monitoredStation.Id
+            };
+
+            var stationPlaylists = (await _playlistRepository.GetPlaylistsByStationAsync(monitoredStation.StationId))
+                .Select(x => new StationSnapshotPlaylist()
                 {
-                    Id = Guid.NewGuid(),
                     DateTime = now,
-                    StationId = monitoredStation.StationId,
-                    StationMonitoringId = monitoredStation.Id
-                };
+                    PlaylistId = x.Plid,
+                    StationSnapshotId = stationSnapshot.Id,
+                }).ToList(); ;
 
-                var stationPlaylists = (await _playlistRepository.GetPlaylistsByStationAsync(monitoredStation.StationId))
-                    .Select(x => new StationSnapshotPlaylist()
-                    {
-                        DateTime = now,
-                        PlaylistId = x.Plid,
-                        StationSnapshotId = stationSnapshot.Id,
-                    }).ToList(); ;
+            stationSnapshots.Add(stationSnapshot);
 
-                stationSnapshots.Add(stationSnapshot);
+            stationSnapshotPlaylists.AddRange(stationPlaylists);
 
-                stationSnapshotPlaylists.AddRange(stationPlaylists);
-
-                monitoredPlaylistsIds.AddRange(stationPlaylists.Select(x => x.PlaylistId));
-            }
+            monitoredPlaylistsIds.AddRange(stationPlaylists.Select(x => x.PlaylistId));
 
             await _monitoringRepositry.SaveStationSnapshots(stationSnapshots);
 

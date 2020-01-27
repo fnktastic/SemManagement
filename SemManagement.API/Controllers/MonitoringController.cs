@@ -30,5 +30,18 @@ namespace SemManagement.API.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("start")]
+        public async Task<ActionResult> Start()
+        {
+            if (ModelState.IsValid)
+            {
+                await _schedulerService.StartMonitorStations();
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
     }
 }

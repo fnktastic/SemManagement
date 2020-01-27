@@ -2,6 +2,7 @@
 using Quartz;
 using Quartz.Impl;
 using SemManagement.MonitoringContext.Scheduler.Jobs;
+using SemManagement.MonitoringContext.Services;
 
 namespace SemManagement.MonitoringContext.Scheduler
 {
@@ -27,13 +28,11 @@ namespace SemManagement.MonitoringContext.Scheduler
 
             var monitoringScheduler = new MonitoringScheduler(scheduler);
 
-            services.AddSingleton<MonitoringScheduler>(monitoringScheduler);
+            services.AddSingleton<IMonitoringScheduler, MonitoringScheduler>();
 
             await scheduler.Start();
 
-            monitoringScheduler.AddJob<HelloJob>("hello", "hello", 5);
-
-            monitoringScheduler.AddJob<StartMonitoringJob>("stations", "stations", 60);
+            monitoringScheduler.AddJobRunOnce<HelloJob>("start", "start");
         }
     }
 }

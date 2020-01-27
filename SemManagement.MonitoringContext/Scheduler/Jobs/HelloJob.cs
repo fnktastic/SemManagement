@@ -10,17 +10,14 @@ namespace SemManagement.MonitoringContext.Scheduler.Jobs
 {
     public class HelloJob : IJob
     {
-        private readonly IMonitoringService _monitoringService;
-
-        public HelloJob(IMonitoringService monitoringService)
+        public HelloJob()
         {
-            _monitoringService = monitoringService;
-        }
 
+        }
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await Task.Run(() => Debug.WriteLine("Boom"));
+            await Task.Run(() => Debug.WriteLine("Start Monitor Stations"));
         }
     }
 }

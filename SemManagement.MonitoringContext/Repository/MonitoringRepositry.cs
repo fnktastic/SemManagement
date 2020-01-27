@@ -3,6 +3,7 @@ using SemManagement.MonitoringContext.DataAccess;
 using SemManagement.MonitoringContext.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,8 @@ namespace SemManagement.MonitoringContext.Repository
         Task SavePlaylistSnapshots(List<PlaylistSnapshot> playlistSnapshots);
 
         Task SavePlaylistSnapshotSongs(List<PlaylistSnapshotSong> playlistSnapshots);
+
+        Task<bool> CheckIfExist(StationMonitoring stationMonitoring);
     }
 
     public class MonitoringRepositry : IMonitoringRepositry
@@ -37,6 +40,15 @@ namespace SemManagement.MonitoringContext.Repository
             _context.StationMonitorings.Add(stationMonitoring);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> CheckIfExist(StationMonitoring stationMonitoring)
+        {
+            var items = await _context.StationMonitorings.Where(x => x.StationId == stationMonitoring.StationId).ToListAsync();
+
+            if (items.Count > 0) return true;
+
+            return false;
         }
 
         public async Task<List<StationMonitoring>> GetMonitoredStations()

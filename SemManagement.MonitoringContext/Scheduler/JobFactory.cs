@@ -20,6 +20,7 @@ namespace SemManagement.MonitoringContext.Scheduler
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
             var scope = _serviceProvider.CreateScope();
+
             IJob job;
 
             try

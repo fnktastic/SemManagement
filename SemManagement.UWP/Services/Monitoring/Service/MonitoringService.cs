@@ -11,6 +11,7 @@ namespace SemManagement.UWP.Services.Monitoring.Service
     public interface IMonitoringService
     {
         Task AddMonitoringAsync(Model.Monitoring monitoring);
+        Task<List<Model.Monitoring>> GetMonitoredStations();
     }
     public class MonitoringService : IMonitoringService
     {
@@ -24,6 +25,11 @@ namespace SemManagement.UWP.Services.Monitoring.Service
         public Task AddMonitoringAsync(Model.Monitoring monitoring)
         {
             return _monitoringProvider.AddMonitoringAsync(monitoring);
+        }
+
+        public Task<List<Model.Monitoring>> GetMonitoredStations()
+        {
+            return _monitoringProvider.GetMonitoredStations();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace SemManagement.MonitoringContext.Scheduler
                 ITrigger jobTrigger = TriggerBuilder.Create()
                     .WithIdentity(name + "Trigger", group)
                     .StartAt(startAt)
-                    .WithSimpleSchedule(t => t.WithIntervalInHours(interval).RepeatForever())
+                    .WithSimpleSchedule(t => t.WithIntervalInHours(interval * 24).RepeatForever())
                     .Build();
 
                 await _scheduler.ScheduleJob(job, jobTrigger);

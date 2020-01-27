@@ -3,6 +3,7 @@ using Quartz;
 using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Repository;
 using SemManagement.MonitoringContext.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SemManagement.API.Controllers
@@ -12,10 +13,12 @@ namespace SemManagement.API.Controllers
     public class MonitoringController : ControllerBase
     {
         private readonly ISchedulerService _schedulerService;
+        private readonly IMonitoringRepositry _monitoringRepositry;
 
-        public MonitoringController(ISchedulerService schedulerService) 
+        public MonitoringController(ISchedulerService schedulerService, IMonitoringRepositry monitoringRepositry) 
         {
             _schedulerService = schedulerService;
+            _monitoringRepositry = monitoringRepositry;
         }
 
         [HttpPost("addMonitoringStation")]
@@ -39,6 +42,17 @@ namespace SemManagement.API.Controllers
                 await _schedulerService.StartMonitorStations();
 
                 return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("getMonitorings")]
+        public async Task<ActionResult<List<StationMonitoring>>> GetMonitorings()
+        {
+            if (ModelState.IsValid)
+            {
+                return await _monitoringRepositry.GetMonitoredStations();
             }
 
             return BadRequest();

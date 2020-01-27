@@ -143,6 +143,21 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<List<T>> GetMonitoredStations<T>(string endpoint)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<List<T>> MostPopularSongs<T>(string endpoint, int stationId, int top)
         {
             TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();

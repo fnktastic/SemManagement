@@ -37,6 +37,8 @@ namespace SemManagement.UWP.Services.Local.RuleModule
 
             var targetStations = rule.Stations;
 
+            if (targetStations == null) return null;
+
             foreach(var targetStation in targetStations)
             {
                 var stationPlaylists = _mapper.Map<List<Playlist>>(await _playlistService.GetPlaylistsByStationAsync(targetStation.Sid));

@@ -13,6 +13,7 @@ namespace SemManagement.LocalContext.Model
         public Guid Id { get; set; }
         public int WantedAmountOfUpdates { get; set; }
         public int StationId { get; set; }
+        public StationDto Station { get; set; }
         public DateTime? StartDateTime { get; set; }
         public int RepeatInterval { get; set; }
     }

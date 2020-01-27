@@ -188,6 +188,14 @@ namespace SemManagement.UWP.ViewModel
 
             var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(rule);
 
+            foreach(var station in stationPlaylistsExtractedKeyValue.Keys)
+            {
+                foreach(var playlist in stationPlaylistsExtractedKeyValue[station])
+                {
+                    await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
+                }
+            }
+
             rule.IsRuleInProcess = false;
         }
 
@@ -198,6 +206,14 @@ namespace SemManagement.UWP.ViewModel
             _selectedRule.IsRuleInProcess = true;
 
             var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(_selectedRule);
+
+            foreach (var station in stationPlaylistsExtractedKeyValue.Keys)
+            {
+                foreach (var playlist in stationPlaylistsExtractedKeyValue[station])
+                {
+                    await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
+                }
+            }
 
             _selectedRule.IsRuleInProcess = false;
         }

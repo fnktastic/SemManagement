@@ -24,19 +24,19 @@
                 <DataTemplate>
                     <StackPanel>
                         <controls:DockPanel>
-                            <TextBlock Width="200" Margin="0 0 10 0" VerticalAlignment="Center" Text="Station" controls:DockPanel.Dock="Left"/>
+                            <TextBlock Width="175" Margin="0 0 10 0" VerticalAlignment="Center" Text="Station" controls:DockPanel.Dock="Left"/>
                             <TextBox Text="{Binding StationName}" IsHitTestVisible="False" />
                         </controls:DockPanel>
                         <controls:DockPanel>
-                            <TextBlock Width="200" Margin="0 0 10 0" VerticalAlignment="Center" Text="Station ID" controls:DockPanel.Dock="Left"/>
+                            <TextBlock Width="175" Margin="0 0 10 0" VerticalAlignment="Center" Text="Station ID" controls:DockPanel.Dock="Left"/>
                             <TextBox Text="{Binding StationId}" IsHitTestVisible="False" />
                         </controls:DockPanel>
                         <controls:DockPanel>
-                            <TextBlock Width="200" Margin="0 0 10 0" VerticalAlignment="Center" Text="Started at" controls:DockPanel.Dock="Left"/>
+                            <TextBlock Width="175" Margin="0 0 10 0" VerticalAlignment="Center" Text="Started at" controls:DockPanel.Dock="Left"/>
                             <TextBox Text="{Binding StartDateTime}" IsHitTestVisible="False" />
                         </controls:DockPanel>
                         <controls:DockPanel>
-                            <TextBlock Width="200" Margin="0 0 10 0" VerticalAlignment="Center" Text="Repeat interval" controls:DockPanel.Dock="Left"/>
+                            <TextBlock Width="175" Margin="0 0 10 0" VerticalAlignment="Center" Text="Repeat interval" controls:DockPanel.Dock="Left"/>
                             <TextBox Text="{Binding RepeatInterval}" IsHitTestVisible="False" />
                         </controls:DockPanel>
                     </StackPanel>

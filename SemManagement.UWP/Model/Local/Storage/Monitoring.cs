@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.UWP.Model
+namespace SemManagement.UWP.Model.Local.Storage
 {
     public class Monitoring
     {
-        [Key]
         public Guid Id { get; set; }
         public int WantedAmountOfUpdates { get; set; }
         public int StationId { get; set; }

@@ -137,11 +137,11 @@
     <Compile Include="Helper\StationComparer.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Model\Api\Count.cs" />
+    <Compile Include="Model\Local\Storage\Monitoring.cs" />
     <Compile Include="Model\Local\Storage\Playlist.cs" />
     <Compile Include="Model\Local\Storage\Rule.cs" />
     <Compile Include="Model\Local\Storage\Station.cs" />
     <Compile Include="Model\Local\Storage\Tag.cs" />
-    <Compile Include="Model\Monitoring.cs" />
     <Compile Include="Model\Playlist.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="Model\SongsDeleted.cs" />
@@ -156,7 +156,6 @@
     <Compile Include="Services\Monitoring\Service\MonitoringService.cs" />
     <Compile Include="Services\PlaylistModule\Provider\PlaylistProvider.cs" />
     <Compile Include="Services\PlaylistModule\Service\PlaylistService.cs" />
-    <Compile Include="Services\SchedulerModule\Service\SchedulerService.cs" />
     <Compile Include="Services\SongModule\Provider\SongProvider.cs" />
     <Compile Include="Services\SongModule\Service\SongService.cs" />
     <Compile Include="Services\StationModule\Provider\StationProvider.cs" />

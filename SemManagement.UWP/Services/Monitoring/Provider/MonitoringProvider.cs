@@ -11,8 +11,8 @@ namespace SemManagement.UWP.Services.Monitoring.Provider
 {
     public interface IMonitoringProvider
     {
-        Task AddMonitoringAsync(Model.Monitoring monitoring);
-        Task<List<Model.Monitoring>> GetMonitoredStations();
+        Task AddMonitoringAsync(Model.Local.Storage.Monitoring monitoring);
+        Task<List<Model.Local.Storage.Monitoring>> GetMonitoredStations();
     }
 
     public class MonitoringProvider : WebApiProvider, IMonitoringProvider
@@ -22,18 +22,18 @@ namespace SemManagement.UWP.Services.Monitoring.Provider
 
         }
 
-        public Task AddMonitoringAsync(Model.Monitoring monitoring)
+        public Task AddMonitoringAsync(Model.Local.Storage.Monitoring monitoring)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Monitoring, "addMonitoringStation");
 
-            return AddAsync<Model.Monitoring>(endpoint, monitoring);
+            return AddAsync<Model.Local.Storage.Monitoring>(endpoint, monitoring);
         }
 
-        public Task<List<Model.Monitoring>> GetMonitoredStations()
+        public Task<List<Model.Local.Storage.Monitoring>> GetMonitoredStations()
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Monitoring, "getMonitorings");
 
-            return GetMonitoredStations<Model.Monitoring>(endpoint);
+            return GetMonitoredStations<Model.Local.Storage.Monitoring>(endpoint);
         }
     }
 }

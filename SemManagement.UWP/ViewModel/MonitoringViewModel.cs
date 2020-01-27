@@ -14,6 +14,7 @@ using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.ViewModel.ContentDialog;
 using SemManagement.UWP.View.ContentDialogs;
 using Windows.UI.Xaml.Controls;
+using SemManagement.UWP.Model.Local.Storage;
 
 namespace SemManagement.UWP.ViewModel
 {

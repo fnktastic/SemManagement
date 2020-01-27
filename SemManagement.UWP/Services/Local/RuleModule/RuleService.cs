@@ -47,7 +47,6 @@ namespace SemManagement.UWP.Services.Local.RuleModule
 
                 if(ruleMatched)
                     stationPlaylistsKeyValue.Add(targetStation, _mapper.Map<List<Playlist>>(rule.TargetPlaylists));
-
             }
 
             return stationPlaylistsKeyValue;

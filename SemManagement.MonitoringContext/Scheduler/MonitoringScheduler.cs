@@ -7,6 +7,7 @@ namespace SemManagement.MonitoringContext.Scheduler
     {
         void AddJob<T>(string name, string group, int interval, DateTimeOffset startAt, int stationId) where T : IJob;
         void AddJobRunOnce<T>(string name, string group) where T : IJob;
+        void AddContiniousJob<T>(string name, string group, string ruleId) where T : IJob;
     }
 
     public class MonitoringScheduler : IMonitoringScheduler
@@ -40,18 +41,22 @@ namespace SemManagement.MonitoringContext.Scheduler
 
         public async void AddContiniousJob<T>(string name, string group, string ruleId) where T : IJob
         {
-            IJobDetail job = JobBuilder.Create<T>()
+            var jobKey = new JobKey(name, group);
+            if (await _scheduler.CheckExists(jobKey) == false)
+            {
+                IJobDetail job = JobBuilder.Create<T>()
                 .WithIdentity(name, group)
                  .UsingJobData("ruleId", ruleId)
                 .Build();
 
-            ITrigger jobTrigger = TriggerBuilder.Create()
-                .WithIdentity(name + "Trigger", group)
-                .StartAt(DateTimeOffset.UtcNow)
-                .WithSimpleSchedule(t => t.WithIntervalInHours(24).RepeatForever())
-                .Build();
+                ITrigger jobTrigger = TriggerBuilder.Create()
+                    .WithIdentity(name + "Trigger", group)
+                    .StartAt(DateTimeOffset.UtcNow)
+                    .WithSimpleSchedule(t => t.WithIntervalInHours(24).RepeatForever())
+                    .Build();
 
-            await _scheduler.ScheduleJob(job, jobTrigger);
+                await _scheduler.ScheduleJob(job, jobTrigger);
+            }
         }
 
         public async void AddJobRunOnce<T>(string name, string group) where T : IJob

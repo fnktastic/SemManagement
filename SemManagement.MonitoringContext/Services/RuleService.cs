@@ -2,6 +2,7 @@
 using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Repository;
 using SemManagement.MonitoringContext.Scheduler;
+using SemManagement.MonitoringContext.Scheduler.Jobs;
 using SemManagement.MonitoringContext.ViewModel;
 using SemManagement.SemContext.Repository;
 using System;
@@ -25,9 +26,11 @@ namespace SemManagement.MonitoringContext.Services
         private readonly ILocalPlaylistRepository _localPlaylistRepository;
         private readonly ILocalStationRepository _stationRepository;
         private readonly IPlaylistRepository _playlistRepository;
+        private readonly ISchedulerService _schedulerService;
 
-        public RuleService(ILocalRulesRepository rulesRepository, ILocalPlaylistRepository localPlaylistRepository, ILocalStationRepository stationRepository, IPlaylistRepository playlistRepository)
+        public RuleService(ISchedulerService schedulerService, ILocalRulesRepository rulesRepository, ILocalPlaylistRepository localPlaylistRepository, ILocalStationRepository stationRepository, IPlaylistRepository playlistRepository)
         {
+            _schedulerService = schedulerService;
             _localRulesRepository = rulesRepository;
             _localPlaylistRepository = localPlaylistRepository;
             _stationRepository = stationRepository;

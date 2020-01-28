@@ -14,6 +14,7 @@ namespace SemManagement.MonitoringContext.Services
     {
         Task ScheduleMonitoring(StationMonitoringDto stationMonitoring);
         Task StartMonitorStations();
+        Task StartRule(RuleDto rule);
     }
     public class SchedulerService : ISchedulerService
     {
@@ -55,6 +56,15 @@ namespace SemManagement.MonitoringContext.Services
                     station.StartDateTime.Value,
                     station.StationId);
             }
+        }
+
+        public async Task StartRule(RuleDto rule)
+        {
+            await Task.Run(() => _monitoringScheduler.AddContiniousJob<SetUpRuleJob>(
+                   string.Format("rules_{0}", rule.Id),
+                   "rules",
+                   rule.Id.ToString()
+                ));
         }
     }
 }

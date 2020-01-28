@@ -9,10 +9,11 @@ namespace SemManagement.MonitoringContext.Model
     public class StationTagDto
     {
         [Key]
-        public int StationId { get; set; }
+        public Guid Id { get; set; }
+
+        public int StationSid { get; set; }
         public StationDto Station { get; set; }
 
-        [Key]
         public Guid TagId { get; set; }
         public TagDto Tag { get; set; }
     }

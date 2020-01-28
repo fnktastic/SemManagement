@@ -45,6 +45,7 @@ namespace SemManagement.MonitoringContext.DataAccess
                 .HasMany(x => x.Snapshots);
 
             modelBuilder.Entity<RuleDto>().HasKey(a => a.Id);
+
             modelBuilder.Entity<StationDto>(x =>
             {
                 x.HasKey(a => a.Sid);
@@ -67,7 +68,7 @@ namespace SemManagement.MonitoringContext.DataAccess
                 .HasKey(pa => pa.StationPlaylistId);
 
             modelBuilder.Entity<StationTagDto>()
-                .HasKey(pa => new { pa.StationId, pa.TagId });
+                .HasKey(pa => new { pa.Id });
 
             modelBuilder.Entity<PlaylistTagDto>()
                 .HasKey(pa => new { pa.PlaylistId, pa.TagId });

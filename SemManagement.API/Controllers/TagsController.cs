@@ -39,12 +39,12 @@ namespace SemManagement.API.Controllers
             return await _tagService.GetAllTagsAsync(sid);
         }
 
-        [HttpGet("getStationByTagsAsync")]
-        public async Task<ActionResult<List<StationDto>>> GetStationByTagsAsync([FromBody] List<TagDto> tags)
+        [HttpPost("getStationByTagsAsync")]
+        public async Task<ActionResult<List<StationDto>>> GetStationByTagsAsync([FromBody] TagViewModel model)
         {
             if (ModelState.IsValid)
             {
-                return await _tagService.GetStationByTagsAsync(tags);
+                return await _tagService.GetStationByTagsAsync(model.Tags);
             }
 
             return BadRequest();

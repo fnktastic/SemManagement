@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace SemManagement.UWP.Helper.TransportModel
 {
-    public class TagViewModel
+    public class TagTransportModel
     {
         public Model.Station Station { get; set; }
         public List<Tag> Tags { get; set; }
 
-        public TagViewModel()
+        public TagTransportModel()
         {
 
         }
 
-        public TagViewModel(Model.Station station, List<Tag> tags)
+        public TagTransportModel(Model.Station station, List<Tag> tags)
         {
             Station = station;
             Tags = tags;

@@ -193,17 +193,17 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
-        protected Task<List<T>> GetStationByTagsAsync<T>(string endpoint, List<Tag> entities)
+        protected Task<List<T>> GetStationByTagsAsync<T>(string endpoint, TagTransportModel model)
         {
             TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
 
-            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            IRestRequest request = new RestRequest(endpoint, Method.POST, DataFormat.Json)
             {
                 Timeout = 30 * 60 * 1000,
                 ReadWriteTimeout = 30 * 60 * 1000
             };
 
-            request.AddJsonBody(entities);
+            request.AddJsonBody(model);
 
             _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
 

@@ -28,9 +28,9 @@ namespace SemManagement.UWP.Services.TagModule.Provider
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "saveStationTagRangeAsync");
 
-            var tagsTransportModel = new TagViewModel(station, tags);
+            var tagsTransportModel = new TagTransportModel(station, tags);
 
-            return AddAsync<TagViewModel>(endpoint, tagsTransportModel);
+            return AddAsync<TagTransportModel>(endpoint, tagsTransportModel);
         }
 
         public Task<List<Tag>> GetAllTagsAsync(int sid)
@@ -44,7 +44,9 @@ namespace SemManagement.UWP.Services.TagModule.Provider
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "getStationByTagsAsync");
 
-            return GetStationByTagsAsync<Model.Station>(endpoint, tags);
+            var tagsTransportModel = new TagTransportModel(null, tags);
+
+            return GetStationByTagsAsync<Model.Station>(endpoint, tagsTransportModel);
         }
     }
 }

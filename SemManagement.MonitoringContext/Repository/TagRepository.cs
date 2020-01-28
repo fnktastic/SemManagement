@@ -34,7 +34,7 @@ namespace SemManagement.MonitoringContext.Repository
 
         public async Task<List<TagDto>> GetAllAsync(int sid)
         {
-            return await _context.StationTags.Where(x => x.StationId == sid)
+            return await _context.StationTags.Where(x => x.StationSid == sid)
                 .Include(x => x.Tag)
                 .Select(x => x.Tag)
                 .ToListAsync();

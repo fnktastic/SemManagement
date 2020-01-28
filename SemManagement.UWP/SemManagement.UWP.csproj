@@ -129,6 +129,7 @@
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Converters\StringToTagConveter.cs" />
+    <Compile Include="Helper\DefferedAction.cs" />
     <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Helper\ObservableCollectionFast.cs" />
     <Compile Include="Helper\PlaylistComparer.cs" />
@@ -136,7 +137,7 @@
     <Compile Include="Helper\SongsComparer.cs" />
     <Compile Include="Helper\StaticSettings.cs" />
     <Compile Include="Helper\StationComparer.cs" />
-    <Compile Include="Helper\TransportModel\TagViewModel.cs" />
+    <Compile Include="Helper\TransportModel\TagTransportModel.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Model\Local\Storage\Count.cs" />
     <Compile Include="Model\Local\Storage\Monitoring.cs" />

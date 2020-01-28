@@ -51,30 +51,7 @@ namespace SemManagement.UWP.ViewModel
                 _selectedStation = value;
                 RaisePropertyChanged(nameof(SelectedStation));
 
-                if (_selectedStation != null)
-                {
-                    IsStationSelected = true;
-                }
-
-                if (_selectedStation == null)
-                {
-                    IsStationSelected = false;
-                }
-
-                if (_isStatsTabSelected)
-                    LoadStatsCommand.Execute(null);
-
-                if (_isSongsTabSelected)
-                    LoadSongsCommand.Execute(null);
-
-                if (_isPlaylistsTabSelected)
-                    LoadStationPlaylistsCommand.Execute(null);
-
-                if (_isUserDetailsTabSelected)
-                    LoadTagsCommand.Execute(null);
-
-                if (_isStationQueueTabSelected)
-                    LoadStationQueueCommand.Execute(null);
+                RefreshData();
             }
         }
 
@@ -187,6 +164,7 @@ namespace SemManagement.UWP.ViewModel
                 _isUserDetailsTabSelected = value;
                 RaisePropertyChanged(nameof(IsUserDetailsTabSelected));
 
+                RefreshData();
             }
         }
 
@@ -200,6 +178,7 @@ namespace SemManagement.UWP.ViewModel
                 _isPlaylistsTabSelected = value;
                 RaisePropertyChanged(nameof(IsPlaylistsTabSelected));
 
+                RefreshData();
             }
         }
 
@@ -213,6 +192,7 @@ namespace SemManagement.UWP.ViewModel
                 _isSongsTabSelected = value;
                 RaisePropertyChanged(nameof(IsSongsTabSelected));
 
+                RefreshData();
             }
         }
 
@@ -225,6 +205,8 @@ namespace SemManagement.UWP.ViewModel
                 if (value == _isDeletedSongs) return;
                 _isDeletedSongs = value;
                 RaisePropertyChanged(nameof(IsDeletedSongs));
+
+                RefreshData();
             }
         }
 
@@ -238,6 +220,7 @@ namespace SemManagement.UWP.ViewModel
                 _isStationQueueTabSelected = value;
                 RaisePropertyChanged(nameof(IsStationQueueTabSelected));
 
+                RefreshData();
             }
         }
 
@@ -251,7 +234,7 @@ namespace SemManagement.UWP.ViewModel
                 _isStatsTabSelected = value;
                 RaisePropertyChanged(nameof(IsStatsTabSelected));
 
-                LoadStatsCommand.Execute(null);
+                RefreshData();
             }
         }
 
@@ -379,9 +362,12 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                var stationTags = await _localDataService.GetAllTagsAsync(_selectedStation.Sid);
+                if (_selectedStation != null)
+                {
+                    var stationTags = await _localDataService.GetAllTagsAsync(_selectedStation.Sid);
 
-                Tags = new TagsCollection(stationTags);
+                    Tags = new TagsCollection(stationTags);
+                }
             }
             finally
             {
@@ -482,6 +468,34 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsLoading = false;
             }
+        }
+
+        private void RefreshData()
+        {
+            if (_selectedStation != null)
+            {
+                IsStationSelected = true;
+            }
+
+            if (_selectedStation == null)
+            {
+                IsStationSelected = false;
+            }
+
+            if (_isStatsTabSelected)
+                LoadStatsCommand.Execute(null);
+
+            if (_isSongsTabSelected)
+                LoadSongsCommand.Execute(null);
+
+            if (_isPlaylistsTabSelected)
+                LoadStationPlaylistsCommand.Execute(null);
+
+            if (_isUserDetailsTabSelected)
+                LoadTagsCommand.Execute(null);
+
+            if (_isStationQueueTabSelected)
+                LoadStationQueueCommand.Execute(null);
         }
         #endregion
     }

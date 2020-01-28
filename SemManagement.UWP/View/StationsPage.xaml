@@ -114,7 +114,7 @@
                                   Height="60"
                                   Width="60"
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
-                    <Grid Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="35" />
                             <RowDefinition Height="1*" />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Services;
 using SemManagement.MonitoringContext.ViewModel;
 using System;
@@ -31,6 +32,20 @@ namespace SemManagement.API.Controllers
         public async Task<ActionResult<List<RuleViewModel>>> GetAllRulesAsync()
         {
             return await _ruleService.GetAllRulesAsync();
-        }    
+        }
+
+        [HttpPost("getRuleLogs")]
+        public async Task<ActionResult<List<RuleLogDto>>> GetRuleLogs([FromQuery] Guid ruleId)
+        {
+            return await _ruleService.GetRuleLogs(ruleId);
+        }
+
+        [HttpPost("fireRule")]
+        public async Task<ActionResult<List<RuleLogDto>>> FireRule([FromQuery] Guid ruleId)
+        {
+            await _ruleService.FireRule(ruleId);
+
+            return Ok();
+        }
     }
 }

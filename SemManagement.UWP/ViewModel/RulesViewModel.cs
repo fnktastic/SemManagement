@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model.Local.Storage;
-using SemManagement.UWP.Services.Local.RuleModule;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
@@ -26,7 +25,6 @@ namespace SemManagement.UWP.ViewModel
 
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
-        private readonly IRuleService _ruleService;
 
         private readonly IMapper _mapper;
 
@@ -103,17 +101,19 @@ namespace SemManagement.UWP.ViewModel
                 if (value == _selectedRule) return;
                 _selectedRule = value;
                 RaisePropertyChanged(nameof(SelectedRule));
+
+                if (_selectedRule != null)
+                    GetRuleLogsCommand.Execute(_selectedRule.Id);
             }
         }
         #endregion
 
-        public RulesViewModel(ILocalDataService localDataService, IPlaylistService playlistService, IStationService stationService, IMapper mapper, IRuleService ruleService)
+        public RulesViewModel(ILocalDataService localDataService, IPlaylistService playlistService, IStationService stationService, IMapper mapper)
         {
             _localDataService = localDataService;
             _playlistService = playlistService;
             _stationService = stationService;
             _mapper = mapper;
-            _ruleService = ruleService;
 
             LoadData();
         }
@@ -184,20 +184,6 @@ namespace SemManagement.UWP.ViewModel
             Rules.Add(rule);
 
             await _localDataService.SaveRuleAsync(rule);
-
-            rule.IsRuleInProcess = true;
-
-            //var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(rule);
-
-            //foreach(var station in stationPlaylistsExtractedKeyValue.Keys)
-            //{
-            //    foreach(var playlist in stationPlaylistsExtractedKeyValue[station])
-            //    {
-            //        await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
-            //    }
-            //}
-
-            rule.IsRuleInProcess = false;
         }
 
         private RelayCommand _fireRuleCommand;
@@ -206,14 +192,20 @@ namespace SemManagement.UWP.ViewModel
         {
             _selectedRule.IsRuleInProcess = true;
 
-            var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(_selectedRule);
+            await _localDataService.FireRule(_selectedRule.Id);
 
-            foreach (var station in stationPlaylistsExtractedKeyValue.Keys)
+            _selectedRule.IsRuleInProcess = false;
+        }
+
+        private RelayCommand<Guid> _getRuleLogsCommand;
+        public RelayCommand<Guid> GetRuleLogsCommand => _getRuleLogsCommand ?? (_getRuleLogsCommand = new RelayCommand<Guid>(GetRuleLogs));
+        private async void GetRuleLogs(Guid ruleId)
+        {
+            _selectedRule.IsRuleInProcess = true;
+
+            if (ruleId != Guid.Empty)
             {
-                foreach (var playlist in stationPlaylistsExtractedKeyValue[station])
-                {
-                    await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
-                }
+                var ruleLogs = await _localDataService.GetRuleLogs(ruleId);
             }
 
             _selectedRule.IsRuleInProcess = false;

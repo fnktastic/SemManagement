@@ -210,6 +210,39 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task FireRule(string endpoint, Guid ruleId)
+        {
+            return Task.Run(() =>
+            {
+                IRestRequest request = new RestRequest(endpoint, Method.POST, DataFormat.Json)
+                {
+                    Timeout = 30 * 60 * 1000,
+                    ReadWriteTimeout = 30 * 60 * 1000
+                };
+
+                request.AddParameter("ruleId", ruleId, ParameterType.QueryString);
+
+                _restClient.ExecuteAsync(request, (IRestResponse response) => { });
+            });
+        }
+
+        protected Task<List<T>> GetRuleLogs<T>(string endpoint, Guid ruleId)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.POST, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("ruleId", ruleId, ParameterType.QueryString);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<List<T>> GetAllTagsAsync<T>(string endpoint, int sid)
         {
             TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();

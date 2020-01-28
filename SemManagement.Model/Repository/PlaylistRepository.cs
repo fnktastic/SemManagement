@@ -14,6 +14,7 @@ namespace SemManagement.SemContext.Repository
     public interface IPlaylistRepository
     {
         Task<List<Playlist>> TakeAsync(int take = 0, int skip = 0);
+
         Task<Count> CountAsync();
 
         Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId);
@@ -21,6 +22,8 @@ namespace SemManagement.SemContext.Repository
         Task<int> RemovePlaylistFromStationAsync(int playlistId, int stationId);
 
         Task<int> AddPlaylistToStationAsync(int playlistId, int stationId);
+
+        Task<bool> CheckIfPlaylistAssignedToStation(int playlistId, int stationId);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -82,6 +85,18 @@ namespace SemManagement.SemContext.Repository
             return await _context.Database.ExecuteSqlCommandAsync(
                 "DELETE FROM sem.stationsplaylists " +
                 "WHERE sid =  @stationId AND plid = @playlistId ", stationIdParameter, playlistIdParameter);
+        }
+
+        public async Task<bool> CheckIfPlaylistAssignedToStation(int playlistId, int stationId)
+        {
+            var stationPlaylists = await _context.StationsPlaylists
+                .Where(x => x.Plid == playlistId && x.Sid == stationId)
+                .ToListAsync();
+
+            if (stationPlaylists.Count > 0)
+                return true;
+
+            return false;
         }
 
         public async Task<int> AddPlaylistToStationAsync(int playlistId, int stationId)

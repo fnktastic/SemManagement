@@ -5,7 +5,6 @@ using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Helper;
-using SemManagement.UWP.Services.Local.RuleModule;
 using SemManagement.UWP.Services.Local.Settings;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.Monitoring.Provider;
@@ -73,7 +72,6 @@ namespace SemManagement.UWP.ViewModel
 
             //local storage
             SimpleIoc.Default.Register<ILocalDataService, LocalDataService>();
-            SimpleIoc.Default.Register<IRuleService, RuleService>();
 
             SetupNavigation();
         }

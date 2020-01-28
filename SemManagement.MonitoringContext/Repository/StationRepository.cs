@@ -40,7 +40,7 @@ namespace SemManagement.MonitoringContext.Repository
 
         public async Task SaveRangeAsync(List<StationDto> stations)
         {
-            await _context.AddRangeAsync(stations); //  .BulkInsertOrUpdateAsync(stations);
+            await _context.BulkInsertOrUpdateAsync(stations);
 
             await _context.SaveChangesAsync();
         }

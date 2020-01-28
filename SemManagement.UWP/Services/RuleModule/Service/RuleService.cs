@@ -13,6 +13,8 @@ namespace SemManagement.UWP.Services.RuleModule.Service
     {
         Task<List<Rule>> GetAllRulesAsync();
         Task SaveRuleAsync(Rule rule);
+        Task FireRule(Guid ruleId);
+        Task<List<RuleLog>> GetRuleLogs(Guid ruleId);
     }
 
     public class RuleService : IRuleService
@@ -32,6 +34,16 @@ namespace SemManagement.UWP.Services.RuleModule.Service
         public Task SaveRuleAsync(Rule rule)
         {
             return _ruleProvider.SaveRuleAsync(rule);
+        }
+
+        public Task<List<RuleLog>> GetRuleLogs(Guid ruleId)
+        {
+            return _ruleProvider.GetRuleLogs(ruleId);
+        }
+
+        public Task FireRule(Guid ruleId)
+        {
+            return _ruleProvider.FireRule(ruleId);
         }
     }
 }

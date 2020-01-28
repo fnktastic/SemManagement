@@ -4,6 +4,7 @@ using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Scheduler;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +21,10 @@ namespace SemManagement.MonitoringContext.Repository
         Task AddRuleStationRangeAsync(List<RuleStationDto> ruleStations);
 
         Task<RuleDto> GetAsync(Guid ruleId);
+
+        Task AddRuleLog(RuleLogDto ruleLog, Collection<RuleLogStationDto> ruleLogStations);
+
+        Task<List<RuleLogDto>> GetRuleLogs(Guid ruleId);
     }
 
     public class LocalRulesRepository : ILocalRulesRepository
@@ -95,6 +100,26 @@ namespace SemManagement.MonitoringContext.Repository
             await _context.RuleStations.AddRangeAsync(ruleStations);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task AddRuleLog(RuleLogDto ruleLog, Collection<RuleLogStationDto> ruleLogStations)
+        {
+            await _context.RuleLogs.AddAsync(ruleLog);
+
+            await _context.RuleLogStations.AddRangeAsync(ruleLogStations);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<RuleLogDto>> GetRuleLogs(Guid ruleId)
+        {
+            var rules = await _context.RuleLogs
+                .Where(x => x.RuleId == ruleId)
+                .Include(x => x.FiredRuleLogStation)
+                    .ThenInclude(y => y.Station)
+                .ToListAsync();
+
+            return rules;
         }
     }
 }

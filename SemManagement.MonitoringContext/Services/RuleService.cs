@@ -7,6 +7,7 @@ using SemManagement.MonitoringContext.ViewModel;
 using SemManagement.SemContext.Repository;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace SemManagement.MonitoringContext.Services
         Task SaveRuleAsync(RuleViewModel rule);
         Task<List<RuleViewModel>> GetAllRulesAsync();
         Task FireRule(Guid ruleId);
+        Task<List<RuleLogDto>> GetRuleLogs(Guid ruleId);
     }
 
     public class RuleService : IRuleService
@@ -47,30 +49,18 @@ namespace SemManagement.MonitoringContext.Services
             {
                 var ruleViewModel = rule.ToRuleViewModel();
 
-                ruleViewModel.SourcePlaylists = rule.RulePlaylists.Where(x => x.RulePlaylistType == RulePlaylistTypeEnum.Source).Select(y => 
+                ruleViewModel.SourcePlaylists = rule.RulePlaylists.Where(x => x.RulePlaylistType == RulePlaylistTypeEnum.Source).Select(y =>
                 {
-                    //y.Playlist.RulePlaylists = null;
-                    //y.Playlist.StationPlaylists = null;
-                    //y.Rule = null;
-
                     return y.Playlist;
                 }).ToCollection();
 
                 ruleViewModel.TargetPlaylists = rule.RulePlaylists.Where(x => x.RulePlaylistType == RulePlaylistTypeEnum.Target).Select(y =>
                 {
-                    //y.Playlist.RulePlaylists = null;
-                    //y.Playlist.StationPlaylists = null;
-                    //y.Rule = null;
-
                     return y.Playlist;
                 }).ToCollection();
 
-                ruleViewModel.Stations = rule.RuleStations.Select(x => 
+                ruleViewModel.Stations = rule.RuleStations.Select(x =>
                 {
-                    //x.Station.StationPlaylists = null;
-                    //x.Station.StationTags = null;
-                    //x.Rule = null;
-
                     return x.Station;
                 }).ToCollection();
 
@@ -112,14 +102,14 @@ namespace SemManagement.MonitoringContext.Services
                 RuleId = savedRule.Id,
             }).ToList();
 
+            await _localRulesRepository.AddRuleStationRangeAsync(stations);
+
             if (rule.IsRepeat)
                 _monitoringScheduler.AddContiniousJob<SetUpRuleJob>(
                    string.Format("rules_{0}", rule.Id),
                    "rules",
                    rule.Id.ToString()
                 );
-
-            await _localRulesRepository.AddRuleStationRangeAsync(stations);
         }
 
         public async Task FireRule(Guid ruleId)
@@ -128,20 +118,40 @@ namespace SemManagement.MonitoringContext.Services
 
             var stationPlaylistsExtractedKeyValue = await ExtractPlaylists(rule);
 
+            var ruleLog = new RuleLogDto()
+            {
+                Id = Guid.NewGuid(),
+                RuleId = rule.Id,
+                Timestamp = DateTime.UtcNow,
+            };
+
+            var ruleLogStations = new Collection<RuleLogStationDto>();
+
             foreach (var station in stationPlaylistsExtractedKeyValue.Keys)
             {
                 foreach (var playlist in stationPlaylistsExtractedKeyValue[station])
                 {
-                    await _playlistRepository.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
+                    bool exists = await _playlistRepository.CheckIfPlaylistAssignedToStation(playlist.Plid, station.Sid);
+
+                    if (exists == false)
+                        await _playlistRepository.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
                 }
+
+                ruleLogStations.Add(new RuleLogStationDto()
+                {
+                    RuleLogId = ruleLog.Id,
+                    StationSid = station.Sid,
+                });
             }
+
+            await _localRulesRepository.AddRuleLog(ruleLog, ruleLogStations);
         }
 
         private async Task<Dictionary<StationDto, List<PlaylistDto>>> ExtractPlaylists(RuleDto rule)
         {
             var stationPlaylistsKeyValue = new Dictionary<StationDto, List<PlaylistDto>>();
 
-            var targetStations = rule.RuleStations.Select(x => x.Station).ToList();
+            var targetStations = rule.RuleStations.Select(x => x.Station).ToList(); //need to calculate them
 
             var sourcePlaylists = rule.RulePlaylists.Where(x => x.RulePlaylistType == RulePlaylistTypeEnum.Source).Select(y => y.Playlist).ToList();
 
@@ -153,13 +163,18 @@ namespace SemManagement.MonitoringContext.Services
             {
                 var stationPlaylists = await _playlistRepository.GetPlaylistsByStationAsync(targetStation.Sid);
 
-                bool ruleMatched = sourcePlaylists.All(x => stationPlaylists.Any(y => y.Plid == x.Plid));
+                bool ruleMatched = targetPlaylists.All(x => stationPlaylists.Any(y => y.Plid == x.Plid));
 
                 if (ruleMatched)
-                    stationPlaylistsKeyValue.Add(targetStation, targetPlaylists);
+                    stationPlaylistsKeyValue.Add(targetStation, sourcePlaylists);
             }
 
             return stationPlaylistsKeyValue;
+        }
+
+        public async Task<List<RuleLogDto>> GetRuleLogs(Guid ruleId)
+        {
+            return await _localRulesRepository.GetRuleLogs(ruleId);
         }
     }
 }

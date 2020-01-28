@@ -21,6 +21,8 @@ namespace SemManagement.UWP.Services.Local.Storage
         Task SaveStationTagRangeAsync(Model.Station station, List<Tag> tags);
         Task<List<Tag>> GetAllTagsAsync(int sid);
         Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags);
+        Task<List<RuleLog>> GetRuleLogs(Guid ruleId);
+        Task FireRule(Guid ruleId);
     }
 
     public class LocalDataService : ILocalDataService
@@ -59,6 +61,16 @@ namespace SemManagement.UWP.Services.Local.Storage
         public async Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags)
         {
             return await _tagService.GetStationByTagsAsync(tags);
+        }
+
+        public Task<List<RuleLog>> GetRuleLogs(Guid ruleId)
+        {
+            return _ruleService.GetRuleLogs(ruleId);
+        }
+
+        public Task FireRule(Guid ruleId)
+        {
+            return _ruleService.FireRule(ruleId);
         }
     }
 }

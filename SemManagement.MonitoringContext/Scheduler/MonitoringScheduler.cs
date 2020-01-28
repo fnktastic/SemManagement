@@ -38,6 +38,22 @@ namespace SemManagement.MonitoringContext.Scheduler
             }
         }
 
+        public async void AddContiniousJob<T>(string name, string group, string ruleId) where T : IJob
+        {
+            IJobDetail job = JobBuilder.Create<T>()
+                .WithIdentity(name, group)
+                 .UsingJobData("ruleId", ruleId)
+                .Build();
+
+            ITrigger jobTrigger = TriggerBuilder.Create()
+                .WithIdentity(name + "Trigger", group)
+                .StartAt(DateTimeOffset.UtcNow)
+                .WithSimpleSchedule(t => t.WithIntervalInHours(24).RepeatForever())
+                .Build();
+
+            await _scheduler.ScheduleJob(job, jobTrigger);
+        }
+
         public async void AddJobRunOnce<T>(string name, string group) where T : IJob
         {
             IJobDetail job = JobBuilder.Create<T>()

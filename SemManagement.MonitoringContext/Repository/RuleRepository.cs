@@ -18,6 +18,8 @@ namespace SemManagement.MonitoringContext.Repository
         Task AddRulePlaylistRangeAsync(List<RulePlaylistDto> rulePlaylists);
 
         Task AddRuleStationRangeAsync(List<RuleStationDto> ruleStations);
+
+        Task<RuleDto> GetAsync(Guid ruleId);
     }
 
     public class LocalRulesRepository : ILocalRulesRepository
@@ -54,6 +56,22 @@ namespace SemManagement.MonitoringContext.Repository
             }
 
             return rules;
+        }
+
+        public async Task<RuleDto> GetAsync(Guid ruleId)
+        {
+            var rules = await _context.Rules.Where(x => x.Id == ruleId).ToListAsync();
+
+            if(rules != null && rules.Count > 0)
+            {
+                var rule = rules.First();
+
+                await FullLoad(rule.Id);
+
+                return rule;
+            }
+
+            return null;
         }
 
         public async Task<RuleDto> SaveAsync(RuleDto rule)

@@ -201,14 +201,12 @@ namespace SemManagement.UWP.ViewModel
         public RelayCommand<Guid> GetRuleLogsCommand => _getRuleLogsCommand ?? (_getRuleLogsCommand = new RelayCommand<Guid>(GetRuleLogs));
         private async void GetRuleLogs(Guid ruleId)
         {
-            _selectedRule.IsRuleInProcess = true;
-
             if (ruleId != Guid.Empty)
             {
+                _selectedRule.IsRuleInProcess = true;
                 var ruleLogs = await _localDataService.GetRuleLogs(ruleId);
+                _selectedRule.IsRuleInProcess = false;
             }
-
-            _selectedRule.IsRuleInProcess = false;
         }
         #endregion
     }

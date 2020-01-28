@@ -15,23 +15,7 @@ namespace SemManagement.MonitoringContext.Model
         public Guid Id { get; set; }
         public Guid RuleId { get; set; }
         public RuleDto Rule { get; set; }
-
         public DateTime Timestamp { get; set; }
-        public virtual Collection<RuleLogStationDto> FiredRuleLogStation { get; set; }
-
-        [NotMapped]
-        public virtual Collection<StationDto> FiredStations => FiredRuleLogStation.Select(x => x.Station).ToCollection();
-    }
-
-    public class RuleLogStationDto
-    {
-        [Key]
-        public Guid RuleLogStationId { get; set; }
-
-        public Guid RuleLogId { get; set; }
-        public RuleLogDto RuleLog { get; set; }
-
-        public int StationSid { get; set; }
-        public StationDto Station { get; set; }
+        public string Message { get; set; }
     }
 }

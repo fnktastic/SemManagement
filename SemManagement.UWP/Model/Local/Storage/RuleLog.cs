@@ -13,6 +13,6 @@ namespace SemManagement.UWP.Model.Local.Storage
         public Guid RuleId { get; set; }
         public Rule Rule { get; set; }
         public DateTime Timestamp { get; set; }
-        public virtual Collection<Station> FiredStations { get; set; }
+        public string Message { get; set; }
     }
 }

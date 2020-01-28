@@ -22,7 +22,7 @@ namespace SemManagement.MonitoringContext.Repository
 
         Task<RuleDto> GetAsync(Guid ruleId);
 
-        Task AddRuleLog(RuleLogDto ruleLog, Collection<RuleLogStationDto> ruleLogStations);
+        Task AddRuleLog(List<RuleLogDto> ruleLogs);
 
         Task<List<RuleLogDto>> GetRuleLogs(Guid ruleId);
     }
@@ -102,11 +102,9 @@ namespace SemManagement.MonitoringContext.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddRuleLog(RuleLogDto ruleLog, Collection<RuleLogStationDto> ruleLogStations)
+        public async Task AddRuleLog(List<RuleLogDto> ruleLogs)
         {
-            await _context.RuleLogs.AddAsync(ruleLog);
-
-            await _context.RuleLogStations.AddRangeAsync(ruleLogStations);
+            await _context.RuleLogs.AddRangeAsync(ruleLogs);
 
             await _context.SaveChangesAsync();
         }
@@ -115,8 +113,6 @@ namespace SemManagement.MonitoringContext.Repository
         {
             var rules = await _context.RuleLogs
                 .Where(x => x.RuleId == ruleId)
-                .Include(x => x.FiredRuleLogStation)
-                    .ThenInclude(y => y.Station)
                 .ToListAsync();
 
             return rules;

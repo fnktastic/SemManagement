@@ -118,14 +118,7 @@ namespace SemManagement.MonitoringContext.Services
 
             var stationPlaylistsExtractedKeyValue = await ExtractPlaylists(rule);
 
-            var ruleLog = new RuleLogDto()
-            {
-                Id = Guid.NewGuid(),
-                RuleId = rule.Id,
-                Timestamp = DateTime.UtcNow,
-            };
-
-            var ruleLogStations = new Collection<RuleLogStationDto>();
+            var ruleLogs = new List<RuleLogDto>();
 
             foreach (var station in stationPlaylistsExtractedKeyValue.Keys)
             {
@@ -134,17 +127,23 @@ namespace SemManagement.MonitoringContext.Services
                     bool exists = await _playlistRepository.CheckIfPlaylistAssignedToStation(playlist.Plid, station.Sid);
 
                     if (exists == false)
+                    {
                         await _playlistRepository.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
-                }
 
-                ruleLogStations.Add(new RuleLogStationDto()
-                {
-                    RuleLogId = ruleLog.Id,
-                    StationSid = station.Sid,
-                });
+                        var ruleLog = new RuleLogDto()
+                        {
+                            Id = Guid.NewGuid(),
+                            RuleId = rule.Id,
+                            Timestamp = DateTime.UtcNow,
+                            Message = string.Format("Playlist {0} (ID = {1}) -> Station {2} (ID = {3})", playlist.Name, playlist.Plid, station.Name, station.Sid)
+                        };
+
+                        ruleLogs.Add(ruleLog);
+                    }
+                }
             }
 
-            await _localRulesRepository.AddRuleLog(ruleLog, ruleLogStations);
+            await _localRulesRepository.AddRuleLog(ruleLogs);
         }
 
         private async Task<Dictionary<StationDto, List<PlaylistDto>>> ExtractPlaylists(RuleDto rule)

@@ -39,12 +39,8 @@ namespace SemManagement.MonitoringContext.DataAccess
 
         public DbSet<RuleLogDto> RuleLogs { get; set; }
 
-        public DbSet<RuleLogStationDto> RuleLogStations { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<RuleLogStationDto>().HasKey(c => c.RuleLogStationId);
-
             modelBuilder.Entity<RuleLogDto>().HasKey(a => a.Id);
 
             modelBuilder.Entity<StationMonitoringDto>().HasKey(a => a.Id);
@@ -80,10 +76,6 @@ namespace SemManagement.MonitoringContext.DataAccess
 
             modelBuilder.Entity<PlaylistTagDto>()
                 .HasKey(pa => new { pa.PlaylistId, pa.TagId });
-
-            modelBuilder.Entity<RuleLogDto>()
-                .HasMany(x => x.FiredRuleLogStation)
-                .WithOne(x => x.RuleLog);
 
             modelBuilder.Entity<RuleStationDto>()
                 .HasOne(x => x.Rule)

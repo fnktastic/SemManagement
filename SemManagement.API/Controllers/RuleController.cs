@@ -30,9 +30,7 @@ namespace SemManagement.API.Controllers
         [HttpGet("getAllRules")]
         public async Task<ActionResult<List<RuleViewModel>>> GetAllRulesAsync()
         {
-            var rules =  await _ruleService.GetAllRulesAsync();
-
-            return rules;
+            return await _ruleService.GetAllRulesAsync();
         }    
     }
 }

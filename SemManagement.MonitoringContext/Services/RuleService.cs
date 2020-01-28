@@ -42,27 +42,27 @@ namespace SemManagement.MonitoringContext.Services
 
                 ruleViewModel.SourcePlaylists = rule.RulePlaylists.Where(x => x.RulePlaylistType == RulePlaylistTypeEnum.Source).Select(y => 
                 {
-                    y.Playlist.RulePlaylists = null;
-                    y.Playlist.StationPlaylists = null;
-                    y.Rule = null;
+                    //y.Playlist.RulePlaylists = null;
+                    //y.Playlist.StationPlaylists = null;
+                    //y.Rule = null;
 
                     return y.Playlist;
                 }).ToCollection();
 
                 ruleViewModel.TargetPlaylists = rule.RulePlaylists.Where(x => x.RulePlaylistType == RulePlaylistTypeEnum.Target).Select(y =>
                 {
-                    y.Playlist.RulePlaylists = null;
-                    y.Playlist.StationPlaylists = null;
-                    y.Rule = null;
+                    //y.Playlist.RulePlaylists = null;
+                    //y.Playlist.StationPlaylists = null;
+                    //y.Rule = null;
 
                     return y.Playlist;
                 }).ToCollection();
 
                 ruleViewModel.Stations = rule.RuleStations.Select(x => 
                 {
-                    x.Station.StationPlaylists = null;
-                    x.Station.StationTags = null;
-                    x.Rule = null;
+                    //x.Station.StationPlaylists = null;
+                    //x.Station.StationTags = null;
+                    //x.Rule = null;
 
                     return x.Station;
                 }).ToCollection();

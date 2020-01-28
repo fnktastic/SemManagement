@@ -1,16 +1,16 @@
 ﻿using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
-using SemManagement.LocalContext.DataAccess;
-using SemManagement.LocalContext.Model;
+using SemManagement.MonitoringContext.DataAccess;
+using SemManagement.MonitoringContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Repository
+namespace SemManagement.MonitoringContext.Repository
 {
-    public interface ITagRepository
+    public interface ILocalTagRepository
     {
         Task<List<TagDto>> SaveRangeAsync(List<TagDto> tags);
 
@@ -23,11 +23,11 @@ namespace SemManagement.LocalContext.Repository
         Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags);
     }
 
-    public class TagRepository : ITagRepository
+    public class LocalTagRepository : ILocalTagRepository
     {
-        private LocalDbContext _context;
+        private MonitoringDbContext _context;
 
-        public TagRepository(LocalDbContext context)
+        public LocalTagRepository(MonitoringDbContext context)
         {
             _context = context;
         }

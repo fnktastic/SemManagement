@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SemManagement.LocalContext.DataAccess;
-using SemManagement.LocalContext.Model;
+using SemManagement.MonitoringContext.DataAccess;
+using SemManagement.MonitoringContext.Model;
+using SemManagement.MonitoringContext.Scheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Repository
+namespace SemManagement.MonitoringContext.Repository
 {
-    public interface IRulesRepository
+    public interface ILocalRulesRepository
     {
         Task<List<Model.RuleDto>> GetAllAsync();
 
@@ -19,11 +20,11 @@ namespace SemManagement.LocalContext.Repository
         Task AddRuleStationRangeAsync(List<RuleStationDto> ruleStations);
     }
 
-    public class RulesRepository : IRulesRepository
+    public class LocalRulesRepository : ILocalRulesRepository
     {
-        private LocalDbContext _context;
+        private MonitoringDbContext _context;
 
-        public RulesRepository(LocalDbContext context)
+        public LocalRulesRepository(MonitoringDbContext context)
         {
             _context = context;
         }
@@ -37,9 +38,9 @@ namespace SemManagement.LocalContext.Repository
 
             var ruleStations = await _context.RuleStations.Where(x => x.RuleId == ruleId).Include(x => x.Station).ToListAsync();
 
-            rule.RulePlaylists = rulePlaylists;
+            rule.RulePlaylists = rulePlaylists.ToCollection();
 
-            rule.RuleStations = ruleStations;
+            rule.RuleStations = ruleStations.ToCollection();
         }
         #endregion
 

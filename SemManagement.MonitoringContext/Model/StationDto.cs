@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Model
+namespace SemManagement.MonitoringContext.Model
 {
     [Table("Station")]
     public class StationDto
@@ -32,8 +33,8 @@ namespace SemManagement.LocalContext.Model
 
         public int Autosync { get; set; }
 
-        public virtual ICollection<StationPlaylistDto> StationPlaylists { get; set; }
+        public virtual Collection<StationPlaylistDto> StationPlaylists { get; set; }
 
-        public virtual ICollection<StationTagDto> StationTags { get; set; }
+        public virtual Collection<StationTagDto> StationTags { get; set; }
     }
 }

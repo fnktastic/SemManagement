@@ -37,13 +37,13 @@ namespace SemManagement.MonitoringContext.Services
 
             DateTime now = DateTime.UtcNow;
 
-            var stationSnapshots = new List<StationSnapshot>();
+            var stationSnapshots = new List<StationSnapshotDto>();
 
-            var stationSnapshotPlaylists = new List<StationSnapshotPlaylist>();
+            var stationSnapshotPlaylists = new List<StationSnapshotPlaylistDto>();
 
             var monitoredPlaylistsIds = new List<int>();
 
-            var stationSnapshot = new StationSnapshot()
+            var stationSnapshot = new StationSnapshotDto()
             {
                 Id = Guid.NewGuid(),
                 DateTime = now,
@@ -52,7 +52,7 @@ namespace SemManagement.MonitoringContext.Services
             };
 
             var stationPlaylists = (await _playlistRepository.GetPlaylistsByStationAsync(monitoredStation.StationId))
-                .Select(x => new StationSnapshotPlaylist()
+                .Select(x => new StationSnapshotPlaylistDto()
                 {
                     DateTime = now,
                     PlaylistId = x.Plid,
@@ -73,13 +73,13 @@ namespace SemManagement.MonitoringContext.Services
 
             monitoredPlaylistsIds = monitoredPlaylistsIds.Distinct().ToList();
 
-            var playlistSnapshots = new List<PlaylistSnapshot>();
+            var playlistSnapshots = new List<PlaylistSnapshotDto>();
 
-            var playlistSnapshotSongs = new List<PlaylistSnapshotSong>();
+            var playlistSnapshotSongs = new List<PlaylistSnapshotSongDto>();
 
             foreach (var monitoredPlaylistsId in monitoredPlaylistsIds)
             {
-                var playlistSnapshot = new PlaylistSnapshot()
+                var playlistSnapshot = new PlaylistSnapshotDto()
                 {
                     Id = Guid.NewGuid(),
                     DateTime = now,
@@ -87,7 +87,7 @@ namespace SemManagement.MonitoringContext.Services
                 };
 
                 var playlistSongs = (await _songRepository.GetSongsByPlaylistAsync(monitoredPlaylistsId))
-                    .Select(x => new PlaylistSnapshotSong()
+                    .Select(x => new PlaylistSnapshotSongDto()
                     {
                         DateTime = now,
                         PlaylistSnapshotId = playlistSnapshot.Id,

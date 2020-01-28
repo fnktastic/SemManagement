@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Model
+namespace SemManagement.MonitoringContext.Model
 {
+    [Table("Snapshot")]
     public class SnapshotDto
     {
         [Key]
@@ -17,6 +20,6 @@ namespace SemManagement.LocalContext.Model
         public int StationId { get; set; }
         public StationDto Station { get; set; }
 
-        public virtual ICollection<SnapshotPlaylistDto> SnapshotPlaylists { get; set; }
+        public virtual Collection<SnapshotPlaylistDto> SnapshotPlaylists { get; set; }
     }
 }

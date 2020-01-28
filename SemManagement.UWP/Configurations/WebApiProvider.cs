@@ -7,7 +7,7 @@ using System.Text;
 using System.Net;
 using System.Threading.Tasks;
 using SemManagement.UWP.Model;
-using SemManagement.UWP.Model.Api;
+using SemManagement.UWP.Model.Local.Storage;
 
 namespace SemManagement.UWP.Configurations
 {
@@ -60,9 +60,9 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
-        protected Task<Count> CountAsync<T>(string endpoint)
+        protected Task<Model.Local.Storage.Count> CountAsync<T>(string endpoint)
         {
-            TaskCompletionSource<Count> tcs = new TaskCompletionSource<Count>();
+            TaskCompletionSource<Model.Local.Storage.Count> tcs = new TaskCompletionSource<Model.Local.Storage.Count>();
 
             IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
             {
@@ -70,7 +70,7 @@ namespace SemManagement.UWP.Configurations
                 ReadWriteTimeout = 30 * 60 * 1000
             };
 
-            _restClient.ExecuteAsync(request, (IRestResponse<Count> response) => ResponseHandler<Count>(response, tcs));
+            _restClient.ExecuteAsync(request, (IRestResponse<Model.Local.Storage.Count> response) => ResponseHandler<Model.Local.Storage.Count>(response, tcs));
 
             return tcs.Task;
         }
@@ -105,6 +105,21 @@ namespace SemManagement.UWP.Configurations
             request.AddParameter("playlistId", playlistId);
 
             _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
+        protected Task<List<T>> GetAllRulesAsync<T>(string endpoint)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            _restClient.ExecuteAsync<List<T>>(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
 
             return tcs.Task;
         }

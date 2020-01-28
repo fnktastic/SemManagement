@@ -3,11 +3,21 @@ using Quartz;
 using Quartz.Impl;
 using SemManagement.MonitoringContext.Scheduler.Jobs;
 using SemManagement.MonitoringContext.Services;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SemManagement.MonitoringContext.Scheduler
 {
     public static class Extensions
     {
+        public static Collection<T> ToCollection<T>(this IEnumerable<T> enumerable)
+        {
+            var collection = new Collection<T>();
+            foreach (T i in enumerable)
+                collection.Add(i);
+            return collection;
+        }
+
         public static async void AddQuartz(this IServiceCollection services)
         {
             services.AddTransient<HelloJob>();

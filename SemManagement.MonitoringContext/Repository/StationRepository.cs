@@ -1,27 +1,27 @@
 ﻿using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
-using SemManagement.LocalContext.DataAccess;
-using SemManagement.LocalContext.Model;
+using SemManagement.MonitoringContext.DataAccess;
+using SemManagement.MonitoringContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Repository
+namespace SemManagement.MonitoringContext.Repository
 {
-    public interface IStationRepository
+    public interface ILocalStationRepository
     {
         Task SaveRangeAsync(List<StationDto> stations);
 
         Task SaveAsync(StationDto station);
     }
 
-    public class StationRepository : IStationRepository
+    public class LocalStationRepository : ILocalStationRepository
     {
-        private LocalDbContext _context;
+        private MonitoringDbContext _context;
 
-        public StationRepository(LocalDbContext context)
+        public LocalStationRepository(MonitoringDbContext context)
         {
             _context = context;
         }
@@ -40,7 +40,7 @@ namespace SemManagement.LocalContext.Repository
 
         public async Task SaveRangeAsync(List<StationDto> stations)
         {
-            await _context.BulkInsertOrUpdateAsync(stations);
+            await _context.AddRangeAsync(stations); //  .BulkInsertOrUpdateAsync(stations);
 
             await _context.SaveChangesAsync();
         }

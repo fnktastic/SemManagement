@@ -12,7 +12,7 @@ namespace SemManagement.MonitoringContext.Services
 {
     public interface ISchedulerService
     {
-        Task ScheduleMonitoring(StationMonitoring stationMonitoring);
+        Task ScheduleMonitoring(StationMonitoringDto stationMonitoring);
         Task StartMonitorStations();
     }
     public class SchedulerService : ISchedulerService
@@ -26,7 +26,7 @@ namespace SemManagement.MonitoringContext.Services
             _monitoringRepositry = monitoringRepositry;
         }
 
-        public async Task ScheduleMonitoring(StationMonitoring stationMonitoring)
+        public async Task ScheduleMonitoring(StationMonitoringDto stationMonitoring)
         {
             bool exists = await _monitoringRepositry.CheckIfExist(stationMonitoring);
 

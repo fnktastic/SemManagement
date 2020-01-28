@@ -22,7 +22,7 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpPost("addMonitoringStation")]
-        public async Task<ActionResult> MonitorStation([FromBody] StationMonitoring model)
+        public async Task<ActionResult> MonitorStation([FromBody] StationMonitoringDto model)
         {
             if(ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("getMonitorings")]
-        public async Task<ActionResult<List<StationMonitoring>>> GetMonitorings()
+        public async Task<ActionResult<List<StationMonitoringDto>>> GetMonitorings()
         {
             if (ModelState.IsValid)
             {

@@ -13,6 +13,7 @@ namespace SemManagement.UWP.Configurations
         string Users { get; }
         string Playlists { get; }
         string Monitoring { get; }
+        string Rule { get; }
     }
     public class RestEndpoints : IRestEndpoints
     {
@@ -26,5 +27,7 @@ namespace SemManagement.UWP.Configurations
         public string Playlists => "api/playlists";
 
         public string Monitoring => "api/monitoring";
+
+        public string Rule => "api/rule";
     }
 }

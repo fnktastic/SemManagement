@@ -11,19 +11,19 @@ namespace SemManagement.MonitoringContext.Repository
 {
     public interface IMonitoringRepositry
     {
-        Task<List<StationMonitoring>> GetMonitoredStations();
+        Task<List<StationMonitoringDto>> GetMonitoredStations();
 
-        Task AddMonitoringStation(StationMonitoring stationMonitoring);
+        Task AddMonitoringStation(StationMonitoringDto stationMonitoring);
 
-        Task SaveStationSnapshots(List<StationSnapshot> stationSnapshots);
+        Task SaveStationSnapshots(List<StationSnapshotDto> stationSnapshots);
 
-        Task SaveStationSnapshotPlaylists(List<StationSnapshotPlaylist> stationSnapshotPlaylists);
+        Task SaveStationSnapshotPlaylists(List<StationSnapshotPlaylistDto> stationSnapshotPlaylists);
 
-        Task SavePlaylistSnapshots(List<PlaylistSnapshot> playlistSnapshots);
+        Task SavePlaylistSnapshots(List<PlaylistSnapshotDto> playlistSnapshots);
 
-        Task SavePlaylistSnapshotSongs(List<PlaylistSnapshotSong> playlistSnapshots);
+        Task SavePlaylistSnapshotSongs(List<PlaylistSnapshotSongDto> playlistSnapshots);
 
-        Task<bool> CheckIfExist(StationMonitoring stationMonitoring);
+        Task<bool> CheckIfExist(StationMonitoringDto stationMonitoring);
     }
 
     public class MonitoringRepositry : IMonitoringRepositry
@@ -35,14 +35,14 @@ namespace SemManagement.MonitoringContext.Repository
             _context = context;
         }
 
-        public async Task AddMonitoringStation(StationMonitoring stationMonitoring)
+        public async Task AddMonitoringStation(StationMonitoringDto stationMonitoring)
         {
             _context.StationMonitorings.Add(stationMonitoring);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckIfExist(StationMonitoring stationMonitoring)
+        public async Task<bool> CheckIfExist(StationMonitoringDto stationMonitoring)
         {
             var items = await _context.StationMonitorings.Where(x => x.StationId == stationMonitoring.StationId).ToListAsync();
 
@@ -51,33 +51,33 @@ namespace SemManagement.MonitoringContext.Repository
             return false;
         }
 
-        public async Task<List<StationMonitoring>> GetMonitoredStations()
+        public async Task<List<StationMonitoringDto>> GetMonitoredStations()
         {
             return await _context.StationMonitorings.ToListAsync();
         }
 
-        public async Task SavePlaylistSnapshots(List<PlaylistSnapshot> playlistSnapshots)
+        public async Task SavePlaylistSnapshots(List<PlaylistSnapshotDto> playlistSnapshots)
         {
             _context.PlaylistSnapshots.AddRange(playlistSnapshots);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task SavePlaylistSnapshotSongs(List<PlaylistSnapshotSong> playlistSnapshots)
+        public async Task SavePlaylistSnapshotSongs(List<PlaylistSnapshotSongDto> playlistSnapshots)
         {
             _context.PlaylistSnapshotSongs.AddRange(playlistSnapshots);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task SaveStationSnapshotPlaylists(List<StationSnapshotPlaylist> stationSnapshotPlaylists)
+        public async Task SaveStationSnapshotPlaylists(List<StationSnapshotPlaylistDto> stationSnapshotPlaylists)
         {
             _context.StationSnapshotPlaylists.AddRange(stationSnapshotPlaylists);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task SaveStationSnapshots(List<StationSnapshot> stationSnapshots)
+        public async Task SaveStationSnapshots(List<StationSnapshotDto> stationSnapshots)
         {
             _context.StationSnapshots.AddRange(stationSnapshots);
 

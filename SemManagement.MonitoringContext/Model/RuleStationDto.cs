@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Model
+namespace SemManagement.MonitoringContext.Model
 {
     [Table("RuleStation")]
     public class RuleStationDto

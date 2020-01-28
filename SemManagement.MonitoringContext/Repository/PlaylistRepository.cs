@@ -1,24 +1,24 @@
 ﻿using EFCore.BulkExtensions;
-using SemManagement.LocalContext.DataAccess;
-using SemManagement.LocalContext.Model;
+using SemManagement.MonitoringContext.DataAccess;
+using SemManagement.MonitoringContext.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Repository
+namespace SemManagement.MonitoringContext.Repository
 {
-    public interface IPlaylistRepository
+    public interface ILocalPlaylistRepository
     {
         Task SaveRangeAsync(List<PlaylistDto> playlists);
     }
 
-    public class PlaylistRepository : IPlaylistRepository
+    public class LocalPlaylistRepository : ILocalPlaylistRepository
     {
-        private LocalDbContext _context;
+        private MonitoringDbContext _context;
 
-        public PlaylistRepository(LocalDbContext context)
+        public LocalPlaylistRepository(MonitoringDbContext context)
         {
             _context = context;
         }

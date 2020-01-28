@@ -1,6 +1,5 @@
 ﻿using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Model;
-using SemManagement.UWP.Model.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace SemManagement.UWP.Services.PlaylistModule.Provider
     public interface IPlaylistProvider
     {
         Task<List<Playlist>> TakeAsync(int take, int skip = 0);
-        Task<Count> CountAsync();
+        Task<Model.Local.Storage.Count> CountAsync();
         Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId);
         Task RemovePlaylistFromStationAsync(int playlistId, int stationId);
         Task AddPlaylistToStationAsync(int playlistId, int stationId);
@@ -25,11 +24,11 @@ namespace SemManagement.UWP.Services.PlaylistModule.Provider
 
         }
 
-        public Task<Count> CountAsync()
+        public Task<Model.Local.Storage.Count> CountAsync()
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Playlists, "count");
 
-            return CountAsync<Count>(endpoint);
+            return CountAsync<Model.Local.Storage.Count>(endpoint);
         }
 
         public Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId)

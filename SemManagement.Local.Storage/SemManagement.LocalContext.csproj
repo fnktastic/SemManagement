@@ -121,24 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DataAccess\LocalDbContext.cs" />
-    <Compile Include="Enums\RulePlaylistTypeEnum.cs" />
-    <Compile Include="Model\MonitoringDto.cs" />
-    <Compile Include="Model\PlaylistDto.cs" />
-    <Compile Include="Model\PlaylistTagDto.cs" />
-    <Compile Include="Model\RuleDto.cs" />
-    <Compile Include="Model\RulePlaylistDto.cs" />
-    <Compile Include="Model\RuleStationDto.cs" />
-    <Compile Include="Model\SnapshotDto.cs" />
-    <Compile Include="Model\SnapshotPlaylistDto.cs" />
-    <Compile Include="Model\StationDto.cs" />
-    <Compile Include="Model\StationPlaylistDto.cs" />
-    <Compile Include="Model\StationTagDto.cs" />
-    <Compile Include="Model\TagDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\PlaylistRepository.cs" />
-    <Compile Include="Repository\RuleRepository.cs" />
-    <Compile Include="Repository\StationRepository.cs" />
-    <Compile Include="Repository\TagRepository.cs" />
     <EmbeddedResource Include="Properties\SemManagement.Local.Storage.rd.xml" />
   </ItemGroup>
   <ItemGroup>

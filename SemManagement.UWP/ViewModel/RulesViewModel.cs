@@ -141,6 +141,7 @@ namespace SemManagement.UWP.ViewModel
         {
             return new Rule()
             {
+                Id = Guid.NewGuid(),
                 Name = string.IsNullOrWhiteSpace(addRuleViewModel.RuleName) ? DateTime.Now.ToString() : addRuleViewModel.RuleName,
                 Created = DateTime.UtcNow,
                 IsDraft = isDraft,
@@ -186,15 +187,15 @@ namespace SemManagement.UWP.ViewModel
 
             rule.IsRuleInProcess = true;
 
-            var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(rule);
+            //var stationPlaylistsExtractedKeyValue = await _ruleService.ExtractPlaylists(rule);
 
-            foreach(var station in stationPlaylistsExtractedKeyValue.Keys)
-            {
-                foreach(var playlist in stationPlaylistsExtractedKeyValue[station])
-                {
-                    await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
-                }
-            }
+            //foreach(var station in stationPlaylistsExtractedKeyValue.Keys)
+            //{
+            //    foreach(var playlist in stationPlaylistsExtractedKeyValue[station])
+            //    {
+            //        await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
+            //    }
+            //}
 
             rule.IsRuleInProcess = false;
         }

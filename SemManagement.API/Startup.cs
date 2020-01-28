@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using SemManagement.MonitoringContext.DataAccess;
 using SemManagement.MonitoringContext.Repository;
 using SemManagement.MonitoringContext.Scheduler;
@@ -24,7 +25,9 @@ namespace SemManagement.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddDbContext<SemDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("SemDBConnection")));
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
@@ -35,6 +38,13 @@ namespace SemManagement.API
             services.AddTransient<IMonitoringRepositry, MonitoringRepositry>();
             services.AddTransient<IMonitoringService, MonitoringService>();
             services.AddTransient<ISchedulerService, SchedulerService>();
+
+            services.AddTransient<ILocalPlaylistRepository, LocalPlaylistRepository>();
+            services.AddTransient<ILocalRulesRepository, LocalRulesRepository>();
+            services.AddTransient<ILocalStationRepository, LocalStationRepository>();
+            services.AddTransient<ILocalTagRepository, LocalTagRepository>();
+            services.AddTransient<IRuleService, RuleService>();
+            services.AddTransient<ITagService, TagService>();
 
             services.AddQuartz();
         }

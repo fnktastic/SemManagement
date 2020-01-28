@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -22,11 +23,11 @@ namespace SemManagement.UWP.Model.Local.Storage
 
         public bool AllStations { get; set; }
 
-        public ICollection<Playlist> SourcePlaylists { get; set; }
+        public List<Playlist> SourcePlaylists { get; set; }
 
-        public ICollection<Playlist> TargetPlaylists { get; set; }
+        public List<Playlist> TargetPlaylists { get; set; }
 
-        public ICollection<Station> Stations { get; set; }
+        public List<Station> Stations { get; set; }
 
 
         private bool _isRuleInProcess = false;

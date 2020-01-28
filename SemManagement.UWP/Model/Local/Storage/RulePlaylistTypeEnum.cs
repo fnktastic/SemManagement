@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Enums
+namespace SemManagement.UWP.Model.Local.Storage
 {
     public enum RulePlaylistTypeEnum
     {

@@ -3,8 +3,6 @@ using CommonServiceLocator;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
-using SemManagement.LocalContext.DataAccess;
-using SemManagement.LocalContext.Repository;
 using SemManagement.UWP.Configurations;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Services.Local.RuleModule;
@@ -14,6 +12,7 @@ using SemManagement.UWP.Services.Monitoring.Provider;
 using SemManagement.UWP.Services.Monitoring.Service;
 using SemManagement.UWP.Services.PlaylistModule.Provider;
 using SemManagement.UWP.Services.PlaylistModule.Service;
+using SemManagement.UWP.Services.RuleModule.Provider;
 using SemManagement.UWP.Services.SongModule.Provider;
 using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.Services.StationModule.Provider;
@@ -62,19 +61,16 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<ISettingsService, SettingsService>();
             SimpleIoc.Default.Register<IMonitoringProvider, MonitoringProvider>();
             SimpleIoc.Default.Register<IMonitoringService, MonitoringService>();
+            SimpleIoc.Default.Register<Services.RuleModule.Service.IRuleService, Services.RuleModule.Service.RuleService>();
+            SimpleIoc.Default.Register<IRuleProvider, RuleProvider>();
 
             SimpleIoc.Default.Register<IConfigurationProvider, MyConfig>();
             SimpleIoc.Default.Register<IMapper, MyMapper>();
 
             //local storage
-            SimpleIoc.Default.Register<LocalDbContext>();
-            SimpleIoc.Default.Register<IRulesRepository, RulesRepository>();
             SimpleIoc.Default.Register<ILocalDataService, LocalDataService>();
             SimpleIoc.Default.Register<IRuleService, RuleService>();
-            SimpleIoc.Default.Register<LocalContext.Repository.IPlaylistRepository, LocalContext.Repository.PlaylistRepository>();
-            SimpleIoc.Default.Register<LocalContext.Repository.IStationRepository, LocalContext.Repository.StationRepository>();
-            SimpleIoc.Default.Register<LocalContext.Repository.ITagRepository, LocalContext.Repository.TagRepository>();
- 
+
             SetupNavigation();
         }
 

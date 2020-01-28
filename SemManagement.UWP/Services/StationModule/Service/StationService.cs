@@ -1,5 +1,4 @@
 ﻿using SemManagement.UWP.Model;
-using SemManagement.UWP.Model.Api;
 using SemManagement.UWP.Services.StationModule.Provider;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace SemManagement.UWP.Services.StationModule.Service
         Task<List<SongExtended>> GetDeletedSongsAsync(int stationId);
         Task<List<SongExtended>> GetStationSongsAsync(int stationId);
         Task<User> GetStationUserAsync(int stationId);
-        Task<Count> CountAsync();
+        Task<Model.Local.Storage.Count> CountAsync();
         Task<List<StationQueue>> GetStationQueueAsync(int stationId);
 
     }
@@ -48,7 +47,7 @@ namespace SemManagement.UWP.Services.StationModule.Service
             return _stationProvider.GetStationUserAsync(stationId);
         }
 
-        public Task<Count> CountAsync()
+        public Task<Model.Local.Storage.Count> CountAsync()
         {
             return _stationProvider.CountAsync();
         }

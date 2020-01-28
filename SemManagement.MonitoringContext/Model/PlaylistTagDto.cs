@@ -6,19 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SemManagement.LocalContext.Model
+namespace SemManagement.MonitoringContext.Model
 {
-    [Table("StationPlaylist")]
-    public class StationPlaylistDto
+    [Table("PlaylistTag")]
+    public class PlaylistTagDto
     {
-        [Key]
-        public Guid StationPlaylistId { get; set; }
-
-        public int StationId { get; set; }
-        public StationDto Station { get; set; }
-
         [Key]
         public int PlaylistId { get; set; }
         public PlaylistDto Playlist { get; set; }
+
+        [Key]
+        public Guid TagId { get; set; }
+        public TagDto Tag { get; set; }
     }
 }

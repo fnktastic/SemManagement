@@ -1,14 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SemManagement.MonitoringContext.Model
 {
-    public class PlaylistSnapshotSong
+    [Table("PlaylistSnapshotSong")]
+    public class PlaylistSnapshotSongDto
     {
         [Key]
         public Guid Id { get; set; }
         public Guid PlaylistSnapshotId { get; set; }
-        public PlaylistSnapshot PlaylistSnapshot { get; set; }
+        public PlaylistSnapshotDto PlaylistSnapshot { get; set; }
         public int SongId { get; set; }
         public DateTime DateTime { get; set; }
     }

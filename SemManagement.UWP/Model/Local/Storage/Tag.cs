@@ -12,6 +12,12 @@ namespace SemManagement.UWP.Model.Local.Storage
 
         public string Name { get; set; }
 
+        public Tag(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
         public Tag(string name)
         {
             Name = name;

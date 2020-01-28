@@ -297,12 +297,12 @@ namespace SemManagement.UWP.ViewModel
                 var tags = _newTag
                     .Split(',')
                     .Select(x => x.Trim())
-                    .Select(x => new Model.Local.Storage.Tag(x))
+                    .Select(x => new Model.Local.Storage.Tag(Guid.NewGuid(), x))
                     .ToList();
 
                 _tags.AddRange(tags);
 
-                await _localDataService.SaveStationTagRangeAsync(_selectedStation, _tags);
+                await _localDataService.SaveStationTagRangeAsync(_selectedStation, _tags.ToList());
 
                 NewTag = string.Empty;
             }

@@ -17,6 +17,8 @@ using SemManagement.UWP.Services.SongModule.Provider;
 using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.Services.StationModule.Provider;
 using SemManagement.UWP.Services.StationModule.Service;
+using SemManagement.UWP.Services.TagModule.Provider;
+using SemManagement.UWP.Services.TagModule.Service;
 using SemManagement.UWP.View;
 using System;
 using System.Collections.Generic;
@@ -63,6 +65,8 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<IMonitoringService, MonitoringService>();
             SimpleIoc.Default.Register<Services.RuleModule.Service.IRuleService, Services.RuleModule.Service.RuleService>();
             SimpleIoc.Default.Register<IRuleProvider, RuleProvider>();
+            SimpleIoc.Default.Register<ITagProvider, TagProvider>();
+            SimpleIoc.Default.Register<ITagService, TagService>();
 
             SimpleIoc.Default.Register<IConfigurationProvider, MyConfig>();
             SimpleIoc.Default.Register<IMapper, MyMapper>();

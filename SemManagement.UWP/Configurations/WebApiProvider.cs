@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Model.Local.Storage;
+using SemManagement.UWP.Helper.TransportModel;
 
 namespace SemManagement.UWP.Configurations
 {
@@ -192,6 +193,40 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<List<T>> GetStationByTagsAsync<T>(string endpoint, List<Tag> entities)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddJsonBody(entities);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
+        protected Task<List<T>> GetAllTagsAsync<T>(string endpoint, int sid)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("sid", sid, ParameterType.QueryString);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<User> GetStationUserAsync(string endpoint, int stationId) 
         {
             TaskCompletionSource<User> tcs = new TaskCompletionSource<User>();
@@ -237,6 +272,22 @@ namespace SemManagement.UWP.Configurations
                 };
 
                 request.AddJsonBody(entity);
+
+                _restClient.ExecuteAsync(request, (IRestResponse response) => { });
+            });
+        }
+
+        protected Task AddRangeAsync<T>(string endpoint, List<T> entities)
+        {
+            return Task.Run(() =>
+            {
+                IRestRequest request = new RestRequest(endpoint, Method.POST, DataFormat.Json)
+                {
+                    Timeout = 30 * 60 * 1000,
+                    ReadWriteTimeout = 30 * 60 * 1000
+                };
+
+                request.AddJsonBody(entities);
 
                 _restClient.ExecuteAsync(request, (IRestResponse response) => { });
             });

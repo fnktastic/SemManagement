@@ -17,7 +17,7 @@ namespace SemManagement.UWP.Services.PlaylistModule.Provider
         Task AddPlaylistToStationAsync(int playlistId, int stationId);
     }
 
-    class PlaylistProvider : WebApiProvider, IPlaylistProvider
+    public class PlaylistProvider : WebApiProvider, IPlaylistProvider
     {
         public PlaylistProvider(IRestEndpoints restEndpoints, PublicApiConfiguration settings) : base(restEndpoints, settings)
         {

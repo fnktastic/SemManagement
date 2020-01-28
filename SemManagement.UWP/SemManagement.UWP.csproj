@@ -136,6 +136,7 @@
     <Compile Include="Helper\SongsComparer.cs" />
     <Compile Include="Helper\StaticSettings.cs" />
     <Compile Include="Helper\StationComparer.cs" />
+    <Compile Include="Helper\TransportModel\TagViewModel.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Model\Local\Storage\Count.cs" />
     <Compile Include="Model\Local\Storage\Monitoring.cs" />
@@ -164,6 +165,8 @@
     <Compile Include="Services\SongModule\Service\SongService.cs" />
     <Compile Include="Services\StationModule\Provider\StationProvider.cs" />
     <Compile Include="Services\StationModule\Service\StationService.cs" />
+    <Compile Include="Services\TagModule\Provider\TagProvider.cs" />
+    <Compile Include="Services\TagModule\Service\TagService.cs" />
     <Compile Include="Services\UserModule\Provide\UserProvider.cs" />
     <Compile Include="Services\UserModule\Service\UserService.cs" />
     <Compile Include="ViewModel\AudiosViewModel.cs" />

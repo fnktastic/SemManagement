@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using SemManagement.UWP.Model.Local.Storage;
 using SemManagement.UWP.Services.RuleModule.Service;
+using SemManagement.UWP.Services.TagModule.Service;
 using SemManagement.UWP.ViewModel;
 using SemManagement.UWP.ViewModel.ContentDialog;
 using Rule = SemManagement.UWP.Model.Local.Storage.Rule;
@@ -17,7 +18,7 @@ namespace SemManagement.UWP.Services.Local.Storage
     {
         Task<List<Rule>> GetAllRulesAsync();
         Task SaveRuleAsync(Rule rule);
-        Task SaveStationTagRangeAsync(Model.Station station, IEnumerable<Tag> tags);
+        Task SaveStationTagRangeAsync(Model.Station station, List<Tag> tags);
         Task<List<Tag>> GetAllTagsAsync(int sid);
         Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags);
     }
@@ -26,10 +27,13 @@ namespace SemManagement.UWP.Services.Local.Storage
     {
         private readonly IMapper _mapper;
         private readonly IRuleService _ruleService;
-        public LocalDataService(IMapper mapper, IRuleService ruleService)
+        private readonly ITagService _tagService;
+
+        public LocalDataService(IMapper mapper, IRuleService ruleService, ITagService tagService)
         {
             _mapper = mapper;
             _ruleService = ruleService;
+            _tagService = tagService;
         }
 
         public async Task<List<Rule>> GetAllRulesAsync()
@@ -42,19 +46,19 @@ namespace SemManagement.UWP.Services.Local.Storage
             await _ruleService.SaveRuleAsync(rule);
         }
 
-        public async Task SaveStationTagRangeAsync(Model.Station station, IEnumerable<Tag> tags)
+        public async Task SaveStationTagRangeAsync(Model.Station station, List<Tag> tags)
         {
-
+            await _tagService.SaveStationTagRangeAsync(station, tags);
         }
 
         public async Task<List<Tag>> GetAllTagsAsync(int sid)
         {
-            return null;
+            return await _tagService.GetAllTagsAsync(sid);
         }
 
         public async Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags)
         {
-            return null;
+            return await _tagService.GetStationByTagsAsync(tags);
         }
     }
 }

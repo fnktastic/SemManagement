@@ -11,6 +11,10 @@ namespace SemManagement.MonitoringContext.Services
     public interface ITagService
     {
         Task SaveStationTagRangeAsync(StationDto station, List<TagDto> tags);
+
+        Task<List<TagDto>> GetAllTagsAsync(int sid);
+
+        Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags);
     }
 
     public class TagService : ITagService

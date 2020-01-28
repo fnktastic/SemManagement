@@ -33,7 +33,7 @@ namespace SemManagement.UWP.Helper
             this.timer = new Timer(new TimerCallback(async delegate
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher
-                .RunAsync(CoreDispatcherPriority.Normal, () => action());
+                                     .RunAsync(CoreDispatcherPriority.Normal, () => action());
             }));
         }
 

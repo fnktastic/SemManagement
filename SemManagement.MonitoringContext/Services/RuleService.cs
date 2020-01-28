@@ -26,11 +26,11 @@ namespace SemManagement.MonitoringContext.Services
         private readonly ILocalPlaylistRepository _localPlaylistRepository;
         private readonly ILocalStationRepository _stationRepository;
         private readonly IPlaylistRepository _playlistRepository;
-        private readonly ISchedulerService _schedulerService;
+        private readonly IMonitoringScheduler _monitoringScheduler;
 
-        public RuleService(ISchedulerService schedulerService, ILocalRulesRepository rulesRepository, ILocalPlaylistRepository localPlaylistRepository, ILocalStationRepository stationRepository, IPlaylistRepository playlistRepository)
+        public RuleService(IMonitoringScheduler monitoringScheduler, ILocalRulesRepository rulesRepository, ILocalPlaylistRepository localPlaylistRepository, ILocalStationRepository stationRepository, IPlaylistRepository playlistRepository)
         {
-            _schedulerService = schedulerService;
+            _monitoringScheduler = monitoringScheduler;
             _localRulesRepository = rulesRepository;
             _localPlaylistRepository = localPlaylistRepository;
             _stationRepository = stationRepository;
@@ -111,6 +111,13 @@ namespace SemManagement.MonitoringContext.Services
                 StationId = x.Sid,
                 RuleId = savedRule.Id,
             }).ToList();
+
+            if (rule.IsRepeat)
+                _monitoringScheduler.AddContiniousJob<SetUpRuleJob>(
+                   string.Format("rules_{0}", rule.Id),
+                   "rules",
+                   rule.Id.ToString()
+                );
 
             await _localRulesRepository.AddRuleStationRangeAsync(stations);
         }

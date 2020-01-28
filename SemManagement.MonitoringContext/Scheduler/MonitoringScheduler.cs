@@ -51,8 +51,12 @@ namespace SemManagement.MonitoringContext.Scheduler
 
                 ITrigger jobTrigger = TriggerBuilder.Create()
                     .WithIdentity(name + "Trigger", group)
-                    .StartAt(DateTimeOffset.UtcNow)
-                    .WithSimpleSchedule(t => t.WithIntervalInHours(24).RepeatForever())
+                    .WithDailyTimeIntervalSchedule
+                    (s =>
+                        s.WithIntervalInHours(24)
+                        .OnEveryDay()
+                        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(04, 0))
+                    )
                     .Build();
 
                 await _scheduler.ScheduleJob(job, jobTrigger);

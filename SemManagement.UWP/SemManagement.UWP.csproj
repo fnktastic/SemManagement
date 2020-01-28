@@ -129,6 +129,7 @@
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Converters\StringToTagConveter.cs" />
+    <Compile Include="Helper\Const.cs" />
     <Compile Include="Helper\DefferedAction.cs" />
     <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Helper\ObservableCollectionFast.cs" />

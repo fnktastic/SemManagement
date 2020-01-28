@@ -28,6 +28,7 @@ namespace SemManagement.API
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             services.AddDbContext<SemDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("SemDBConnection")));
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<IUserRepository, UserRepository>();

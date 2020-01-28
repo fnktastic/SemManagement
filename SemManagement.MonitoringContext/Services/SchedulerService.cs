@@ -5,6 +5,7 @@ using SemManagement.MonitoringContext.Scheduler;
 using SemManagement.MonitoringContext.Scheduler.Jobs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,16 +16,19 @@ namespace SemManagement.MonitoringContext.Services
         Task ScheduleMonitoring(StationMonitoringDto stationMonitoring);
         Task StartMonitorStations();
         Task StartRule(RuleDto rule);
+        Task StartMonitorRules();
     }
     public class SchedulerService : ISchedulerService
     {
         private readonly IMonitoringRepositry _monitoringRepositry;
         private readonly IMonitoringScheduler _monitoringScheduler;
+        private readonly ILocalRulesRepository _localRulesRepository;
 
-        public SchedulerService(IMonitoringScheduler monitoringScheduler, IMonitoringRepositry monitoringRepositry)
+        public SchedulerService(ILocalRulesRepository localRulesRepository, IMonitoringScheduler monitoringScheduler, IMonitoringRepositry monitoringRepositry, IRuleService ruleService)
         {
             _monitoringScheduler = monitoringScheduler;
             _monitoringRepositry = monitoringRepositry;
+            _localRulesRepository = localRulesRepository;
         }
 
         public async Task ScheduleMonitoring(StationMonitoringDto stationMonitoring)
@@ -55,6 +59,16 @@ namespace SemManagement.MonitoringContext.Services
                     station.RepeatInterval,
                     station.StartDateTime.Value,
                     station.StationId);
+            }
+        }
+
+        public async Task StartMonitorRules()
+        {
+            var rules = (await _localRulesRepository.GetAllAsync()).Where(x => x.IsRepeat).ToList();
+
+            foreach (var rule in rules)
+            {
+                await StartRule(rule);
             }
         }
 

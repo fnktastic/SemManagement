@@ -41,6 +41,8 @@ namespace SemManagement.API.Controllers
             {
                 await _schedulerService.StartMonitorStations();
 
+                await _schedulerService.StartMonitorRules();
+
                 return Ok();
             }
 

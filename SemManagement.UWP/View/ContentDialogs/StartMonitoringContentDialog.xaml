@@ -19,7 +19,7 @@
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
         <StackPanel  Grid.Column="0">
-            <TextBox Header="Snapshot period (days)" Text="{x:Bind SendToStationViewModel.RepeatInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Header="Monitoring Period (days)" Text="{x:Bind SendToStationViewModel.RepeatInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox Header="Minimal % of updates" Text="{x:Bind SendToStationViewModel.WantedAmountOfUpdates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <Grid Grid.Column="2" Width="300" MinHeight="800">

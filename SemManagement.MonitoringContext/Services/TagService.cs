@@ -36,7 +36,6 @@ namespace SemManagement.MonitoringContext.Services
 
             var stationTags = savedTags.Select(x => new StationTagDto()
             {
-                Id = Guid.NewGuid(),
                 StationSid = station.Sid,
                 TagId = x.Id,
             }).ToList();

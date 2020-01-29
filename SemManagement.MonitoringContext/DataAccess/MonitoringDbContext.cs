@@ -74,7 +74,7 @@ namespace SemManagement.MonitoringContext.DataAccess
                 .HasKey(pa => pa.StationPlaylistId);
 
             modelBuilder.Entity<StationTagDto>()
-                .HasKey(pa => new { pa.Id });
+                .HasKey(pa => new { pa.StationSid, pa.TagId });
 
             modelBuilder.Entity<PlaylistTagDto>()
                 .HasKey(pa => new { pa.PlaylistId, pa.TagId });

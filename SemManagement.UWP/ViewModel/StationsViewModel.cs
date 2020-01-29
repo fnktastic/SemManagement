@@ -28,6 +28,18 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
+        private Stationsstatus _stationsstatus;
+        public Stationsstatus Stationsstatus
+        {
+            get { return _stationsstatus; }
+            set
+            {
+                if (_stationsstatus == value) return;
+                _stationsstatus = value;
+                RaisePropertyChanged(nameof(Stationsstatus));
+            }
+        }
+
         private bool _isStationSelected;
         public bool IsStationSelected
         {
@@ -395,6 +407,24 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private RelayCommand _loadStationStatusCommand;
+        public RelayCommand LoadStationStatusCommand => _loadStationStatusCommand ?? (_loadStationStatusCommand = new RelayCommand(LoadStationStatus));
+        private async void LoadStationStatus()
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                var stationStatus = await _stationService.GetStationStatuses(_selectedStation.Sid);
+
+                Stationsstatus = stationStatus;
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
+
         private RelayCommand<Playlist> _sendToStationCommand;
         public RelayCommand<Playlist> SendToStationCommand => _sendToStationCommand ?? (_sendToStationCommand = new RelayCommand<Playlist>(SendToStation));
         private async void SendToStation(Playlist playlist)
@@ -480,6 +510,7 @@ namespace SemManagement.UWP.ViewModel
             if (_selectedStation == null)
             {
                 IsStationSelected = false;
+                return;
             }
 
             if (_isStatsTabSelected)
@@ -492,7 +523,10 @@ namespace SemManagement.UWP.ViewModel
                 LoadStationPlaylistsCommand.Execute(null);
 
             if (_isUserDetailsTabSelected)
+            {
                 LoadTagsCommand.Execute(null);
+                LoadStationStatusCommand.Execute(null);
+            }
 
             if (_isStationQueueTabSelected)
                 LoadStationQueueCommand.Execute(null);

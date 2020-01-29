@@ -125,6 +125,7 @@
     <Compile Include="Configurations\RestEndPoins.cs" />
     <Compile Include="Configurations\WebApiProvider.cs" />
     <Compile Include="Converters\BoolToVisibleOrCollapsed.cs" />
+    <Compile Include="Converters\IntToBoolStringConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Helper\StationComparer.cs" />
     <Compile Include="Helper\TransportModel\TagTransportModel.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
+    <Compile Include="Model\Stationsstatus.cs" />
     <Compile Include="Model\Local\Storage\Count.cs" />
     <Compile Include="Model\Local\Storage\Monitoring.cs" />
     <Compile Include="Model\Local\Storage\Playlist.cs" />

@@ -10,7 +10,7 @@
     Background="{ThemeResource CustomAcrylicBrush}"
     DataContext="{Binding MonitoringPageInstance, Source={StaticResource Locator}}">
 
-    <Grid>
+    <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
@@ -41,7 +41,7 @@
         </ListView>
 
         <Button Grid.Column="0" Grid.Row="1"
-                    Content="+" Command="{Binding AddMonitoringItemCommand}" HorizontalAlignment="Stretch" />
+                    Content="Start Monitoring Station" Command="{Binding AddMonitoringItemCommand}" HorizontalAlignment="Stretch" />
 
     </Grid>
 </Page>

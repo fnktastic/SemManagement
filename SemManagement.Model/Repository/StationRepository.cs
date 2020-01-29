@@ -24,6 +24,8 @@ namespace SemManagement.SemContext.Repository
         Task<Count> CountAsync();
 
         Task<List<Station>> GetAllActiveStations();
+
+        Task<Stationsstatus> GetStationStatuses(int sid);
     }
     public class StationRepository : IStationRepository
     {
@@ -103,6 +105,18 @@ namespace SemManagement.SemContext.Repository
             int count = await _context.Stations.CountAsync();
 
             return new Count(count);
+        }
+
+        public async Task<Stationsstatus> GetStationStatuses(int sid)
+        {
+            var stationStatuses = await _context.Stationsstatuses.Where(x => x.idStation == sid).ToListAsync();
+
+            if(stationStatuses != null && stationStatuses.Count > 0)
+            {
+                return stationStatuses.First();
+            }
+
+            return new Stationsstatus();
         }
     }
 }

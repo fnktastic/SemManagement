@@ -29,7 +29,13 @@
                   ItemsSource="{Binding Songs}"
                   Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                   ItemTemplate="{StaticResource SongItemTemplate}"
-                  SelectionMode="Single" />
+                  SelectionMode="Single">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
         </Grid>
 
     </Grid>

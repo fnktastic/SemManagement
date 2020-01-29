@@ -22,6 +22,8 @@ namespace SemManagement.SemContext
 
         public DbSet<StationsPlaylists> StationsPlaylists { get; set; }
 
+        public DbSet<Stationsstatus> Stationsstatuses { get; set; }
+
         public SemDbContext(DbContextOptions<SemDbContext> options) : base(options)
         {
 
@@ -36,6 +38,7 @@ namespace SemManagement.SemContext
             modelBuilder.Entity<SongExtended>();
             modelBuilder.Entity<StationQueue>();
             modelBuilder.Entity<StationsPlaylists>();
+            modelBuilder.Entity<Stationsstatus>().ToTable("Stationsstatus");
         }
     }
 }

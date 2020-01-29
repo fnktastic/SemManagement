@@ -277,6 +277,23 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<Stationsstatus> GetStationStatuses(string endpoint, int sid)
+        {
+            TaskCompletionSource<Stationsstatus> tcs = new TaskCompletionSource<Stationsstatus>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("sid", sid);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<Stationsstatus> response) => ResponseHandler<Stationsstatus>(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<List<T>> AddAsync<T>(string endpoint, List<T> entities, DateTime lastSyncDate)
         {
             TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();

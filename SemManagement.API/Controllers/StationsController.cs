@@ -74,22 +74,10 @@ namespace SemManagement.API.Controllers
             return await _stationRepository.CountAsync();
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("getStationStatuses")]
+        public async Task<ActionResult<Stationsstatus>> GetStationStatuses([FromQuery] int sid)
         {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return await _stationRepository.GetStationStatuses(sid);
         }
     }
 }

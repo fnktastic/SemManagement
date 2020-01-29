@@ -15,6 +15,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*" />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition Width="0.7*" />
         </Grid.ColumnDefinitions>
 
@@ -60,18 +61,24 @@
                 </Button>
             </Grid>
             <ListBox Grid.Row="1"
-                      x:Name="playlists"
-                      SelectionChanged="Playlists_SelectionChanged"
+                 x:Name="playlists"
+                 SelectionChanged="Playlists_SelectionChanged"
                  ItemsSource="{Binding Playlists}"
                  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                  ItemTemplate="{StaticResource PlaylistItemTemplate}"
                  SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  SelectionMode="Single"
                  CanDrag="True"
-                />
+                >
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
         </Grid>
 
-        <Grid Grid.Row="0" Grid.Column="1">
+        <Grid Grid.Row="0" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32" />
                 <RowDefinition Height="1*" />
@@ -79,12 +86,12 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="0" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
                              Text="{Binding AudiosSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              PlaceholderText="filter audios" />
-                <Button Grid.Column="1">
+                <Button Grid.Column="1" Visibility="Collapsed">
                     <SymbolIcon Symbol="List" />
                     <Button.Flyout>
                         <Flyout>
@@ -109,7 +116,13 @@
                  ItemTemplate="{StaticResource SongItemTemplate}"
                  SelectionMode="Single"
                  CanDrag="True"
-                />
+                >
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
         </Grid>
 
     </Grid>

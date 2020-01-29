@@ -15,8 +15,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.45*" />
-            <ColumnDefinition Width="0.55*" />
+            <ColumnDefinition Width="0.25*" />
+            <ColumnDefinition Width="0.75*" />
         </Grid.ColumnDefinitions>
 
         <ProgressRing IsActive="True" 
@@ -28,26 +28,28 @@
                       Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
 
         <Grid Grid.Row="0" Grid.Column="0">
-            <GridView 
+            <ListBox 
                   ItemsSource="{Binding Stations}"
                   Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                   ItemTemplate="{StaticResource StationItemTemplate}"
                   SelectedItem="{Binding SelectedStation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                  IsItemClickEnabled="True"
-                  IsSwipeEnabled="True"
-                  CanDragItems="True"
-                  SelectionMode="Single" />
+                  SelectionMode="Single">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
         </Grid>
 
         <controls:TabView Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsStationSelected}"  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
             <controls:TabViewItem Header="Details" IsSelected="{Binding IsUserDetailsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid VerticalAlignment="Top"
+                <Grid VerticalAlignment="Stretch"
                       Margin="10"
                       Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}}"
                       >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="35" />
                     </Grid.RowDefinitions>
                     <ProgressRing IsActive="True" 
                                   VerticalAlignment="Center"
@@ -56,40 +58,112 @@
                                   Height="60"
                                   Width="60"
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+                    <StackPanel Grid.Row="0">
 
-                    <ListBox ItemsSource="{Binding Tags}" Grid.Row="0">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name, Converter={StaticResource StringToTagConverter}}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-                        <TextBox
-                            Grid.Column="0"
-                            PlaceholderText="#tag, #tag2, #tag3..."
-                            Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button 
-                            Grid.Column="1"
-                            Height="50" Width="50"
-                            Command="{Binding AddNewTagCommand}">
-                            <SymbolIcon Symbol="Add" />
-                        </Button>
-                    </Grid>
-              
+                        <TextBlock Margin="0 0 0 15" Text="Tags" FontSize="24" FontWeight="Light" />
+
+                        <ListBox ItemsSource="{Binding Tags}" Margin="15 0 0 0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name, Converter={StaticResource StringToTagConverter}}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <Grid Height="33" Margin="15 0 0 20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                Grid.Column="0"
+                                PlaceholderText="#tag, #tag2, #tag3..."
+                                Text="{Binding NewTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Button 
+                                Grid.Column="1"
+                                Width="50"
+                                Command="{Binding AddNewTagCommand}">
+                                <SymbolIcon Symbol="Add" />
+                            </Button>
+                        </Grid>
+
+                        <TextBlock Text="Station Status" FontSize="24" FontWeight="Light" Margin="0 0 0 15" />
+                        <Grid Margin="15 0 0 0" IsHitTestVisible="False">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Queue Name:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.QueueName}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Song:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="2" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongTitle}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Artist:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="3" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongArtist}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="4" Text="Volume:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="4" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Volume}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="5" Text="Cross Fade Name:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="5" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.CrossFade}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="6" Text="Is Mute:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="6" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Mute, Converter={StaticResource IntToBoolStringConverter}}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="7" Text="Is Loop:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="7" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Loop, Converter={StaticResource IntToBoolStringConverter}}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="8" Text="Is Shuffle:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="8" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Shuffle, Converter={StaticResource IntToBoolStringConverter}}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="9" Text="Is Stopped:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="9" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Stopped, Converter={StaticResource IntToBoolStringConverter}}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="10" Text="Is Playing:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="10" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Playing, Converter={StaticResource IntToBoolStringConverter}}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="11" Text="Is Online:" FontSize="18" FontWeight="Light"/>
+                            <TextBlock Grid.Column="1" Grid.Row="11" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Online, Converter={StaticResource IntToBoolStringConverter}}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="12" Text="Scheduler Enabled:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="12" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.schedulerenabled, Converter={StaticResource IntToBoolStringConverter}}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="13" Text="Current Song ID:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="13" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongSemId}" />
+
+                            <TextBlock Grid.Column="0" Grid.Row="14" Text="Changed Date:" FontSize="18" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="14" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.ChangedDate}" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Playlists" IsSelected="{Binding IsPlaylistsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid VerticalAlignment="Top">
+                <Grid VerticalAlignment="Stretch">
                     <ProgressRing IsActive="True" 
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
@@ -102,42 +176,61 @@
                              HorizontalAlignment="Stretch"
                              ItemsSource="{Binding Playlists}"
                              ItemTemplate="{StaticResource PlaylistItemTemplate}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                     </ListBox>
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Songs" IsSelected="{Binding IsSongsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid Margin="15">
-                    <ProgressRing IsActive="True" 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <ToggleSwitch Grid.Row="0" OffContent="All Songs" OnContent="Deleted Songs"
+                                      IsOn="{Binding IsDeletedSongs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ProgressRing Grid.Row="1" IsActive="True" 
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   Margin="15"
                                   Height="60"
                                   Width="60"
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
-                    <Grid>
+                    <Grid Grid.Row="1"  Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
+                            <RowDefinition Height="5" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <ToggleSwitch Grid.Row="0" OffContent="All Songs" OnContent="Deleted Songs"
-                                      IsOn="{Binding IsDeletedSongs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <ListBox Grid.Row="1"
                              Visibility="{Binding IsDeletedSongs, Converter={StaticResource BoolToVisibleOrCollapsed}}"
                              VerticalAlignment="Top"
                              ItemsSource="{Binding SongsDeleted}"
                              ItemTemplate="{StaticResource SongExtendedItemTemplate}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
                         </ListBox>
                         <ListBox Grid.Row="1"
                              Visibility="{Binding IsDeletedSongs, Converter={StaticResource InverseBoolToVisibilityConverter}}"
                              VerticalAlignment="Top"
                              ItemsSource="{Binding Songs}"
                              ItemTemplate="{StaticResource SongExtendedItemTemplate}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
                         </ListBox>
                     </Grid>
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Station Queue" IsSelected="{Binding IsStationQueueTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid VerticalAlignment="Top">
+                <Grid VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
@@ -149,15 +242,21 @@
                                   Width="60"
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
 
-                    <controls:DataGrid 
+                    <ListBox
                         Grid.Row="0"
                         VerticalAlignment="Top"
-                        ItemsSource="{Binding StationQueues}" AutoGenerateColumns="True">
-                    </controls:DataGrid>
+                        ItemsSource="{Binding StationQueues}"
+                        ItemTemplate="{StaticResource SongExtendedItemTemplate}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Stats" IsSelected="{Binding IsStatsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid VerticalAlignment="Top">
+                <Grid VerticalAlignment="Stretch">
                     <ProgressRing IsActive="True" 
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
@@ -172,6 +271,11 @@
                                 VerticalAlignment="Top"
                                 ItemsSource="{Binding MostPopularSongs}"
                                 ItemTemplate="{StaticResource SongItemTemplate}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
                             </ListBox>
                         </controls:Expander>
                     </controls:DockPanel>

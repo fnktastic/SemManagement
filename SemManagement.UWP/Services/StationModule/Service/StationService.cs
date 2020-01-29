@@ -16,6 +16,7 @@ namespace SemManagement.UWP.Services.StationModule.Service
         Task<User> GetStationUserAsync(int stationId);
         Task<Model.Local.Storage.Count> CountAsync();
         Task<List<StationQueue>> GetStationQueueAsync(int stationId);
+        Task<Stationsstatus> GetStationStatuses(int sid);
 
     }
     public class StationService : IStationService
@@ -55,6 +56,11 @@ namespace SemManagement.UWP.Services.StationModule.Service
         public Task<List<StationQueue>> GetStationQueueAsync(int stationId)
         {
             return _stationProvider.GetStationQueueAsync(stationId);
+        }
+
+        public Task<Stationsstatus> GetStationStatuses(int sid)
+        {
+            return _stationProvider.GetStationStatuses(sid);
         }
     }
 }

@@ -15,7 +15,8 @@
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
     <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
     <converters:StringToTagConverter x:Key="StringToTagConverter" />
-
+    <converters:IntToBoolStringConverter x:Key="IntToBoolStringConverter" />
+    
     <media:AcrylicBrush x:Key="CustomAcrylicBrush" 
                         BackgroundSource="HostBackdrop"
                         TintOpacity="0.2" 
@@ -48,7 +49,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
@@ -79,13 +80,13 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="1*" MinWidth="400" />
+                <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Sgid}" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" MaxWidth="350" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" MaxWidth="350" TextTrimming="WordEllipsis" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" TextTrimming="WordEllipsis" />
             <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Genre}" />
             <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="Detals" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
                 <Button.Flyout>
@@ -105,7 +106,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="StationItemTemplate">
-        <Border Width="200" 
+        <Border 
                 Padding="15 10"
                 CornerRadius="5"
                 Background="{ThemeResource GridViewItemBackground}">
@@ -185,14 +186,14 @@
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="{Binding Plid}" />
-            <TextBlock Grid.Column="1" Text="{Binding Name}" Width="350" />
-            <Button Grid.Column="2" Content="...">
+            <TextBlock Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Stretch" Width="Auto" />
+            <Button Grid.Column="2" Content="..." HorizontalAlignment="Right">
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel>
                             <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Actions" Margin="0,0,0,12" />
                             <Button Content="Send To Station" Command="{Binding ElementName=Me, Path=DataContext.SendToStationCommand}"  CommandParameter="{Binding}" />
-                            <Button Content="Remove" Command="{Binding ElementName=Me, Path=DataContext.RemovePlaylistCommand}" CommandParameter="{Binding}" />
+                            <Button Margin="0 5 0 0" Content="Remove" Command="{Binding ElementName=Me, Path=DataContext.RemovePlaylistCommand}" CommandParameter="{Binding}" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>

@@ -12,6 +12,7 @@ namespace SemManagement.MonitoringContext.Model
         [Key]
         public Guid Id { get; set; }
         public DateTime DateTime { get; set; }
+        public string PlaylistName { get; set; }
         public int PlaylistId { get; set; }
         public virtual Collection<PlaylistSnapshotSongDto> SnapshotSongs { get; set; }
     }

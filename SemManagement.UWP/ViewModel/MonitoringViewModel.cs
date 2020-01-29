@@ -120,7 +120,6 @@ namespace SemManagement.UWP.ViewModel
                     {
                         Id = Guid.NewGuid(),
                         RepeatInterval = int.Parse(startMonitoringViewModel.RepeatInterval),
-                        StartDateTime = startMonitoringViewModel.StartDateTime,
                         StationName = selectedStation.Name,
                         WantedAmountOfUpdates = int.Parse(startMonitoringViewModel.WantedAmountOfUpdates),
                         StationId = selectedStation.Sid

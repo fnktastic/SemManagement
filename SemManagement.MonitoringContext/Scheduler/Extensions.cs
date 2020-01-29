@@ -20,9 +20,13 @@ namespace SemManagement.MonitoringContext.Scheduler
 
         public static async void AddQuartz(this IServiceCollection services)
         {
-            services.AddTransient<HelloJob>();
-
             services.AddTransient<StartMonitoringJob>();
+
+            services.AddTransient<SetUpRuleJob>();
+
+            services.AddTransient<StartMonitoringPlaylistJob>();
+
+            services.AddTransient<EchoJob>();
 
             var container = services.BuildServiceProvider();
 
@@ -41,8 +45,6 @@ namespace SemManagement.MonitoringContext.Scheduler
             services.AddSingleton<IMonitoringScheduler, MonitoringScheduler>();
 
             await scheduler.Start();
-
-            monitoringScheduler.AddJobRunOnce<HelloJob>("start", "start");
         }
     }
 }

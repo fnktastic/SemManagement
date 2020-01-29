@@ -5,9 +5,10 @@ namespace SemManagement.MonitoringContext.Scheduler
 {
     public interface IMonitoringScheduler
     {
-        void AddJob<T>(string name, string group, int interval, DateTimeOffset startAt, int stationId) where T : IJob;
-        void AddJobRunOnce<T>(string name, string group) where T : IJob;
-        void AddContiniousJob<T>(string name, string group, string ruleId) where T : IJob;
+        void AddStationsJob<T>(string name, string group) where T : IJob;
+        void AddRulesJob<T>(string name, string group) where T : IJob;
+        void AddPlaylistsJob<T>(string name, string group) where T : IJob;
+        void AddEchoJob<T>(string name, string group) where T : IJob;
     }
 
     public class MonitoringScheduler : IMonitoringScheduler
@@ -19,34 +20,36 @@ namespace SemManagement.MonitoringContext.Scheduler
             _scheduler = scheduler;
         }
 
-        public async void AddJob<T>(string name, string group, int interval, DateTimeOffset startAt, int stationId) where T : IJob
+        public async void AddStationsJob<T>(string name, string group) where T : IJob
         {
             var jobKey = new JobKey(name, group);
             if (await _scheduler.CheckExists(jobKey) == false)
             {
                 IJobDetail job = JobBuilder.Create<T>()
                 .WithIdentity(name, group)
-                .UsingJobData("stationId", stationId)
                 .Build();
 
                 ITrigger jobTrigger = TriggerBuilder.Create()
                     .WithIdentity(name + "Trigger", group)
-                    .StartAt(startAt)
-                    .WithSimpleSchedule(t => t.WithIntervalInHours(interval * 24).RepeatForever())
+                    .WithDailyTimeIntervalSchedule
+                    (s =>
+                        s.WithIntervalInHours(24)
+                        .OnEveryDay()
+                        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(3, 0))
+                    )
                     .Build();
 
                 await _scheduler.ScheduleJob(job, jobTrigger);
             }
         }
 
-        public async void AddContiniousJob<T>(string name, string group, string ruleId) where T : IJob
+        public async void AddRulesJob<T>(string name, string group) where T : IJob
         {
             var jobKey = new JobKey(name, group);
             if (await _scheduler.CheckExists(jobKey) == false)
             {
                 IJobDetail job = JobBuilder.Create<T>()
                 .WithIdentity(name, group)
-                 .UsingJobData("ruleId", ruleId)
                 .Build();
 
                 ITrigger jobTrigger = TriggerBuilder.Create()
@@ -63,18 +66,46 @@ namespace SemManagement.MonitoringContext.Scheduler
             }
         }
 
-        public async void AddJobRunOnce<T>(string name, string group) where T : IJob
+        public async void AddPlaylistsJob<T>(string name, string group) where T : IJob
         {
-            IJobDetail job = JobBuilder.Create<T>()
+            var jobKey = new JobKey(name, group);
+            if (await _scheduler.CheckExists(jobKey) == false)
+            {
+                IJobDetail job = JobBuilder.Create<T>()
                 .WithIdentity(name, group)
                 .Build();
 
-            ITrigger jobTrigger = TriggerBuilder.Create()
-                .WithIdentity(name + "Trigger", group)
-                .StartAt(DateTimeOffset.UtcNow.AddSeconds(10))
+                ITrigger jobTrigger = TriggerBuilder.Create()
+                    .WithIdentity(name + "Trigger", group)
+                    .WithDailyTimeIntervalSchedule
+                    (s =>
+                        s.WithIntervalInHours(24)
+                        .OnEveryDay()
+                        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(03, 30))
+                    )
+                    .Build();
+
+                await _scheduler.ScheduleJob(job, jobTrigger);
+            }
+        }
+
+        public async void AddEchoJob<T>(string name, string group) where T : IJob
+        {
+            var jobKey = new JobKey(name, group);
+            if (await _scheduler.CheckExists(jobKey) == false)
+            {
+                IJobDetail job = JobBuilder.Create<T>()
+                .WithIdentity(name, group)
                 .Build();
 
-            await _scheduler.ScheduleJob(job, jobTrigger);
+                ITrigger jobTrigger = TriggerBuilder.Create()
+                    .WithIdentity(name + "Trigger", group)
+                    .StartNow()
+                    .WithSimpleSchedule(t => t.WithIntervalInSeconds(30).RepeatForever())
+                    .Build();
+
+                await _scheduler.ScheduleJob(job, jobTrigger);
+            }
         }
     }
 }

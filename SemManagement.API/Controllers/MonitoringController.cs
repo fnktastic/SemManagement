@@ -26,7 +26,7 @@ namespace SemManagement.API.Controllers
         {
             if(ModelState.IsValid)
             {
-                await _schedulerService.ScheduleMonitoring(model);
+                await _monitoringRepositry.AddMonitoringStation(model);
 
                 return Ok();
             }
@@ -35,13 +35,17 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("start")]
-        public async Task<ActionResult> Start()
+        public ActionResult Start()
         {
             if (ModelState.IsValid)
             {
-                await _schedulerService.StartMonitorStations();
+                _schedulerService.StartEchoJob();
 
-                await _schedulerService.StartMonitorRules();
+                _schedulerService.StartMonitorStations();
+
+                _schedulerService.StartMonitorRules();
+
+                _schedulerService.StartMonitorPlaylists();
 
                 return Ok();
             }

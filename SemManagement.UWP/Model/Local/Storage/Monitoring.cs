@@ -13,7 +13,6 @@ namespace SemManagement.UWP.Model.Local.Storage
         public int WantedAmountOfUpdates { get; set; }
         public int StationId { get; set; }
         public string StationName { get; set; }
-        public DateTimeOffset? StartDateTime { get; set; }
         public int RepeatInterval { get; set; }
     }
 }

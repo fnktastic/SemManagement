@@ -13,10 +13,10 @@ namespace SemManagement.MonitoringContext.Services
 {
     public interface ISchedulerService
     {
-        Task ScheduleMonitoring(StationMonitoringDto stationMonitoring);
-        Task StartMonitorStations();
-        Task StartRule(RuleDto rule);
-        Task StartMonitorRules();
+        void StartMonitorStations();
+        void StartMonitorRules();
+        void StartMonitorPlaylists();
+        void StartEchoJob();
     }
     public class SchedulerService : ISchedulerService
     {
@@ -31,54 +31,30 @@ namespace SemManagement.MonitoringContext.Services
             _localRulesRepository = localRulesRepository;
         }
 
-        public async Task ScheduleMonitoring(StationMonitoringDto stationMonitoring)
+        public void StartMonitorStations()
         {
-            bool exists = await _monitoringRepositry.CheckIfExist(stationMonitoring);
-
-            if (exists) return;
-
-            await _monitoringRepositry.AddMonitoringStation(stationMonitoring);
-
-            _monitoringScheduler.AddJob<StartMonitoringJob>(
-                  string.Format("stations_{0}", stationMonitoring.StationId),
-                  "stations",
-                  stationMonitoring.RepeatInterval,
-                  stationMonitoring.StartDateTime.Value,
-                  stationMonitoring.StationId);
-        }
-
-        public async Task StartMonitorStations()
-        {
-            var stations = await _monitoringRepositry.GetMonitoredStations();
-
-            foreach(var station in stations)
-            {
-                _monitoringScheduler.AddJob<StartMonitoringJob>(
-                    string.Format("stations_{0}", station.StationId),
+                _monitoringScheduler.AddStationsJob<StartMonitoringJob>(
                     "stations",
-                    station.RepeatInterval,
-                    station.StartDateTime.Value,
-                    station.StationId);
-            }
+                    "stations");
         }
 
-        public async Task StartMonitorRules()
+        public void StartEchoJob()
         {
-            var rules = (await _localRulesRepository.GetAllAsync()).Where(x => x.IsRepeat).ToList();
-
-            foreach (var rule in rules)
-            {
-                await StartRule(rule);
-            }
+            _monitoringScheduler.AddEchoJob<EchoJob>("echo", "echo");
         }
 
-        public async Task StartRule(RuleDto rule)
+        public void StartMonitorRules()
         {
-            await Task.Run(() => _monitoringScheduler.AddContiniousJob<SetUpRuleJob>(
-                   string.Format("rules_{0}", rule.Id),
-                   "rules",
-                   rule.Id.ToString()
-                ));
+            _monitoringScheduler.AddRulesJob<SetUpRuleJob>(
+                   "rule",
+                   "rule");
+        }
+
+        public void StartMonitorPlaylists()
+        {
+            _monitoringScheduler.AddPlaylistsJob<StartMonitoringPlaylistJob>(
+                   "palylists",
+                   "palylists");
         }
     }
 }

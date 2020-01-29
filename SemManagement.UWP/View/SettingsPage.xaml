@@ -15,20 +15,12 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBox Header="Continious Rules period (fire every X days)" PlaceholderText="in days" 
-                     Text="{Binding RulePeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
                 <TextBox Header="Minimal Amount Of Station Updates" PlaceholderText="in % (0...100)" 
                      Text="{Binding MinimalAmountOfUpdates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
                 <TextBox Header="Default Period Of Station Monitoring" PlaceholderText="in days (in ex. every 30 days)" 
                      Text="{Binding DefaultPeriodOfMonitoring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                <TextBox Header="Default Period Of Snapshots" PlaceholderText="in days (in ex. every 1 day)" 
-                     Text="{Binding SnapshotPeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
             </StackPanel>
         </StackPanel>
         <Button Grid.Row="2" Content="Save settings" Command="{Binding SaveSettingsCommand}" />

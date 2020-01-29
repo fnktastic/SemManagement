@@ -10,7 +10,5 @@ namespace SemManagement.UWP.Helper
     {
         public const string Minimal_Amount_Of_Updates = "MinimalAmountOfUpdates";
         public const string Default_Period_Of_Monitoring = "DefaultPeriodOfMonitoring";
-        public const string Rule_Period = "RulePeriod";
-        public const string Snapshot_Period = "SnapshotPeriod";
     }
 }

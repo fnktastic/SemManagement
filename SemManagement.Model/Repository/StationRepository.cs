@@ -22,6 +22,8 @@ namespace SemManagement.SemContext.Repository
         Task<User> GetStationUserAsync(int stationId);
 
         Task<Count> CountAsync();
+
+        Task<List<Station>> GetAllActiveStations();
     }
     public class StationRepository : IStationRepository
     {
@@ -84,6 +86,11 @@ namespace SemManagement.SemContext.Repository
                 "INNER JOIN songs ON songs.sgid = stationsqueue.sgid " +
                 "WHERE sid = @stationId", stationIdParameter)
                 .ToListAsync();
+        }
+
+        public async Task<List<Station>> GetAllActiveStations()
+        {
+            return await _context.Stations.Where(x => x.Blocked == 0).ToListAsync();
         }
 
         public Task<User> GetStationUserAsync(int stationId)

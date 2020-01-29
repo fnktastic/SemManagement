@@ -39,6 +39,8 @@ namespace SemManagement.MonitoringContext.DataAccess
 
         public DbSet<RuleLogDto> RuleLogs { get; set; }
 
+        public DbSet<MonitoringDto> Monitorings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RuleLogDto>().HasKey(a => a.Id);

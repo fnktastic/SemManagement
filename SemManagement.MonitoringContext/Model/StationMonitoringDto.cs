@@ -14,7 +14,6 @@ namespace SemManagement.MonitoringContext.Model
         public int WantedAmountOfUpdates { get; set; }
         public int StationId { get; set; }
         public string StationName { get; set; }
-        public DateTime? StartDateTime { get; set; }
         public int RepeatInterval { get; set; }
         public virtual Collection<StationSnapshotDto> Snapshots { get; set; }
     }

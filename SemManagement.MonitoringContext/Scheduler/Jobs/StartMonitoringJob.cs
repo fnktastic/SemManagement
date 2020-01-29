@@ -19,12 +19,7 @@ namespace SemManagement.MonitoringContext.Scheduler.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            string stationIdString = context.JobDetail.JobDataMap.FirstOrDefault(x => x.Key == "stationId").Value.ToString();
-
-            var success = int.TryParse(stationIdString, out int stationId);
-
-            if (success)
-                await _monitoringService.MonitorStation(stationId);
+            await _monitoringService.MonitorAllActiveStations();
         }
     }
 }

@@ -18,8 +18,9 @@ namespace SemManagement.MonitoringContext.Services
     {
         Task SaveRuleAsync(RuleViewModel rule);
         Task<List<RuleViewModel>> GetAllRulesAsync();
-        Task FireRule(Guid ruleId);
+        Task FireRule(Guid ruleId, DateTime? dateTime = null);
         Task<List<RuleLogDto>> GetRuleLogs(Guid ruleId);
+        Task FireRules();
     }
 
     public class RuleService : IRuleService
@@ -103,17 +104,27 @@ namespace SemManagement.MonitoringContext.Services
             }).ToList();
 
             await _localRulesRepository.AddRuleStationRangeAsync(stations);
-
-            if (rule.IsRepeat)
-                _monitoringScheduler.AddContiniousJob<SetUpRuleJob>(
-                   string.Format("rules_{0}", rule.Id),
-                   "rules",
-                   rule.Id.ToString()
-                );
         }
 
-        public async Task FireRule(Guid ruleId)
+        public async Task FireRules()
         {
+            DateTime now = DateTime.UtcNow;
+
+            var rules = (await _localRulesRepository.GetAllAsync()).Where(x => x.IsRepeat).ToList();
+
+            foreach(var rule in rules)
+            {
+                await FireRule(rule.Id, now);
+            };
+        }
+
+        public async Task FireRule(Guid ruleId, DateTime? dateTime = null)
+        {
+            DateTime now = DateTime.UtcNow;
+
+            if (dateTime.HasValue == true)
+                now = dateTime.Value;
+
             var rule = await _localRulesRepository.GetAsync(ruleId);
 
             var stationPlaylistsExtractedKeyValue = await ExtractPlaylists(rule);
@@ -134,7 +145,7 @@ namespace SemManagement.MonitoringContext.Services
                         {
                             Id = Guid.NewGuid(),
                             RuleId = rule.Id,
-                            Timestamp = DateTime.UtcNow,
+                            Timestamp = now,
                             Message = string.Format("Playlist {0} (ID = {1}) -> Station {2} (ID = {3})", playlist.Name, playlist.Plid, station.Name, station.Sid)
                         };
 
@@ -150,7 +161,7 @@ namespace SemManagement.MonitoringContext.Services
         {
             var stationPlaylistsKeyValue = new Dictionary<StationDto, List<PlaylistDto>>();
 
-            var targetStations = rule.RuleStations.Select(x => x.Station).ToList(); //need to calculate them
+            var targetStations = rule.RuleStations.Select(x => x.Station).ToList();
 
             var sourcePlaylists = rule.RulePlaylists.Where(x => x.RulePlaylistType == RulePlaylistTypeEnum.Source).Select(y => y.Playlist).ToList();
 

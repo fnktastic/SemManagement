@@ -14,11 +14,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" MinWidth="250" />
             <ColumnDefinition Width="15" />
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
-        <StackPanel  Grid.Column="0">
+        <StackPanel Width="250" Grid.Column="0">
             <TextBox Header="Monitoring Period (days)" Text="{x:Bind SendToStationViewModel.RepeatInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox Header="Minimal % of updates" Text="{x:Bind SendToStationViewModel.WantedAmountOfUpdates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>

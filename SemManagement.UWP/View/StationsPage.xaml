@@ -117,47 +117,47 @@
                                 <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Queue Name:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.QueueName}" />
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Queue Name:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.QueueName}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Song:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="2" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongTitle}" />
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Song:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="2" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongTitle}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Artist:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="3" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongArtist}" />
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Artist:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="3" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongArtist}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="4" Text="Volume:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="4" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Volume}" />
+                            <TextBlock Grid.Column="0" Grid.Row="4" Text="Volume:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="4" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.Volume}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="5" Text="Cross Fade Name:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="5" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.CrossFade}" />
+                            <TextBlock Grid.Column="0" Grid.Row="5" Text="Cross Fade Name:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="5" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.CrossFade}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="6" Text="Is Mute:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="6" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Mute, Converter={StaticResource IntToBoolStringConverter}}" />
+                            <TextBlock Grid.Column="0" Grid.Row="6" Text="Is Mute:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="6" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.Mute, Converter={StaticResource IntToBoolStringConverter}}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="7" Text="Is Loop:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="7" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Loop, Converter={StaticResource IntToBoolStringConverter}}" />
+                            <TextBlock Grid.Column="0" Grid.Row="7" Text="Is Loop:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="7" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.Loop, Converter={StaticResource IntToBoolStringConverter}}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="8" Text="Is Shuffle:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="8" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Shuffle, Converter={StaticResource IntToBoolStringConverter}}" />
+                            <TextBlock Grid.Column="0" Grid.Row="8" Text="Is Shuffle:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="8" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.Shuffle, Converter={StaticResource IntToBoolStringConverter}}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="9" Text="Is Stopped:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="9" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Stopped, Converter={StaticResource IntToBoolStringConverter}}" />
+                            <TextBlock Grid.Column="0" Grid.Row="9" Text="Is Stopped:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="9" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.Stopped, Converter={StaticResource IntToBoolStringConverter}}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="10" Text="Is Playing:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="10" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Playing, Converter={StaticResource IntToBoolStringConverter}}" />
+                            <TextBlock Grid.Column="0" Grid.Row="10" Text="Is Playing:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="10" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.Playing, Converter={StaticResource IntToBoolStringConverter}}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="11" Text="Is Online:" FontSize="18" FontWeight="Light"/>
-                            <TextBlock Grid.Column="1" Grid.Row="11" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.Online, Converter={StaticResource IntToBoolStringConverter}}" />
+                            <TextBlock Grid.Column="0" Grid.Row="11" Text="Is Online:" FontSize="16" FontWeight="Light"/>
+                            <TextBlock Grid.Column="1" Grid.Row="11" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.Online, Converter={StaticResource IntToBoolStringConverter}}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="12" Text="Scheduler Enabled:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="12" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.schedulerenabled, Converter={StaticResource IntToBoolStringConverter}}" />
+                            <TextBlock Grid.Column="0" Grid.Row="12" Text="Scheduler Enabled:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="12" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.schedulerenabled, Converter={StaticResource IntToBoolStringConverter}}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="13" Text="Current Song ID:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="13" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongSemId}" />
+                            <TextBlock Grid.Column="0" Grid.Row="13" Text="Current Song ID:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="13" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.CurrentSongSemId}" />
 
-                            <TextBlock Grid.Column="0" Grid.Row="14" Text="Changed Date:" FontSize="18" FontWeight="Light" />
-                            <TextBlock Grid.Column="1" Grid.Row="14" FontSize="18" FontWeight="Light" Text="{Binding Stationsstatus.ChangedDate}" />
+                            <TextBlock Grid.Column="0" Grid.Row="14" Text="Changed Date:" FontSize="16" FontWeight="Light" />
+                            <TextBlock Grid.Column="1" Grid.Row="14" FontSize="16" FontWeight="Light" Text="{Binding Stationsstatus.ChangedDate}" />
                         </Grid>
                     </StackPanel>
                 </Grid>

@@ -12,6 +12,7 @@
 
     <Grid Margin="15">
         <Grid.RowDefinitions>
+            <RowDefinition Height="33" />
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
@@ -19,7 +20,13 @@
             <ColumnDefinition Width="0.35*" />
             <ColumnDefinition Width="0.65*" />
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding Monitorings}"
+        <TextBox PlaceholderText="filter monitorings" 
+                     Grid.Column="0" Grid.Row="0"
+                     HorizontalAlignment="Stretch" 
+                     Text="{Binding MonitoringFilterSearchTerm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+        <ListView Grid.Column="0" Grid.Row="1"
+                  ItemsSource="{Binding Monitorings}"
                   ItemTemplate="{StaticResource MonitoringStationItemTemplate}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
@@ -28,7 +35,7 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
-        <Button Grid.Column="0" Grid.Row="1"
+        <Button Grid.Column="0" Grid.Row="2"
                     Content="Start Monitoring Station" Command="{Binding AddMonitoringItemCommand}" HorizontalAlignment="Stretch" />
 
     </Grid>

@@ -32,7 +32,7 @@
                 <RowDefinition Height="33" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBox PlaceholderText="filter rules" 
+            <TextBox PlaceholderText="filter stations" 
                      Grid.Row="0"
                      HorizontalAlignment="Stretch" 
                          Text="{Binding StationsFilterSearchTerm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />

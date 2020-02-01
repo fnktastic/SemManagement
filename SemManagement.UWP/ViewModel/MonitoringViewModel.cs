@@ -15,6 +15,7 @@ using SemManagement.UWP.ViewModel.ContentDialog;
 using SemManagement.UWP.View.ContentDialogs;
 using Windows.UI.Xaml.Controls;
 using SemManagement.UWP.Model.Local.Storage;
+using SemManagement.UWP.Helper;
 
 namespace SemManagement.UWP.ViewModel
 {
@@ -50,6 +51,20 @@ namespace SemManagement.UWP.ViewModel
                 if (_monitorings == value) return;
                 _monitorings = value;
                 RaisePropertyChanged(nameof(Monitorings));
+            }
+        }
+
+        private string _monitoringFilterSearchTerm;
+        public string MonitoringFilterSearchTerm
+        {
+            get { return _monitoringFilterSearchTerm; }
+            set
+            {
+                if (value == _monitoringFilterSearchTerm) return;
+                _monitoringFilterSearchTerm = value;
+                RaisePropertyChanged(nameof(MonitoringFilterSearchTerm));
+
+                Filter_Monitorings();
             }
         }
         #endregion
@@ -104,10 +119,32 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
-        
+
         #endregion
 
         #region methods
+        private void Filter_Monitorings()
+        {
+            StaticSettings.StopSelectionChangedEvent = true;
+
+            if (_originMonitorings != null)
+            {
+                IEnumerable<Monitoring> part = null;
+
+                if (string.IsNullOrWhiteSpace(_monitoringFilterSearchTerm))
+                    part = _originMonitorings.OrderBy(x => x, new MonitoringsComparer());
+                else
+                    part = _originMonitorings
+                        .Where(x => x.StationName.Contains(_monitoringFilterSearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                                    x.StationId.ToString().Contains(_monitoringFilterSearchTerm, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(x => x, new MonitoringsComparer());
+
+                Monitorings = new ObservableCollectionFast<Monitoring>(part);
+            }
+
+            StaticSettings.StopSelectionChangedEvent = false;
+        }
+
         private List<Monitoring> BuildMonitorings(StartMonitoringViewModel startMonitoringViewModel)
         {
             var list = new List<Monitoring>();

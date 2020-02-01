@@ -26,6 +26,8 @@ namespace SemManagement.SemContext.Repository
         Task<List<Station>> GetAllActiveStations();
 
         Task<Stationsstatus> GetStationStatuses(int sid);
+
+        Task<List<ScheduledStation>> GetStationSchedule(int stationId);
     }
     public class StationRepository : IStationRepository
     {
@@ -117,6 +119,39 @@ namespace SemManagement.SemContext.Repository
             }
 
             return new Stationsstatus();
+        }
+
+        public async Task<List<ScheduledStation>> GetStationSchedule(int stationId)
+        {
+            var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
+            {
+                Value = stationId
+            };
+
+            return await _context.ScheduledStations.FromSql<ScheduledStation>(
+                "select schedulerstations.scid, " +
+                "schedulerstations.scpid, " +
+                "schedulerstations.sid, " + 
+                "schedulerstations.uid, " +
+                "schedulerstations.name as scheduleName, " + 
+                "schedulerstations.synced, " +
+                "schedulerstations.exported, " +
+                "schedulerstations.changed_date, " +
+                "schedulerevents.start, " +
+                "schedulerevents.stop, " +
+                "schedulerevents.weekday, " +
+                "schedulerevents.playmode, " +
+                "schedulerevents.stopPlayback, " +
+                "schedulerplaylists.plid, " +
+                "schedulerplaylists.scevid, " +
+                "schedulerplaylists.spid, " +
+                "playlists.name " +
+                "from schedulerstations " +
+                "inner join schedulerevents on schedulerevents.scid = schedulerstations.scid " +
+                "inner join schedulerplaylists on schedulerplaylists.scevid = schedulerevents.scevid " +
+                "inner join playlists on playlists.plid = schedulerplaylists.plid " +
+                "WHERE schedulerstations.sid = @stationId", stationIdParameter)
+                .ToListAsync();
         }
     }
 }

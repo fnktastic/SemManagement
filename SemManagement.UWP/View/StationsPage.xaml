@@ -281,6 +281,22 @@
                     </controls:DockPanel>
                 </Grid>
             </controls:TabViewItem>
+            <controls:TabViewItem Header="Scheduling" IsSelected="{Binding IsSchedulingTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <ProgressRing IsActive="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="15"
+                                  Height="60"
+                                  Width="60"
+                                  Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+
+
+                </Grid>
+            </controls:TabViewItem>
         </controls:TabView>
     </Grid>
 

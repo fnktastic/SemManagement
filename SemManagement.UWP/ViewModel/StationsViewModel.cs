@@ -250,6 +250,20 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private bool _isSchedulingTabSelected = false;
+        public bool IsSchedulingTabSelected
+        {
+            get { return _isSchedulingTabSelected; }
+            set
+            {
+                if (value == _isSchedulingTabSelected) return;
+                _isSchedulingTabSelected = value;
+                RaisePropertyChanged(nameof(IsSchedulingTabSelected));
+
+                RefreshData();
+            }
+        }
+
         private bool _isLoading = false;
         public bool IsLoading
         {
@@ -469,6 +483,20 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
+
+        private RelayCommand _schedulingTabOpenedCommand;
+        public RelayCommand SchedulingTabOpenedCommand => _schedulingTabOpenedCommand ?? (_schedulingTabOpenedCommand = new RelayCommand(SchedulingTabOpened));
+        private async void SchedulingTabOpened()
+        {
+            try
+            {
+                var stationScheduling = await _stationService.GetStationSchedule(_selectedStation.Sid);
+            }
+            finally
+            {
+
+            }
+        }
         #endregion
 
         #region constructor
@@ -530,6 +558,11 @@ namespace SemManagement.UWP.ViewModel
 
             if (_isStationQueueTabSelected)
                 LoadStationQueueCommand.Execute(null);
+
+            if (_isSchedulingTabSelected)
+            {
+                SchedulingTabOpenedCommand.Execute(null);
+            }
         }
         #endregion
     }

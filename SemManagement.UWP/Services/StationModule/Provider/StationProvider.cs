@@ -17,6 +17,7 @@ namespace SemManagement.UWP.Services.StationModule.Provider
         Task<Model.Local.Storage.Count> CountAsync();
         Task<List<StationQueue>> GetStationQueueAsync(int stationId);
         Task<Stationsstatus> GetStationStatuses(int sid);
+        Task<List<ScheduledStation>> GetStationSchedule(int stationId);
     }
 
     public class StationProvider : WebApiProvider, IStationProvider
@@ -72,6 +73,13 @@ namespace SemManagement.UWP.Services.StationModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationStatuses");
 
             return GetStationStatuses(endpoint, sid);
+        }
+
+        public Task<List<ScheduledStation>> GetStationSchedule(int stationId)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationSchedule");
+
+            return GetStationSchedule<ScheduledStation>(endpoint, stationId);
         }
     }
 }

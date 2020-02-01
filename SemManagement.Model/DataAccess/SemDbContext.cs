@@ -24,6 +24,8 @@ namespace SemManagement.SemContext
 
         public DbSet<Stationsstatus> Stationsstatuses { get; set; }
 
+        public DbSet<ScheduledStation> ScheduledStations { get; set; }
+
         public SemDbContext(DbContextOptions<SemDbContext> options) : base(options)
         {
 

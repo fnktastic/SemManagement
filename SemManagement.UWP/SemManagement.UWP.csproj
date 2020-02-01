@@ -141,6 +141,7 @@
     <Compile Include="Helper\StationComparer.cs" />
     <Compile Include="Helper\TransportModel\TagTransportModel.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
+    <Compile Include="Model\ScheduledStation.cs" />
     <Compile Include="Model\Stationsstatus.cs" />
     <Compile Include="Model\Local\Storage\Count.cs" />
     <Compile Include="Model\Local\Storage\Monitoring.cs" />

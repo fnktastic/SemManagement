@@ -79,5 +79,12 @@ namespace SemManagement.API.Controllers
         {
             return await _stationRepository.GetStationStatuses(sid);
         }
+
+        [HttpGet("getStationSchedule")]
+        public async Task<List<ScheduledStation>> GetStationSchedule([FromQuery] int stationId)
+        {
+            return await _stationRepository.GetStationSchedule(stationId);
+        }
+        
     }
 }

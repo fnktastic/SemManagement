@@ -506,6 +506,18 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private ObservableCollection<IGrouping<string, ScheduledStation>> _stationSchedule;
+        public ObservableCollection<IGrouping<string, ScheduledStation>> StationSchedule
+        {
+            get { return _stationSchedule; }
+            set
+            {
+                if (_stationSchedule == value) return;
+                _stationSchedule = value;
+                RaisePropertyChanged(nameof(StationSchedule));
+            }
+        }
+
         private RelayCommand _schedulingTabOpenedCommand;
         public RelayCommand SchedulingTabOpenedCommand => _schedulingTabOpenedCommand ?? (_schedulingTabOpenedCommand = new RelayCommand(SchedulingTabOpened));
         private async void SchedulingTabOpened()
@@ -517,6 +529,8 @@ namespace SemManagement.UWP.ViewModel
                 var stationScheduling = (await _stationService.GetStationSchedule(_selectedStation.Sid))
                     .GroupBy(y => y.Weekday)
                     .ToList();
+
+                StationSchedule = new ObservableCollection<IGrouping<string, ScheduledStation>>(stationScheduling);
             }
             finally
             {

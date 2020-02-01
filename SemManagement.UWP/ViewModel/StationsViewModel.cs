@@ -3,7 +3,9 @@ using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Collection;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model;
+using SemManagement.UWP.Services.Local.Settings;
 using SemManagement.UWP.Services.Local.Storage;
+using SemManagement.UWP.Services.Monitoring.Service;
 using SemManagement.UWP.Services.PlaylistModule.Service;
 using SemManagement.UWP.Services.SongModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
@@ -26,6 +28,8 @@ namespace SemManagement.UWP.ViewModel
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
         private readonly ILocalDataService _localDataService;
+        private readonly ISettingsService _settingsService;
+        private readonly IMonitoringService _monitoringService;
         private List<Station> _originStations;
         #endregion
 
@@ -510,7 +514,38 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                var stationScheduling = await _stationService.GetStationSchedule(_selectedStation.Sid);
+                var stationScheduling = (await _stationService.GetStationSchedule(_selectedStation.Sid))
+                    .GroupBy(y => y.Weekday)
+                    .ToList();
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
+
+        private RelayCommand _startMonitoringStationCommand;
+        public RelayCommand StartMonitoringStationCommand => _startMonitoringStationCommand ?? (_startMonitoringStationCommand = new RelayCommand(StartMonitoringStation));
+        private async void StartMonitoringStation()
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                var repeatInterval = _settingsService.LoadSetting(Const.Default_Period_Of_Monitoring);
+
+                var wantedAmountOfUpdates = _settingsService.LoadSetting(Const.Minimal_Amount_Of_Updates);
+
+                var monitor = new Model.Local.Storage.Monitoring()
+                {
+                    Id = Guid.NewGuid(),
+                    RepeatInterval = int.Parse(repeatInterval),
+                    StationName = _selectedStation.Name,
+                    WantedAmountOfUpdates = int.Parse(wantedAmountOfUpdates),
+                    StationId = _selectedStation.Sid
+                };
+
+                await _monitoringService.AddMonitoringAsync(monitor);
             }
             finally
             {
@@ -520,12 +555,14 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region constructor
-        public StationsViewModel(ISongService songService, IStationService stationService, IPlaylistService playlistService, ILocalDataService localDataService)
+        public StationsViewModel(ISettingsService settingsService, IMonitoringService monitoringService, ISongService songService, IStationService stationService, IPlaylistService playlistService, ILocalDataService localDataService)
         {
             _songService = songService;
             _stationService = stationService;
             _playlistService = playlistService;
             _localDataService = localDataService;
+            _settingsService = settingsService;
+            _monitoringService = monitoringService;
 
             LoadData();
 

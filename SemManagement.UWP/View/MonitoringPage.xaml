@@ -16,28 +16,16 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*" />
-            <ColumnDefinition Width="0.7*" />
+            <ColumnDefinition Width="0.35*" />
+            <ColumnDefinition Width="0.65*" />
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding Monitorings}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <controls:DockPanel>
-                            <TextBlock Width="175" Margin="0 0 10 0" VerticalAlignment="Center" Text="Station" controls:DockPanel.Dock="Left"/>
-                            <TextBox Text="{Binding StationName}" IsHitTestVisible="False" />
-                        </controls:DockPanel>
-                        <controls:DockPanel>
-                            <TextBlock Width="175" Margin="0 0 10 0" VerticalAlignment="Center" Text="Station ID" controls:DockPanel.Dock="Left"/>
-                            <TextBox Text="{Binding StationId}" IsHitTestVisible="False" />
-                        </controls:DockPanel>
-                        <controls:DockPanel>
-                            <TextBlock Width="175" Margin="0 0 10 0" VerticalAlignment="Center" Text="Monitoring Period" controls:DockPanel.Dock="Left"/>
-                            <TextBox Text="{Binding RepeatInterval}" IsHitTestVisible="False" />
-                        </controls:DockPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+        <ListView ItemsSource="{Binding Monitorings}"
+                  ItemTemplate="{StaticResource MonitoringStationItemTemplate}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
 
         <Button Grid.Column="0" Grid.Row="1"

@@ -36,19 +36,19 @@
                      Grid.Row="0"
                      HorizontalAlignment="Stretch" 
                          Text="{Binding StationsFilterSearchTerm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            <ListBox 
+            <ListView 
                   Grid.Row="1"
                   ItemsSource="{Binding Stations}"
                   Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                   ItemTemplate="{StaticResource StationItemTemplate}"
                   SelectedItem="{Binding SelectedStation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                   SelectionMode="Single">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                     </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </Grid>
 
         <controls:TabView Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsStationSelected}"  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
@@ -83,6 +83,8 @@
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
+                     
+                        
                         <Grid Height="33" Margin="15 0 0 20">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -100,7 +102,21 @@
                             </Button>
                         </Grid>
 
+                        <TextBlock Text="Actions" FontSize="24" FontWeight="Light" Margin="0 0 0 15" />
+
+                        <StackPanel  Margin="15 0 0 20" Orientation="Horizontal">
+                            <Button Command="{Binding StartMonitoringStationCommand}">
+                                <TextBlock Text="Start Monitoring" FontSize="18" FontWeight="Light" />
+                            </Button>
+
+                            <Button Margin="5 0 0 0" Command="{Binding StartMonitoringStationCommand}">
+                                <TextBlock Text="Block" FontSize="18" FontWeight="Light" />
+                            </Button>
+
+                        </StackPanel>
+
                         <TextBlock Text="Station Status" FontSize="24" FontWeight="Light" Margin="0 0 0 15" />
+                      
                         <Grid Margin="15 0 0 0" IsHitTestVisible="False">
 
                             <Grid.ColumnDefinitions>

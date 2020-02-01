@@ -140,10 +140,6 @@ namespace SemManagement.UWP.ViewModel
 
                 var monitoringItems = await _monitoringService.GetMonitoredStations();
 
-                var stationSchedule = (await _stationService.GetStationSchedule(919))
-                    .GroupBy(y => y.Weekday)
-                    .ToList();
-
                 Monitorings = new ObservableCollection<Monitoring>(monitoringItems);
 
                 _originMonitorings = monitoringItems.ToList();

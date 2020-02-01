@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Collection;
+using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.Local.Storage;
 using SemManagement.UWP.Services.PlaylistModule.Service;
@@ -25,6 +26,7 @@ namespace SemManagement.UWP.ViewModel
         private readonly IPlaylistService _playlistService;
         private readonly IStationService _stationService;
         private readonly ILocalDataService _localDataService;
+        private List<Station> _originStations;
         #endregion
 
         #region properties
@@ -289,7 +291,19 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private string _stationsFilterSearchTerm;
+        public string StationsFilterSearchTerm
+        {
+            get { return _stationsFilterSearchTerm; }
+            set
+            {
+                if (value == _stationsFilterSearchTerm) return;
+                _stationsFilterSearchTerm = value;
+                RaisePropertyChanged(nameof(StationsFilterSearchTerm));
 
+                Filter_Stations();
+            }
+        }
         #endregion
 
         #region commands
@@ -445,6 +459,8 @@ namespace SemManagement.UWP.ViewModel
         {
             try
             {
+                IsDataLoading = true;
+
                 var sendToStationViewModel = new SendToStationViewModel(_stationService, _localDataService);
 
                 var sendToStationContentDialog = new SendToStationContentDialog(sendToStationViewModel);
@@ -464,7 +480,7 @@ namespace SemManagement.UWP.ViewModel
             }
             finally
             {
-
+                IsDataLoading = false;
             }
         }
 
@@ -474,13 +490,15 @@ namespace SemManagement.UWP.ViewModel
         {
             try
             {
+                IsDataLoading = true;
+
                 _playlists.Remove(playlist);
 
                 await _playlistService.RemovePlaylistFromStationAsync(playlist.Plid, _selectedStation.Sid);
             }
             finally
             {
-
+                IsDataLoading = false;
             }
         }
 
@@ -490,11 +508,13 @@ namespace SemManagement.UWP.ViewModel
         {
             try
             {
+                IsDataLoading = true;
+
                 var stationScheduling = await _stationService.GetStationSchedule(_selectedStation.Sid);
             }
             finally
             {
-
+                IsDataLoading = false;
             }
         }
         #endregion
@@ -514,12 +534,34 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region private methods
+        private void Filter_Stations()
+        {
+            StaticSettings.StopSelectionChangedEvent = true;
+
+            if (_originStations != null)
+            {
+                IEnumerable<Station> part = null;
+
+                if (string.IsNullOrWhiteSpace(_stationsFilterSearchTerm))
+                    part = _originStations.OrderBy(x => x, new StationComparer());
+                else
+                    part = _originStations
+                        .Where(x => x.Name.Contains(_stationsFilterSearchTerm, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(x => x, new StationComparer());
+
+                Stations = new ObservableCollectionFast<Station>(part);
+            }
+
+            StaticSettings.StopSelectionChangedEvent = false;
+        }
+
         private async void LoadData()
         {
             try
             {
                 IsLoading = true;
                 var stations = await _stationService.TakeAsync(int.MaxValue);
+                _originStations = stations.ToList();
                 Stations = new ObservableCollection<Station>(stations);
             }
             finally

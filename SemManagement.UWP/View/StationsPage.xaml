@@ -28,7 +28,16 @@
                       Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
 
         <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="33" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBox PlaceholderText="filter rules" 
+                     Grid.Row="0"
+                     HorizontalAlignment="Stretch" 
+                         Text="{Binding StationsFilterSearchTerm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             <ListBox 
+                  Grid.Row="1"
                   ItemsSource="{Binding Stations}"
                   Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}"
                   ItemTemplate="{StaticResource StationItemTemplate}"

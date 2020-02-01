@@ -53,7 +53,8 @@
 
         <controls:TabView Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsStationSelected}"  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
             <controls:TabViewItem Header="Details" IsSelected="{Binding IsUserDetailsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid VerticalAlignment="Stretch"
+                <ScrollViewer>
+                    <Grid VerticalAlignment="Stretch"
                       Margin="10"
                       Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}}"
                       >
@@ -186,6 +187,7 @@
                         </Grid>
                     </StackPanel>
                 </Grid>
+                </ScrollViewer>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Playlists" IsSelected="{Binding IsPlaylistsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid VerticalAlignment="Stretch">

@@ -14,9 +14,11 @@ namespace SemManagement.API.Controllers
     {
         private readonly ISchedulerService _schedulerService;
         private readonly IMonitoringRepositry _monitoringRepositry;
+        private readonly IMonitoringService _monitoringService;
 
-        public MonitoringController(ISchedulerService schedulerService, IMonitoringRepositry monitoringRepositry) 
+        public MonitoringController(IMonitoringService monitoringService, ISchedulerService schedulerService, IMonitoringRepositry monitoringRepositry) 
         {
+            _monitoringService = monitoringService;
             _schedulerService = schedulerService;
             _monitoringRepositry = monitoringRepositry;
         }
@@ -46,6 +48,19 @@ namespace SemManagement.API.Controllers
                 _schedulerService.StartMonitorRules();
 
                 _schedulerService.StartMonitorPlaylists();
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("coldStart")]
+        public async Task<ActionResult> ColdStart()
+        {
+            if (ModelState.IsValid)
+            {
+                await _monitoringService.ColdStartMonitoring();
 
                 return Ok();
             }

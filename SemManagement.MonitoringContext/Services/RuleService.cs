@@ -29,15 +29,15 @@ namespace SemManagement.MonitoringContext.Services
         private readonly ILocalPlaylistRepository _localPlaylistRepository;
         private readonly ILocalStationRepository _stationRepository;
         private readonly IPlaylistRepository _playlistRepository;
-        private readonly IMonitoringScheduler _monitoringScheduler;
+        private readonly ISnapshotEntryRepository _snapshotEntryRepository;
 
-        public RuleService(IMonitoringScheduler monitoringScheduler, ILocalRulesRepository rulesRepository, ILocalPlaylistRepository localPlaylistRepository, ILocalStationRepository stationRepository, IPlaylistRepository playlistRepository)
+        public RuleService(ISnapshotEntryRepository snapshotEntryRepository, ILocalRulesRepository rulesRepository, ILocalPlaylistRepository localPlaylistRepository, ILocalStationRepository stationRepository, IPlaylistRepository playlistRepository)
         {
-            _monitoringScheduler = monitoringScheduler;
             _localRulesRepository = rulesRepository;
             _localPlaylistRepository = localPlaylistRepository;
             _stationRepository = stationRepository;
             _playlistRepository = playlistRepository;
+            _snapshotEntryRepository = snapshotEntryRepository;
         }
 
         public async Task<List<RuleViewModel>> GetAllRulesAsync()
@@ -110,12 +110,16 @@ namespace SemManagement.MonitoringContext.Services
         {
             DateTime now = DateTime.UtcNow;
 
+            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Rule, SnapshotEntryState.Started, now));
+
             var rules = (await _localRulesRepository.GetAllAsync()).Where(x => x.IsRepeat).ToList();
 
             foreach(var rule in rules)
             {
                 await FireRule(rule.Id, now);
             };
+
+            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Rule, SnapshotEntryState.Finished, DateTime.UtcNow));
         }
 
         public async Task FireRule(Guid ruleId, DateTime? dateTime = null)

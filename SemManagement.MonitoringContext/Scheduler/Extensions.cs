@@ -20,11 +20,11 @@ namespace SemManagement.MonitoringContext.Scheduler
 
         public static async void AddQuartz(this IServiceCollection services)
         {
-            services.AddTransient<StartMonitoringJob>();
+            services.AddTransient<StartMonitoringStationsJob>();
 
-            services.AddTransient<SetUpRuleJob>();
+            services.AddTransient<StartMonitoringRulesJob>();
 
-            services.AddTransient<StartMonitoringPlaylistJob>();
+            services.AddTransient<StartMonitoringPlaylistsJob>();
 
             services.AddTransient<EchoJob>();
 

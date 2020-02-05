@@ -8,6 +8,6 @@ namespace SemManagement.UWP.Configurations
 {
     public class PublicApiConfiguration
     {
-        public string BaseUrl { get; set; } = "http://213.136.75.26:4000/";
+        public string BaseUrl { get; set; } = "http://localhost:53120/";
     }
 }

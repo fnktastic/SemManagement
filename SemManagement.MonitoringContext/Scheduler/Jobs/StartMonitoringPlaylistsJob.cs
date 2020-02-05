@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SemManagement.MonitoringContext.Scheduler.Jobs
 {
-    public class StartMonitoringPlaylistJob : IJob
+    public class StartMonitoringPlaylistsJob : IJob
     {
         private readonly IMonitoringService _monitoringService;
 
-        public StartMonitoringPlaylistJob(IMonitoringService monitoringService)
+        public StartMonitoringPlaylistsJob(IMonitoringService monitoringService)
         {
             _monitoringService = monitoringService;
         }

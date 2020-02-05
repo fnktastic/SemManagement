@@ -33,7 +33,7 @@ namespace SemManagement.MonitoringContext.Services
 
         public void StartMonitorStations()
         {
-                _monitoringScheduler.AddStationsJob<StartMonitoringJob>(
+                _monitoringScheduler.AddStationsJob<StartMonitoringStationsJob>(
                     "stations",
                     "stations");
         }
@@ -45,14 +45,14 @@ namespace SemManagement.MonitoringContext.Services
 
         public void StartMonitorRules()
         {
-            _monitoringScheduler.AddRulesJob<SetUpRuleJob>(
+            _monitoringScheduler.AddRulesJob<StartMonitoringRulesJob>(
                    "rule",
                    "rule");
         }
 
         public void StartMonitorPlaylists()
         {
-            _monitoringScheduler.AddPlaylistsJob<StartMonitoringPlaylistJob>(
+            _monitoringScheduler.AddPlaylistsJob<StartMonitoringPlaylistsJob>(
                    "palylists",
                    "palylists");
         }

@@ -1,4 +1,5 @@
-﻿using SemManagement.MonitoringContext.Model;
+﻿using SemManagement.MonitoringContext.Enum;
+using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Repository;
 using SemManagement.MonitoringContext.Scheduler;
 using SemManagement.MonitoringContext.Scheduler.Jobs;
@@ -15,6 +16,7 @@ namespace SemManagement.MonitoringContext.Services
     {
         Task MonitorAllActiveStations();
         Task MonitorPlaylists();
+        Task ColdStartMonitoring();
     }
 
     public class MonitoringService : IMonitoringService
@@ -23,18 +25,24 @@ namespace SemManagement.MonitoringContext.Services
         private readonly IPlaylistRepository _playlistRepository;
         private readonly ISongRepository _songRepository;
         private readonly IStationRepository _stationRepository;
+        private readonly IRuleService _ruleService;
+        private readonly ISnapshotEntryRepository _snapshotEntryRepository;
 
-        public MonitoringService(IStationRepository stationRepository, IMonitoringRepositry monitoringRepositry, IPlaylistRepository playlistRepository, ISongRepository songRepository)//, MonitoringScheduler monitoringScheduler)
+        public MonitoringService(ISnapshotEntryRepository snapshotEntryRepository, IRuleService ruleService, IStationRepository stationRepository, IMonitoringRepositry monitoringRepositry, IPlaylistRepository playlistRepository, ISongRepository songRepository)//, MonitoringScheduler monitoringScheduler)
         {
             _stationRepository = stationRepository;
             _monitoringRepositry = monitoringRepositry;
             _playlistRepository = playlistRepository;
             _songRepository = songRepository;
+            _ruleService = ruleService;
+            _snapshotEntryRepository = snapshotEntryRepository;
         }
 
         public async Task MonitorPlaylists()
         {
             var now = DateTime.UtcNow;
+
+            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Playlist, SnapshotEntryState.Started, now));
 
             var playlists = await _playlistRepository.TakeAsync(int.MaxValue);
 
@@ -68,11 +76,15 @@ namespace SemManagement.MonitoringContext.Services
             await _monitoringRepositry.SavePlaylistSnapshots(playlistSnapshots);
 
             await _monitoringRepositry.SavePlaylistSnapshotSongs(playlistSnapshotSongs);
+
+            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Playlist, SnapshotEntryState.Finished, DateTime.UtcNow));
         }
 
         public async Task MonitorAllActiveStations()
         {
             DateTime now = DateTime.UtcNow;
+
+            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Station, SnapshotEntryState.Started, now));
 
             var activeStations = await _monitoringRepositry.GetMonitoredStations();
 
@@ -80,6 +92,8 @@ namespace SemManagement.MonitoringContext.Services
             {
                 await MonitorStation(station, now);
             }
+
+            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Station, SnapshotEntryState.Finished, DateTime.UtcNow));
         }
 
         private async Task MonitorStation(StationMonitoringDto monitoredStation, DateTime? dateTime)
@@ -118,6 +132,15 @@ namespace SemManagement.MonitoringContext.Services
             await _monitoringRepositry.SaveStationSnapshots(stationSnapshots);
 
             await _monitoringRepositry.SaveStationSnapshotPlaylists(stationSnapshotPlaylists);
+        }
+
+        public async Task ColdStartMonitoring()
+        {
+            await MonitorAllActiveStations();
+
+            await MonitorPlaylists();
+
+            await _ruleService.FireRules();
         }
     }
 }

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SemManagement.MonitoringContext.Scheduler.Jobs
 {
-    public class SetUpRuleJob : IJob
+    public class StartMonitoringRulesJob : IJob
     {
         private readonly IRuleService _ruleService;
 
-        public SetUpRuleJob(IRuleService ruleService)
+        public StartMonitoringRulesJob(IRuleService ruleService)
         {
             _ruleService = ruleService;
         }

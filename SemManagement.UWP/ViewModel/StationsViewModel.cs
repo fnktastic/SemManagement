@@ -518,6 +518,21 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private RelayCommand _blockStationCommand;
+        public RelayCommand BlockStationCommand => _blockStationCommand ?? (_blockStationCommand = new RelayCommand(BlockStation));
+        private void BlockStation()
+        {
+            try
+            {
+                IsDataLoading = true;
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
+        
+
         private RelayCommand _schedulingTabOpenedCommand;
         public RelayCommand SchedulingTabOpenedCommand => _schedulingTabOpenedCommand ?? (_schedulingTabOpenedCommand = new RelayCommand(SchedulingTabOpened));
         private async void SchedulingTabOpened()
@@ -574,8 +589,6 @@ namespace SemManagement.UWP.ViewModel
         {
             try
             {
-                IsDataLoading = true;
-
                 var boolResult = await _localDataService.DeleteStationTagByIdAsync(_selectedStation.Sid, tag.Id);
 
                 if (boolResult.Success)
@@ -583,7 +596,7 @@ namespace SemManagement.UWP.ViewModel
             }
             finally
             {
-                IsDataLoading = false;
+
             }
         }
         #endregion

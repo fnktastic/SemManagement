@@ -131,7 +131,7 @@
                                 <TextBlock Text="Start Monitoring" FontSize="18" FontWeight="Light" />
                             </Button>
 
-                            <Button Margin="5 0 0 0" Command="{Binding StartMonitoringStationCommand}">
+                            <Button Margin="5 0 0 0" Command="{Binding BlockStationCommand}">
                                 <TextBlock Text="Block" FontSize="18" FontWeight="Light" />
                             </Button>
 

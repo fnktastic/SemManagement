@@ -644,20 +644,14 @@ namespace SemManagement.UWP.ViewModel
             try
             {
                 if (_sortAlphabeticallyEnabled == false)
-                {
-                    SortByDateTimeEnabled = false;
-                    Stations = new ObservableCollection<Station>(_originStations.OrderByDescending(x => x, new StationComparer()));
-                }
+                    Stations = new ObservableCollection<Station>(Stations.OrderByDescending(x => x, new StationComparer()));
 
                 if (_sortAlphabeticallyEnabled)
-                {
-                    SortByDateTimeEnabled = false;
-                    Stations = new ObservableCollection<Station>(_originStations.OrderBy(x => x, new StationComparer()));
-                }
+                    Stations = new ObservableCollection<Station>(Stations.OrderBy(x => x, new StationComparer()));
             }
             finally
             {
-
+                SortByDateTimeEnabled = false;
             }
         }
 
@@ -680,20 +674,14 @@ namespace SemManagement.UWP.ViewModel
             try
             {
                 if (_sortByDateTimeEnabled == false)
-                {
-                    SortAlphabeticallyEnabled = false;
-                    Stations = new ObservableCollection<Station>(_originStations.OrderBy(x => x.Sid));
-                }
+                    Stations = new ObservableCollection<Station>(Stations.OrderBy(x => x.Sid));
 
                 if (_sortByDateTimeEnabled)
-                {
-                    SortAlphabeticallyEnabled = false;
-                    Stations = new ObservableCollection<Station>(_originStations.OrderByDescending(x => x.Sid));
-                }
+                    Stations = new ObservableCollection<Station>(Stations.OrderByDescending(x => x.Sid));
             }
             finally
             {
-
+                SortAlphabeticallyEnabled = false;
             }
         }
         #endregion

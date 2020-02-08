@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using SemManagement.SemContext.Api;
 using SemManagement.SemContext.Model;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SemManagement.SemContext.Api;
 using SemManagement.SemContext.Model;
 using SemManagement.SemContext.Repository;
 using System;

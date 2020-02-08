@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SemManagement.SemContext.Api;
 using SemManagement.SemContext.Model;
 using SemManagement.SemContext.Repository;
 

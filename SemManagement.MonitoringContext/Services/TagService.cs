@@ -15,6 +15,8 @@ namespace SemManagement.MonitoringContext.Services
         Task<List<TagDto>> GetAllTagsAsync(int sid);
 
         Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags);
+
+        Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
     }
 
     public class TagService : ITagService
@@ -55,6 +57,11 @@ namespace SemManagement.MonitoringContext.Services
             var stationsByTags = await _tagRepository.GetStationByTagsAsync(tags);
 
             return stationsByTags;
+        }
+
+        public async Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId)
+        {
+            return await _tagRepository.DeleteByStationTagIdAsync(stationId, tagId);
         }
     }
 }

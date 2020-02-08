@@ -308,6 +308,18 @@ namespace SemManagement.UWP.ViewModel
                 Filter_Stations();
             }
         }
+
+        private ObservableCollection<IGrouping<string, ScheduledStation>> _stationSchedule;
+        public ObservableCollection<IGrouping<string, ScheduledStation>> StationSchedule
+        {
+            get { return _stationSchedule; }
+            set
+            {
+                if (_stationSchedule == value) return;
+                _stationSchedule = value;
+                RaisePropertyChanged(nameof(StationSchedule));
+            }
+        }
         #endregion
 
         #region commands
@@ -471,11 +483,11 @@ namespace SemManagement.UWP.ViewModel
 
                 var decision = await sendToStationContentDialog.ShowAsync();
 
-                switch(decision)
+                switch (decision)
                 {
                     case ContentDialogResult.Primary:
 
-                        foreach(var station in sendToStationViewModel.SelectedStations)
+                        foreach (var station in sendToStationViewModel.SelectedStations)
                         {
                             await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
                         }
@@ -503,18 +515,6 @@ namespace SemManagement.UWP.ViewModel
             finally
             {
                 IsDataLoading = false;
-            }
-        }
-
-        private ObservableCollection<IGrouping<string, ScheduledStation>> _stationSchedule;
-        public ObservableCollection<IGrouping<string, ScheduledStation>> StationSchedule
-        {
-            get { return _stationSchedule; }
-            set
-            {
-                if (_stationSchedule == value) return;
-                _stationSchedule = value;
-                RaisePropertyChanged(nameof(StationSchedule));
             }
         }
 
@@ -560,6 +560,26 @@ namespace SemManagement.UWP.ViewModel
                 };
 
                 await _monitoringService.AddMonitoringAsync(monitor);
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
+
+
+        private RelayCommand<Model.Local.Storage.Tag> _removeTagCommand;
+        public RelayCommand<Model.Local.Storage.Tag> RemoveTagCommand => _removeTagCommand ?? (_removeTagCommand = new RelayCommand<Model.Local.Storage.Tag>(RemoveTag));
+        private async void RemoveTag(Model.Local.Storage.Tag tag)
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                var boolResult = await _localDataService.DeleteStationTagByIdAsync(_selectedStation.Sid, tag.Id);
+
+                if (boolResult.Success)
+                    _tags.Remove(tag);
             }
             finally
             {

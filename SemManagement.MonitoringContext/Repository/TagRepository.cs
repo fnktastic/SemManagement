@@ -21,6 +21,8 @@ namespace SemManagement.MonitoringContext.Repository
         Task<List<TagDto>> GetAllAsync(int sid);
 
         Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags);
+
+        Task<BoolResult> DeleteByStationTagIdAsync(int stationId, Guid tagId);
     }
 
     public class LocalTagRepository : ILocalTagRepository
@@ -51,6 +53,24 @@ namespace SemManagement.MonitoringContext.Repository
                 .ToListAsync();
 
             return stations;
+        }
+
+        public async Task<BoolResult> DeleteByStationTagIdAsync(int stationId, Guid tagId)
+        {
+            var stationTags = await _context.StationTags.Where(x => x.StationSid == stationId && x.TagId == tagId).ToListAsync();
+
+            if(stationTags != null && stationTags.Count > 0)
+            {
+                var stationTag = stationTags.First();
+
+                _context.Entry<StationTagDto>(stationTag).State = EntityState.Deleted;
+
+                await _context.SaveChangesAsync();
+
+                return await Task.FromResult<BoolResult>(new BoolResult { Success = true });
+            }
+
+            return await Task.FromResult<BoolResult>(new BoolResult { Success = false });
         }
 
         public async Task<List<TagDto>> SaveRangeAsync(List<TagDto> tags)

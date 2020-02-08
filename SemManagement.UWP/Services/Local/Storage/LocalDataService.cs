@@ -23,6 +23,7 @@ namespace SemManagement.UWP.Services.Local.Storage
         Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags);
         Task<List<RuleLog>> GetRuleLogs(Guid ruleId);
         Task FireRule(Guid ruleId);
+        Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
     }
 
     public class LocalDataService : ILocalDataService
@@ -71,6 +72,11 @@ namespace SemManagement.UWP.Services.Local.Storage
         public Task FireRule(Guid ruleId)
         {
             return _ruleService.FireRule(ruleId);
+        }
+
+        public Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId)
+        {
+            return _tagService.DeleteStationTagByIdAsync(stationId, tagId);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace SemManagement.UWP.Services.TagModule.Service
         Task SaveStationTagRangeAsync(Model.Station station, List<Tag> tags);
         Task<List<Tag>> GetAllTagsAsync(int sid);
         Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags);
+        Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
     }
 
     public class TagService : ITagService
@@ -23,6 +24,11 @@ namespace SemManagement.UWP.Services.TagModule.Service
         public TagService(ITagProvider tagProvider)
         {
             _tagProvider = tagProvider;
+        }
+
+        public Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId)
+        {
+            return _tagProvider.DeleteStationTagByIdAsync(stationId, tagId);
         }
 
         public Task<List<Tag>> GetAllTagsAsync(int sid)

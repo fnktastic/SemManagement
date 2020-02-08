@@ -61,9 +61,9 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
-        protected Task<Model.Local.Storage.Count> CountAsync<T>(string endpoint)
+        protected Task<Count> CountAsync<T>(string endpoint)
         {
-            TaskCompletionSource<Model.Local.Storage.Count> tcs = new TaskCompletionSource<Model.Local.Storage.Count>();
+            TaskCompletionSource<Count> tcs = new TaskCompletionSource<Count>();
 
             IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
             {
@@ -223,6 +223,25 @@ namespace SemManagement.UWP.Configurations
             request.AddJsonBody(model);
 
             _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
+        protected Task<BoolResult> DeleteStationTagByIdAsync<T>(string endpoint, int stationId, Guid tagId)
+        {
+            TaskCompletionSource<BoolResult> tcs = new TaskCompletionSource<BoolResult>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.DELETE, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("stationId", stationId, ParameterType.QueryString);
+
+            request.AddParameter("tagId", tagId, ParameterType.QueryString);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<BoolResult> response) => ResponseHandler<BoolResult>(response, tcs));
 
             return tcs.Task;
         }

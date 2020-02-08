@@ -14,6 +14,7 @@ namespace SemManagement.UWP.Services.TagModule.Provider
         Task SaveStationTagRangeAsync(Model.Station station, List<Tag> tags);
         Task<List<Tag>> GetAllTagsAsync(int sid);
         Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags);
+        Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
     }
 
     public class TagProvider : WebApiProvider, ITagProvider
@@ -48,5 +49,12 @@ namespace SemManagement.UWP.Services.TagModule.Provider
 
             return GetStationByTagsAsync<Model.Station>(endpoint, tagsTransportModel);
         }
+
+        public Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "deleteStationTagByIdAsync");
+
+            return DeleteStationTagByIdAsync<BoolResult>(endpoint, stationId, tagId);
+        }   
     }
 }

@@ -72,20 +72,41 @@
 
                         <TextBlock Margin="0 0 0 15" Text="Tags" FontSize="24" FontWeight="Light" />
 
-                        <ListBox ItemsSource="{Binding Tags}" Margin="15 0 0 0">
+                        <ListBox ItemsSource="{Binding Tags}" x:Name="tagsListBox" Margin="15 0 0 0">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Name, Converter={StaticResource StringToTagConverter}}" />
-                                </DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Border 
+                                                Padding="10 5"
+                                                Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}">
+                                                <TextBlock Grid.Column="0" 
+                                                           FontSize="18" FontWeight="Light" VerticalAlignment="Center"
+                                                           Text="{Binding Name, Converter={StaticResource StringToTagConverter}}" />
+                                            </Border>
+                                            <Button Grid.Column="1"
+                                                    Height="40"
+                                                    BorderThickness="1" BorderBrush="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}"
+                                                    Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                                                    Command="{Binding Path=DataContext.RemoveTagCommand, ElementName=tagsListBox}"
+                                                    CommandParameter="{Binding}">
+                                                <Button.Content>
+                                                    <SymbolIcon Symbol="Delete" />
+                                                </Button.Content>
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <ItemsStackPanel Orientation="Horizontal" />
+                                    <controls:WrapPanel Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
-                     
-                        
+                             
                         <Grid Height="33" Margin="15 0 0 20">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />

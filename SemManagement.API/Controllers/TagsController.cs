@@ -23,7 +23,7 @@ namespace SemManagement.API.Controllers
         [HttpPost("saveStationTagRangeAsync")]
         public async Task<ActionResult> SaveStationTagRangeAsync([FromBody] TagViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 await _tagService.SaveStationTagRangeAsync(model.Station, model.Tags);
 
@@ -45,6 +45,17 @@ namespace SemManagement.API.Controllers
             if (ModelState.IsValid)
             {
                 return await _tagService.GetStationByTagsAsync(model.Tags);
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("deleteStationTagByIdAsync")]
+        public async Task<ActionResult<BoolResult>> DeleteStationTagByIdAsync([FromQuery] int stationId, Guid tagId)
+        {
+            if (ModelState.IsValid)
+            {
+                return await _tagService.DeleteStationTagByIdAsync(stationId, tagId);
             }
 
             return BadRequest();

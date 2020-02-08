@@ -627,7 +627,7 @@ namespace SemManagement.UWP.ViewModel
                 IEnumerable<Station> part = null;
 
                 if (string.IsNullOrWhiteSpace(_stationsFilterSearchTerm))
-                    part = _originStations.OrderBy(x => x, new StationComparer());
+                    part = _originStations.OrderByDescending(x => x.Sid);
                 else
                     part = _originStations
                         .Where(x => x.Name.Contains(_stationsFilterSearchTerm, StringComparison.OrdinalIgnoreCase))
@@ -644,8 +644,13 @@ namespace SemManagement.UWP.ViewModel
             try
             {
                 IsLoading = true;
-                var stations = await _stationService.TakeAsync(int.MaxValue);
+
+                var stations = (await _stationService.TakeAsync(int.MaxValue))
+                    .OrderByDescending(x => x.Sid)
+                    .ToList();
+
                 _originStations = stations.ToList();
+
                 Stations = new ObservableCollection<Station>(stations);
             }
             finally

@@ -16,6 +16,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.25*" />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition Width="0.75*" />
         </Grid.ColumnDefinitions>
 
@@ -32,10 +33,42 @@
                 <RowDefinition Height="33" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBox PlaceholderText="filter stations" 
-                     Grid.Row="0"
-                     HorizontalAlignment="Stretch" 
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" PlaceholderText="filter stations" HorizontalAlignment="Stretch" 
                          Text="{Binding StationsFilterSearchTerm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <ToggleButton Grid.Column="1">
+                        <ToggleButton.Content>
+                            <SymbolIcon Symbol="Bookmarks" />
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <Button Grid.Column="2">
+                        <SymbolIcon Symbol="Sort" />
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleButton>
+                                        <ToggleButton.Content>
+                                            <SymbolIcon Symbol="Font" />
+                                        </ToggleButton.Content>
+                                    </ToggleButton>
+                                    <ToggleButton>
+                                        <ToggleButton.Content>
+                                            <SymbolIcon Symbol="Calendar" />
+                                        </ToggleButton.Content>
+                                    </ToggleButton>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
             <ListView 
                   Grid.Row="1"
                   ItemsSource="{Binding Stations}"
@@ -51,7 +84,7 @@
             </ListView>
         </Grid>
 
-        <controls:TabView Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsStationSelected}"  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+        <controls:TabView Grid.Row="0" Grid.Column="2" IsEnabled="{Binding IsStationSelected}"  Visibility="{Binding IsLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
             <controls:TabViewItem Header="Details" IsSelected="{Binding IsUserDetailsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ScrollViewer>
                     <Grid VerticalAlignment="Stretch"

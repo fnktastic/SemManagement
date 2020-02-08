@@ -582,7 +582,6 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-
         private RelayCommand<Model.Local.Storage.Tag> _removeTagCommand;
         public RelayCommand<Model.Local.Storage.Tag> RemoveTagCommand => _removeTagCommand ?? (_removeTagCommand = new RelayCommand<Model.Local.Storage.Tag>(RemoveTag));
         private async void RemoveTag(Model.Local.Storage.Tag tag)
@@ -593,6 +592,104 @@ namespace SemManagement.UWP.ViewModel
 
                 if (boolResult.Success)
                     _tags.Remove(tag);
+            }
+            finally
+            {
+
+            }
+        }
+
+        private bool _reverseStatiomListEnabled;
+        public bool ReverseStatiomListEnabled
+        {
+            get { return _reverseStatiomListEnabled; }
+            set
+            {
+                if (_reverseStatiomListEnabled == value) return;
+                _reverseStatiomListEnabled = value;
+                RaisePropertyChanged(nameof(ReverseStatiomListEnabled));
+            }
+        }
+
+        private RelayCommand _reverseStatiomListCommand;
+        public RelayCommand ReverseStatiomListCommand => _reverseStatiomListCommand ?? (_reverseStatiomListCommand = new RelayCommand(ReverseStatiomList));
+        private void ReverseStatiomList()
+        {
+            try
+            {
+                Stations = new ObservableCollection<Station>(Stations.Reverse());
+            }
+            finally
+            {
+                _reverseStatiomListEnabled = !_reverseStatiomListEnabled;
+            }
+        }
+
+        private bool _sortAlphabeticallyEnabled;
+        public bool SortAlphabeticallyEnabled
+        {
+            get { return _sortAlphabeticallyEnabled; }
+            set
+            {
+                if (_sortAlphabeticallyEnabled == value) return;
+                _sortAlphabeticallyEnabled = value;
+                RaisePropertyChanged(nameof(SortAlphabeticallyEnabled));
+            }
+        }
+
+        private RelayCommand _sortAlphabeticallyCommand;
+        public RelayCommand SortAlphabeticallyCommand => _sortAlphabeticallyCommand ?? (_sortAlphabeticallyCommand = new RelayCommand(SortAlphabetically));
+        private void SortAlphabetically()
+        {
+            try
+            {
+                if (_sortAlphabeticallyEnabled == false)
+                {
+                    SortByDateTimeEnabled = false;
+                    Stations = new ObservableCollection<Station>(_originStations.OrderByDescending(x => x, new StationComparer()));
+                }
+
+                if (_sortAlphabeticallyEnabled)
+                {
+                    SortByDateTimeEnabled = false;
+                    Stations = new ObservableCollection<Station>(_originStations.OrderBy(x => x, new StationComparer()));
+                }
+            }
+            finally
+            {
+
+            }
+        }
+
+        private bool _sortByDateTimeEnabled;
+        public bool SortByDateTimeEnabled
+        {
+            get { return _sortByDateTimeEnabled; }
+            set
+            {
+                if (_sortByDateTimeEnabled == value) return;
+                _sortByDateTimeEnabled = value;
+                RaisePropertyChanged(nameof(SortByDateTimeEnabled));
+            }
+        }
+
+        private RelayCommand _sortByDateTimeCommand;
+        public RelayCommand SortByDateTimeCommand => _sortByDateTimeCommand ?? (_sortByDateTimeCommand = new RelayCommand(SortByDateTime));
+        private void SortByDateTime()
+        {
+            try
+            {
+                if (_sortByDateTimeEnabled == false)
+                {
+                    SortAlphabeticallyEnabled = false;
+                    Stations = new ObservableCollection<Station>(_originStations.OrderBy(x => x.Sid));
+                }
+
+                if (_sortByDateTimeEnabled)
+                {
+                    SortAlphabeticallyEnabled = false;
+                    Stations = new ObservableCollection<Station>(_originStations.OrderByDescending(x => x.Sid));
+                }
             }
             finally
             {

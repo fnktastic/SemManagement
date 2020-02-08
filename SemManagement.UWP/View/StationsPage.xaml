@@ -42,7 +42,7 @@
                 <TextBox Grid.Column="0" PlaceholderText="filter stations" HorizontalAlignment="Stretch" 
                          Text="{Binding StationsFilterSearchTerm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <ToggleButton Grid.Column="1">
+                    <ToggleButton Grid.Column="1" Command="{Binding ReverseStatiomListCommand}" IsChecked="{Binding ReverseStatiomListEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <ToggleButton.Content>
                             <SymbolIcon Symbol="Bookmarks" />
                         </ToggleButton.Content>
@@ -52,12 +52,12 @@
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel Orientation="Horizontal">
-                                    <ToggleButton>
+                                    <ToggleButton Command="{Binding SortAlphabeticallyCommand}" IsChecked="{Binding SortAlphabeticallyEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                         <ToggleButton.Content>
                                             <SymbolIcon Symbol="Font" />
                                         </ToggleButton.Content>
                                     </ToggleButton>
-                                    <ToggleButton>
+                                    <ToggleButton Command="{Binding SortByDateTimeCommand}" IsChecked="{Binding SortByDateTimeEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                         <ToggleButton.Content>
                                             <SymbolIcon Symbol="Calendar" />
                                         </ToggleButton.Content>

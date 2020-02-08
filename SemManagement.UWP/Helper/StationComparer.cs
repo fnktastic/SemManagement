@@ -11,8 +11,9 @@ namespace SemManagement.UWP.Helper
     {
         public int Compare(Station o1, Station o2)
         {
-            string x = ((Station)o1).Name;
-            string y = ((Station)o2).Name;
+            string x = ((Station)o1).Name.ToUpper();
+            string y = ((Station)o2).Name.ToUpper();
+
             x = x ?? "";
             y = y ?? "";
 

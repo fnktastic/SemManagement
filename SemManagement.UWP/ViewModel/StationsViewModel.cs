@@ -85,8 +85,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<SongExtended> _songsDeleted;
-        public ObservableCollection<SongExtended> SongsDeleted
+        private SongsExtendedCollection _songsDeleted;
+        public SongsExtendedCollection SongsDeleted
         {
             get { return _songsDeleted; }
             set
@@ -97,8 +97,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<SongExtended> _songs;
-        public ObservableCollection<SongExtended> Songs
+        private SongsExtendedCollection _songs;
+        public SongsExtendedCollection Songs
         {
             get { return _songs; }
             set
@@ -109,8 +109,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<Song> _mostPopularSongs;
-        public ObservableCollection<Song> MostPopularSongs
+        private SongsCollection _mostPopularSongs;
+        public SongsCollection MostPopularSongs
         {
             get { return _mostPopularSongs; }
             set
@@ -122,8 +122,8 @@ namespace SemManagement.UWP.ViewModel
 
         }
 
-        private ObservableCollection<StationQueue> _stationQueues;
-        public ObservableCollection<StationQueue> StationQueues
+        private StationQueueCollection _stationQueues;
+        public StationQueueCollection StationQueues
         {
             get { return _stationQueues; }
             set
@@ -364,10 +364,9 @@ namespace SemManagement.UWP.ViewModel
 
                 var songs = await _stationService.GetStationSongsAsync(_selectedStation.Sid);
 
-                SongsDeleted = new ObservableCollection<SongExtended>(songsDeleted);
+                SongsDeleted = new SongsExtendedCollection(songsDeleted);
 
-                Songs = new ObservableCollection<SongExtended>(songs);
-
+                Songs = new SongsExtendedCollection(songs);
             }
             finally
             {
@@ -383,8 +382,9 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                var mostPopularSongs = await _songService.MostPopularSongs(_selectedStation.Sid, 15);
-                MostPopularSongs = new ObservableCollection<Song>(mostPopularSongs);
+                var mostPopularSongs = await _songService.MostPopularSongs(_selectedStation.Sid, 25);
+
+                MostPopularSongs = new SongsCollection(mostPopularSongs);
             }
             finally
             {
@@ -443,7 +443,7 @@ namespace SemManagement.UWP.ViewModel
                     .OrderByDescending(x => x.creation_Date)
                     .ToList();
 
-                StationQueues = new ObservableCollection<StationQueue>(stationQueues);
+                StationQueues = new StationQueueCollection(stationQueues);
             }
             finally
             {

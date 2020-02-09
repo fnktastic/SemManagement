@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SemManagement.UWP.Collection;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.Local.Storage;
@@ -30,8 +31,8 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
-        private ObservableCollection<Playlist> _playlists;
-        public ObservableCollection<Playlist> Playlists
+        private PlaylistsCollection _playlists;
+        public PlaylistsCollection Playlists
         {
             get { return _playlists; }
             set
@@ -42,8 +43,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<Song> _songs;
-        public ObservableCollection<Song> Songs
+        private SongsCollection _songs;
+        public SongsCollection Songs
         {
             get { return _songs; }
             set
@@ -100,8 +101,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<Playlist> _selectedPlaylists;
-        public ObservableCollection<Playlist> SelectedPlaylists
+        private PlaylistsCollection _selectedPlaylists;
+        public PlaylistsCollection SelectedPlaylists
         {
             get { return _selectedPlaylists; }
             set
@@ -126,8 +127,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<Song> _selectedSongs;
-        public ObservableCollection<Song> SelectedSongs
+        private SongsCollection _selectedSongs;
+        public SongsCollection SelectedSongs
         {
             get { return _selectedSongs; }
             set
@@ -157,9 +158,9 @@ namespace SemManagement.UWP.ViewModel
                 IsLoading = true;
                 var playlists = await _playlistService.TakeAsync(int.MaxValue);
                 _originPlaylists = playlists.ToList();
-                Playlists = new ObservableCollection<Playlist>(playlists);
-                SelectedPlaylists = new ObservableCollection<Playlist>();
-                SelectedSongs = new ObservableCollection<Song>();
+                Playlists = new PlaylistsCollection(playlists);
+                SelectedPlaylists = new PlaylistsCollection(new List<Playlist>());
+                SelectedSongs = new SongsCollection(new List<Song>());
             }
             finally
             {
@@ -173,16 +174,16 @@ namespace SemManagement.UWP.ViewModel
 
             if (_originPlaylists != null)
             {
-                IEnumerable<Playlist> part = null;
+                IList<Playlist> part = null;
 
                 if (string.IsNullOrWhiteSpace(_playlistsSearchTerm))
-                    part = _originPlaylists.OrderBy(x => x, new PlaylistsComparer());
+                    part = _originPlaylists.OrderBy(x => x, new PlaylistsComparer()).ToList();
                 else
                     part = _originPlaylists
                         .Where(x => x.Name.Contains(_playlistsSearchTerm, StringComparison.OrdinalIgnoreCase))
-                        .OrderBy(x => x, new PlaylistsComparer());
+                        .OrderBy(x => x, new PlaylistsComparer()).ToList();
 
-                Playlists = new ObservableCollectionFast<Playlist>(part);
+                Playlists = new PlaylistsCollection(part);
             }
 
             StaticSettings.StopSelectionChangedEvent = false;
@@ -194,16 +195,16 @@ namespace SemManagement.UWP.ViewModel
 
             if (_originAudios != null)
             {
-                IEnumerable<Song> part = null;
+                IList<Song> part = null;
 
                 if (string.IsNullOrWhiteSpace(_audiosSearchTerm))
-                    part = _originAudios.OrderBy(x => x, new SongsComparer());
+                    part = _originAudios.OrderBy(x => x, new SongsComparer()).ToList();
                 else
                     part = _originAudios
                         .Where(x => (x.Artist + " " + x.Title).Contains(_audiosSearchTerm, StringComparison.OrdinalIgnoreCase))
-                        .OrderBy(x => x, new SongsComparer());
+                        .OrderBy(x => x, new SongsComparer()).ToList();
 
-                Songs = new ObservableCollectionFast<Song>(part);
+                Songs = new SongsCollection(part);
             }
 
             StaticSettings.StopSelectionChangedEvent = false;
@@ -248,7 +249,7 @@ namespace SemManagement.UWP.ViewModel
             {
                 var songs = await _songService.GetSongsByPlaylistAsync(_selectedPlaylist.Plid);
 
-                Songs = new ObservableCollection<Song>(songs);
+                Songs = new SongsCollection(songs);
 
                 _originAudios = songs.ToList();
             }

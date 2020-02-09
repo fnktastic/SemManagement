@@ -119,6 +119,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collection\PlaylistsCollection.cs" />
+    <Compile Include="Collection\SongsCollection.cs" />
+    <Compile Include="Collection\SongsExtendedCollection.cs" />
+    <Compile Include="Collection\StationQueueCollection.cs" />
     <Compile Include="Collection\TagsCollection.cs" />
     <Compile Include="Configurations\MapperConfig.cs" />
     <Compile Include="Configurations\PublicApiConfiguration.cs" />
@@ -155,7 +159,7 @@
     <Compile Include="Model\Local\Storage\Tag.cs" />
     <Compile Include="Model\Playlist.cs" />
     <Compile Include="Model\Song.cs" />
-    <Compile Include="Model\SongsDeleted.cs" />
+    <Compile Include="Model\SongExtended.cs" />
     <Compile Include="Model\Station.cs" />
     <Compile Include="Model\StationQueue.cs" />
     <Compile Include="Model\User.cs" />

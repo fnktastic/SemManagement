@@ -25,5 +25,10 @@ namespace SemManagement.UWP.Collection
                     Add(tag);
             }
         }
+
+        ~TagsCollection()
+        {
+
+        }
     }
 }

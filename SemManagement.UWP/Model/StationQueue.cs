@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SemManagement.UWP.Model
 {
-    public class StationQueue
+    public class StationQueue : ViewModelBase
     {
         public int Sgid { get; set; }
         public string Artist { get; set; }
@@ -20,5 +21,17 @@ namespace SemManagement.UWP.Model
         public string creation_Date { get; set; }
         public int Position { get; set; }
         public int Semid { get; set; }
+
+        private int _no;
+        public int No
+        {
+            get { return _no; }
+            set
+            {
+                if (_no == value) return;
+                _no = value;
+                RaisePropertyChanged(nameof(No));
+            }
+        }
     }
 }

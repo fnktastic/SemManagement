@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using SemManagement.UWP.Collection;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.SongModule.Service;
 using System;
@@ -29,8 +30,8 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private ObservableCollection<Song> _songs;
-        public ObservableCollection<Song> Songs
+        private SongsCollection _songs;
+        public SongsCollection Songs
         {
             get { return _songs; }
             set
@@ -69,7 +70,7 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsLoading = true;
                 var songs = await _songService.TakeAsync(100);
-                Songs = new ObservableCollection<Song>(songs);
+                Songs = new SongsCollection(songs);
             }
             finally
             {

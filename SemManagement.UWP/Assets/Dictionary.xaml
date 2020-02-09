@@ -54,7 +54,7 @@
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Sgid}" />
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding No}" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" TextTrimming="WordEllipsis" />
             <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Genre}" />
@@ -63,9 +63,16 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel>
+                            <TextBlock Text="{Binding Sgid}" />
                             <TextBlock Text="{Binding Filename}" />
-                            <TextBlock Text="{Binding File_MD5}" />
-                            <TextBlock Text="{Binding File_MD5_Gained}" />
+                            <TextBlock >
+                                <Run Text="MD5: " />
+                                <Run Text="{Binding file_MD5}" />
+                            </TextBlock>
+                            <TextBlock >
+                                <Run Text="MD5 Gained: " />
+                                <Run Text="{Binding file_MD5_Gained}" />
+                            </TextBlock>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -110,7 +117,7 @@
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Sgid}" />
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding No}" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" TextTrimming="WordEllipsis" />
             <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Genre}" />
@@ -118,9 +125,16 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel>
+                            <TextBlock Text="{Binding Sgid}" />
                             <TextBlock Text="{Binding Filename}" />
-                            <TextBlock Text="{Binding File_MD5}" />
-                            <TextBlock Text="{Binding File_MD5_Gained}" />
+                            <TextBlock >
+                                <Run Text="MD5: " />
+                                <Run Text="{Binding file_MD5}" />
+                            </TextBlock>
+                            <TextBlock >
+                                <Run Text="MD5 Gained: " />
+                                <Run Text="{Binding file_MD5_Gained}" />
+                            </TextBlock>
                             <TextBlock Text="Playlist details" TextAlignment="Center" />
                             <TextBlock Text="{Binding Plid}" />
                             <TextBlock Text="{Binding Name}" />
@@ -145,9 +159,15 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <TextBlock Text="{Binding Name }" />
-                    <TextBlock Text="{Binding Sid}" />
-                    <TextBlock Text="{Binding Licence}" />
+                    <TextBlock Text="{Binding Name }" HorizontalAlignment="Center" />
+                    <TextBlock HorizontalAlignment="Left">
+                        <Run Text="ID: " />
+                        <Run Text="{Binding Sid}" />
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left">
+                        <Run Text="Licence till: " />
+                        <Run Text="{Binding Licence}" />
+                    </TextBlock>
                     <Button Content="Detals" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
                         <Button.Flyout>
                             <Flyout>
@@ -210,11 +230,22 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="75" />
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{Binding Plid}" />
-            <TextBlock Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Stretch" Width="Auto" />
-            <Button Grid.Column="2" Content="..." HorizontalAlignment="Right">
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{Binding No}" />
+            <TextBlock Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="Auto" />
+            <Border Grid.Column="2" 
+                    Margin="10 0"
+                    CornerRadius="0"
+                    BorderThickness="1" BorderBrush="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}"
+                    Background="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="ID: " />
+                    <TextBlock Text="{Binding Plid}" />
+                </StackPanel>
+            </Border>
+            <Button Grid.Column="3" Content="..." HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel>

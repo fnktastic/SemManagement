@@ -138,6 +138,92 @@ namespace SemManagement.UWP.ViewModel
                 RaisePropertyChanged(nameof(SelectedSongs));
             }
         }
+
+        private bool _reversePlaylistListEnabled;
+        public bool ReversePlaylistListEnabled
+        {
+            get { return _reversePlaylistListEnabled; }
+            set
+            {
+                if (_reversePlaylistListEnabled == value) return;
+                _reversePlaylistListEnabled = value;
+                RaisePropertyChanged(nameof(ReversePlaylistListEnabled));
+            }
+        }
+
+        private RelayCommand _reversePlaylistListCommand;
+        public RelayCommand ReversePlaylistListCommand => _reversePlaylistListCommand ?? (_reversePlaylistListCommand = new RelayCommand(ReversePlaylistList));
+        private void ReversePlaylistList()
+        {
+            try
+            {
+                Playlists = new PlaylistsCollection(Playlists.Reverse().ToList(), false);
+            }
+            finally
+            {
+                _reversePlaylistListEnabled = !_reversePlaylistListEnabled;
+            }
+        }
+
+        private bool _sortAlphabeticallyEnabled;
+        public bool SortAlphabeticallyEnabled
+        {
+            get { return _sortAlphabeticallyEnabled; }
+            set
+            {
+                if (_sortAlphabeticallyEnabled == value) return;
+                _sortAlphabeticallyEnabled = value;
+                RaisePropertyChanged(nameof(SortAlphabeticallyEnabled));
+            }
+        }
+
+        private RelayCommand _sortAlphabeticallyCommand;
+        public RelayCommand SortAlphabeticallyCommand => _sortAlphabeticallyCommand ?? (_sortAlphabeticallyCommand = new RelayCommand(SortAlphabetically));
+        private void SortAlphabetically()
+        {
+            try
+            {
+                if (_sortAlphabeticallyEnabled == false)
+                    Playlists = new PlaylistsCollection(Playlists.OrderByDescending(x => x, new PlaylistsComparer()).ToList(), false);
+
+                if (_sortAlphabeticallyEnabled)
+                    Playlists = new PlaylistsCollection(Playlists.OrderBy(x => x, new PlaylistsComparer()).ToList(), false);
+            }
+            finally
+            {
+                SortByDateTimeEnabled = false;
+            }
+        }
+
+        private bool _sortByDateTimeEnabled;
+        public bool SortByDateTimeEnabled
+        {
+            get { return _sortByDateTimeEnabled; }
+            set
+            {
+                if (_sortByDateTimeEnabled == value) return;
+                _sortByDateTimeEnabled = value;
+                RaisePropertyChanged(nameof(SortByDateTimeEnabled));
+            }
+        }
+
+        private RelayCommand _sortByDateTimeCommand;
+        public RelayCommand SortByDateTimeCommand => _sortByDateTimeCommand ?? (_sortByDateTimeCommand = new RelayCommand(SortByDateTime));
+        private void SortByDateTime()
+        {
+            try
+            {
+                if (_sortByDateTimeEnabled == false)
+                    Playlists = new PlaylistsCollection(Playlists.OrderBy(x => x.Plid).ToList(), false);
+
+                if (_sortByDateTimeEnabled)
+                    Playlists = new PlaylistsCollection(Playlists.OrderByDescending(x => x.Plid).ToList(), false);
+            }
+            finally
+            {
+                SortAlphabeticallyEnabled = false;
+            }
+        }
         #endregion
 
         public PlaylistsViewModel(IPlaylistService playlistService, IStationService stationService, ILocalDataService localDataService, ISongService songService)
@@ -177,13 +263,13 @@ namespace SemManagement.UWP.ViewModel
                 IList<Playlist> part = null;
 
                 if (string.IsNullOrWhiteSpace(_playlistsSearchTerm))
-                    part = _originPlaylists.OrderBy(x => x, new PlaylistsComparer()).ToList();
+                    part = _originPlaylists.OrderBy(x => x, new PlaylistsComparer()).OrderBy(x => x.No).ToList();
                 else
                     part = _originPlaylists
                         .Where(x => x.Name.Contains(_playlistsSearchTerm, StringComparison.OrdinalIgnoreCase))
                         .OrderBy(x => x, new PlaylistsComparer()).ToList();
 
-                Playlists = new PlaylistsCollection(part);
+                Playlists = new PlaylistsCollection(part, false);
             }
 
             StaticSettings.StopSelectionChangedEvent = false;

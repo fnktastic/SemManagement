@@ -35,30 +35,37 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="0" />
+                    <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
                              Text="{Binding PlaylistsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              PlaceholderText="filter playlists" />
-                <Button Grid.Column="1" Visibility="Collapsed">
-                    <SymbolIcon Symbol="List" />
-                    <Button.Flyout>
-                        <Flyout>
-                            <ListView Grid.Row="1" 
-                                      MaxHeight="500"
-                                      ItemsSource="{Binding SelectedPlaylists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                      SelectionMode="None"
-                                      >
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Name}" />
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <ToggleButton Grid.Column="1" Command="{Binding ReversePlaylistListCommand}" IsChecked="{Binding ReversePlaylistListEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ToggleButton.Content>
+                            <SymbolIcon Symbol="Bookmarks" />
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <Button Grid.Column="2">
+                        <SymbolIcon Symbol="Sort" />
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleButton Command="{Binding SortAlphabeticallyCommand}" IsChecked="{Binding SortAlphabeticallyEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ToggleButton.Content>
+                                            <SymbolIcon Symbol="Font" />
+                                        </ToggleButton.Content>
+                                    </ToggleButton>
+                                    <ToggleButton Command="{Binding SortByDateTimeCommand}" IsChecked="{Binding SortByDateTimeEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ToggleButton.Content>
+                                            <SymbolIcon Symbol="Calendar" />
+                                        </ToggleButton.Content>
+                                    </ToggleButton>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
             </Grid>
             <ListBox Grid.Row="1"
                  x:Name="playlists"

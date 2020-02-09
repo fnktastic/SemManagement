@@ -12,11 +12,12 @@ namespace SemManagement.UWP.Collection
 {
     public class PlaylistsCollection : ObservableCollection<Model.Playlist>
     {
-        public PlaylistsCollection(IList<Model.Playlist> playlists) : base(playlists)
+        public PlaylistsCollection(IList<Model.Playlist> playlists, bool recalculate = true) : base(playlists)
         {
             CollectionChanged += PlaylistsCollection_Changed;
 
-            RecalculateIndexes();
+            if (recalculate)
+                RecalculateIndexes();
         }
 
         private static object _locker = new object();

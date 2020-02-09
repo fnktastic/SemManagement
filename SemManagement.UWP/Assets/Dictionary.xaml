@@ -239,7 +239,7 @@
                     Margin="10 0"
                     CornerRadius="0"
                     BorderThickness="1" BorderBrush="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}"
-                    Background="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}">
+                    Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="ID: " />
                     <TextBlock Text="{Binding Plid}" />

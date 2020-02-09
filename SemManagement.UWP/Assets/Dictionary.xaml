@@ -159,7 +159,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <TextBlock Text="{Binding Name }" HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding Name }" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" />
                     <TextBlock HorizontalAlignment="Left">
                         <Run Text="ID: " />
                         <Run Text="{Binding Sid}" />

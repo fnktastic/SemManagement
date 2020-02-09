@@ -341,7 +341,7 @@ namespace SemManagement.UWP.ViewModel
 
                 _tags.AddRange(tags);
 
-                await _localDataService.SaveStationTagRangeAsync(_selectedStation, _tags.ToList());
+                await _localDataService.SaveStationTagRangeAsync(_selectedStation, tags.ToList());
 
                 NewTag = string.Empty;
             }

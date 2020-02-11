@@ -16,5 +16,6 @@ namespace SemManagement.SemContext.Model
         public string File_MD5 { get; set; }
         public string File_MD5_Gained { get; set; }
         public int Uploaded { get; set; }
+        public DateTime Last_Update_Date { get; set; }
     }
 }

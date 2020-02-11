@@ -23,5 +23,6 @@ namespace SemManagement.SemContext.Model
         public int schedulerenabled { get; set; }
         public int? CurrentSongSemId { get; set; }
         public string ChangedDate { get; set; }
+        public DateTime Last_Update_Date { get; set; }
     }
 }

@@ -135,8 +135,8 @@ namespace SemManagement.UWP.ViewModel
 
         }
 
-        private ObservableCollection<Playlist> _playlists;
-        public ObservableCollection<Playlist> Playlists
+        private PlaylistsCollection _playlists;
+        public PlaylistsCollection Playlists
         {
             get { return _playlists; }
             set
@@ -402,7 +402,7 @@ namespace SemManagement.UWP.ViewModel
 
                 var stationPlaylists = await _playlistService.GetPlaylistsByStationAsync(_selectedStation.Sid);
 
-                Playlists = new ObservableCollection<Playlist>(stationPlaylists);
+                Playlists = new PlaylistsCollection(stationPlaylists);
             }
             finally
             {

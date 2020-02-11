@@ -35,11 +35,13 @@ namespace SemManagement.SemContext.Repository
                 Value = playlistId
             };
 
-            return await _context.Songs.FromSql<Song>(
+            var audios = await _context.Songs.FromSql<Song>(
                 "SELECT songs.* FROM songs " +
                 "INNER JOIN playlistssongs ON songs.sgid = playlistssongs.sgid " +
                 "WHERE playlistssongs.plid = @playlistId", playlistIdParameter)
                 .ToListAsync();
+
+            return audios;
         }
 
         public async Task<List<Song>> MostPopularSongsAsync(int stationId, int top = 10)

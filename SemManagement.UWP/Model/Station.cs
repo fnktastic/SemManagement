@@ -27,5 +27,7 @@ namespace SemManagement.UWP.Model
         public int Synchronized { get; set; }
 
         public int Autosync { get; set; }
+
+        public DateTime last_Update_Date { get; set; }
     }
 }

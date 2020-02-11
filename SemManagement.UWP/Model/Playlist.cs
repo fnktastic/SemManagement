@@ -12,6 +12,7 @@ namespace SemManagement.UWP.Model
         public int Plid { get; set; }
         public string Name { get; set; }
         public int Changed { get; set; }
+        public DateTime last_Update_Date { get; set; }
 
         private int _no;
         public int No

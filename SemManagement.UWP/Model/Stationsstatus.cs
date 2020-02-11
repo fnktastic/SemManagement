@@ -23,5 +23,6 @@ namespace SemManagement.UWP.Model
         public int schedulerenabled { get; set; }
         public int? CurrentSongSemId { get; set; }
         public string ChangedDate { get; set; }
+        public DateTime last_Update_Date { get; set; }
     }
 }

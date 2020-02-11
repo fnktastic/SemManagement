@@ -27,5 +27,7 @@ namespace SemManagement.SemContext.Model
         public int Synchronized { get; set; }
 
         public int Autosync { get; set; }
+
+        public DateTime Last_Update_Date { get; set; }
     }
 }

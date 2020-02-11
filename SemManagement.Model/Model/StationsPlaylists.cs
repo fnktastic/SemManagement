@@ -14,5 +14,6 @@ namespace SemManagement.SemContext.Model
         public int Spid { get; set; }
         public string Creation_Date { get; set; }
         public string Synchronized_Date { get; set; }
+        public DateTime Last_Update_Date { get; set; }
     }
 }

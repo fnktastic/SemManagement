@@ -20,5 +20,6 @@ namespace SemManagement.SemContext.Model
         public string Creation_Date { get; set; }
         public int Position { get; set; }
         public int Semid { get; set; }
+        public DateTime Last_Update_Date { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace SemManagement.UWP.Model
         public string file_MD5 { get; set; }
         public string file_MD5_Gained { get; set; }
         public int Uploaded { get; set; }
+        public DateTime last_Update_Date { get; set; }
 
         public int Plid { get; set; }
         public string Name { get; set; }

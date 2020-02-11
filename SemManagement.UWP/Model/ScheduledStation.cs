@@ -25,5 +25,6 @@ namespace SemManagement.UWP.Model
         public string Weekday { get; set; }
         public int Playmode { get; set; }
         public int StopPlayback { get; set; }
+        public DateTime last_Update_Date { get; set; }
     }
 }

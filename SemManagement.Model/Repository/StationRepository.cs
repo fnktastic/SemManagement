@@ -144,6 +144,7 @@ namespace SemManagement.SemContext.Repository
                 "schedulerplaylists.plid, " +
                 "schedulerplaylists.scevid, " +
                 "schedulerplaylists.spid, " +
+                "schedulerplaylists.last_update_date, " +
                 "playlists.name " +
                 "from schedulerstations " +
                 "inner join schedulerevents on schedulerevents.scid = schedulerstations.scid " +

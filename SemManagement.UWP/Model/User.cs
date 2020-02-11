@@ -27,5 +27,7 @@ namespace SemManagement.UWP.Model
         public string Music_Info { get; set; }
 
         public string Service_Info { get; set; }
+
+        public DateTime last_Update_Date { get; set; }
     }
 }

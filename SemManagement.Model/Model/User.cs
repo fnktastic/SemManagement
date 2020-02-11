@@ -25,5 +25,6 @@ namespace SemManagement.SemContext.Model
         public string Music_Info { get; set; }
 
         public string Service_Info { get; set; }
+        public DateTime Last_Update_Date { get; set; }
     }
 }

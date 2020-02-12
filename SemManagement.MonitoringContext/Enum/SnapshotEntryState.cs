@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SemManagement.MonitoringContext.Enum
 {
-    public enum SnapshotEntryState
+    public enum SnapshotEntryStateEnum
     {
         Started,
         Finished

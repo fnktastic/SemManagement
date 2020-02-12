@@ -16,7 +16,7 @@ namespace SemManagement.SemContext.Repository
 
         Task<List<Song>> MostPopularSongsAsync(int stationId, int top = 10);
 
-        Task<List<Song>> GetSongsByPlaylistAsync(int playlistId);
+        Task<List<Song>> GetSongsByPlaylistAsync(int playlistId, DateTime? lastSnapshotAt = null);
     }
 
     public class SongRepository : ISongRepository
@@ -28,18 +28,24 @@ namespace SemManagement.SemContext.Repository
             _context = context;
         }
 
-        public async Task<List<Song>> GetSongsByPlaylistAsync(int playlistId)
+        public Task<List<Song>> GetSongsByPlaylistAsync(int playlistId, DateTime? lastSnapshotAt = null)
         {
             var playlistIdParameter = new MySqlParameter("@playlistId", SqlDbType.Int)
             {
                 Value = playlistId
             };
 
-            var audios = await _context.Songs.FromSql<Song>(
+            var audiosQuery = _context.Songs.FromSql<Song>(
                 "SELECT songs.* FROM songs " +
                 "INNER JOIN playlistssongs ON songs.sgid = playlistssongs.sgid " +
-                "WHERE playlistssongs.plid = @playlistId", playlistIdParameter)
-                .ToListAsync();
+                "WHERE playlistssongs.plid = @playlistId", playlistIdParameter);
+
+            if (lastSnapshotAt.HasValue)
+            {
+                audiosQuery = audiosQuery.Where(x => x.Last_Update_Date > lastSnapshotAt.Value);
+            }
+
+            var audios = audiosQuery.ToListAsync();
 
             return audios;
         }

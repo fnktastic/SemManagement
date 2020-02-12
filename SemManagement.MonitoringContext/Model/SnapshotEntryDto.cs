@@ -15,7 +15,7 @@ namespace SemManagement.MonitoringContext.Model
 
         public SnapshotTypeEnum SnapshotType { get; set; }
 
-        public SnapshotEntryState EntryState { get; set; }
+        public SnapshotEntryStateEnum EntryState { get; set; }
 
         public DateTime DateTime { get; set; }
 
@@ -24,7 +24,7 @@ namespace SemManagement.MonitoringContext.Model
 
         }
 
-        public SnapshotEntryDto(SnapshotTypeEnum snapshotType, SnapshotEntryState entryState, DateTime dateTime)
+        public SnapshotEntryDto(SnapshotTypeEnum snapshotType, SnapshotEntryStateEnum entryState, DateTime dateTime)
         {
             Id = Guid.NewGuid();
             SnapshotType = snapshotType;

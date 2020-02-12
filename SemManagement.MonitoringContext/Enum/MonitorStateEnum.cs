@@ -9,17 +9,4 @@ namespace SemManagement.MonitoringContext.Enum
         Started,
         Finished
     }
-
-    public enum MonitorTypeEnum
-    {
-        Stations,
-        Playlists,
-        Rules
-    }
-
-    public enum SnapshotDirection
-    {
-        In,
-        Out
-    }
 }

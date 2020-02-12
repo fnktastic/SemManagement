@@ -18,5 +18,18 @@ namespace SemManagement.MonitoringContext.Model
         public MonitorStateEnum MonitorState { get; set; }
 
         public MonitorTypeEnum MonitorType { get; set; }
+
+        public MonitoringDto()
+        {
+
+        }
+
+        public MonitoringDto(MonitorTypeEnum monitorType, MonitorStateEnum monitorState, DateTime time)
+        {
+            Id = Guid.NewGuid();
+            MonitorType = monitorType;
+            MonitorState = monitorState;
+            Timestamp = time;
+        }
     }
 }

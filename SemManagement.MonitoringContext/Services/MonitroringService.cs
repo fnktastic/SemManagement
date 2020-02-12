@@ -40,19 +40,19 @@ namespace SemManagement.MonitoringContext.Services
 
         public async Task MonitorPlaylists()
         {
-            var snapshotEntry = await _snapshotEntryRepository.GetLast(SnapshotTypeEnum.Playlist, SnapshotEntryStateEnum.Started);
+            var snapshotEntry = await _snapshotEntryRepository.GetLast(MonitorTypeEnum.Playlists, MonitorStateEnum.Started);
 
             var now = DateTime.Now;
 
-            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Playlist, SnapshotEntryStateEnum.Started, now));
+            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Playlists, MonitorStateEnum.Started, now));
 
-            var playlists = await _playlistRepository.TakeAsync(int.MaxValue, lastSnapshotAt: snapshotEntry.DateTime);
+            var playlists = await _playlistRepository.TakeAsync(int.MaxValue, lastSnapshotAt: snapshotEntry.Timestamp);
 
             var playlistSnapshots = new List<PlaylistSnapshotDto>();
 
             var playlistSnapshotSongs = new List<PlaylistSnapshotSongDto>();
 
-            var modifiedPlaylistsIds = (await _playlistRepository.GetModifiedPlaylistsSongs(snapshotEntry.DateTime)).Select(x => x.Plid).Distinct().ToList();
+            var modifiedPlaylistsIds = (await _playlistRepository.GetModifiedPlaylistsSongs(snapshotEntry.Timestamp)).Select(x => x.Plid).Distinct().ToList();
 
             foreach (var modifiedPlaylistsId in modifiedPlaylistsIds)
             {
@@ -66,7 +66,7 @@ namespace SemManagement.MonitoringContext.Services
                     PlaylistName = playlist.Name
                 };
 
-                var playlistSongs = (await _songRepository.GetSongsByPlaylistAsync(playlist.Plid, snapshotEntry.DateTime))
+                var playlistSongs = (await _songRepository.GetSongsByPlaylistAsync(playlist.Plid, snapshotEntry.Timestamp))
                     .Select(x => new PlaylistSnapshotSongDto()
                     {
                         DateTime = now,
@@ -83,16 +83,16 @@ namespace SemManagement.MonitoringContext.Services
 
             await _monitoringRepositry.SavePlaylistSnapshotSongs(playlistSnapshotSongs);
 
-            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Playlist, SnapshotEntryStateEnum.Finished, DateTime.Now));
+            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Playlists, MonitorStateEnum.Finished, DateTime.Now));
         }
 
         public async Task MonitorAllActiveStations()
         {
-            var snapshotEntry = await _snapshotEntryRepository.GetLast(SnapshotTypeEnum.Station, SnapshotEntryStateEnum.Started);
+            var snapshotEntry = await _snapshotEntryRepository.GetLast(MonitorTypeEnum.Stations, MonitorStateEnum.Started);
 
             DateTime now = DateTime.Now;
 
-            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Station, SnapshotEntryStateEnum.Started, now));
+            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Stations, MonitorStateEnum.Started, now));
 
             var activeStations = await _monitoringRepositry.GetMonitoredStations();
 
@@ -110,7 +110,7 @@ namespace SemManagement.MonitoringContext.Services
                     StationMonitoringId = station.Id
                 };
 
-                var stationPlaylists = (await _playlistRepository.GetPlaylistsByStationAsync(station.StationId, snapshotEntry.DateTime))
+                var stationPlaylists = (await _playlistRepository.GetPlaylistsByStationAsync(station.StationId, snapshotEntry.Timestamp))
                     .Select(x => new StationSnapshotPlaylistDto()
                     {
                         DateTime = now,
@@ -127,7 +127,7 @@ namespace SemManagement.MonitoringContext.Services
                 await _monitoringRepositry.SaveStationSnapshotPlaylists(stationSnapshotPlaylists);
             }
 
-            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Station, SnapshotEntryStateEnum.Finished, DateTime.Now));
+            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Stations, MonitorStateEnum.Finished, DateTime.Now));
         }
 
         //private Task FullPlaylistSnapshot(int plid, DateTime now) //for monitored playlists, different  alculation 

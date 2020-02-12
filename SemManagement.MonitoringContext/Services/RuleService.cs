@@ -110,7 +110,7 @@ namespace SemManagement.MonitoringContext.Services
         {
             DateTime now = DateTime.Now;
 
-            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Rule, SnapshotEntryStateEnum.Started, now));
+            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Rules, MonitorStateEnum.Started, now));
 
             var rules = (await _localRulesRepository.GetAllAsync()).Where(x => x.IsRepeat).ToList();
 
@@ -119,7 +119,7 @@ namespace SemManagement.MonitoringContext.Services
                 await FireRule(rule.Id, now);
             };
 
-            await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Rule, SnapshotEntryStateEnum.Finished, DateTime.Now));
+            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Rules, MonitorStateEnum.Finished, DateTime.Now));
         }
 
         public async Task FireRule(Guid ruleId, DateTime? dateTime = null)

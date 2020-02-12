@@ -10,9 +10,9 @@ namespace SemManagement.MonitoringContext.Repository
 {
     public interface ISnapshotEntryRepository
     {
-        Task InsertAsync(SnapshotEntryDto snapshotEntry);
+        Task InsertAsync(MonitoringDto monitoringDto);
 
-        Task<SnapshotEntryDto> GetLast(SnapshotTypeEnum snapshotType, SnapshotEntryStateEnum snapshotEntryState);
+        Task<MonitoringDto> GetLast(MonitorTypeEnum  monitorType, MonitorStateEnum monitorState);
     }
 
     public class SnapshotEntryRepository : ISnapshotEntryRepository
@@ -24,34 +24,34 @@ namespace SemManagement.MonitoringContext.Repository
             _context = context;
         }
 
-        public async Task<SnapshotEntryDto> GetLast(SnapshotTypeEnum snapshotType, SnapshotEntryStateEnum snapshotEntryState)
+        public async Task<MonitoringDto> GetLast(MonitorTypeEnum monitorType, MonitorStateEnum monitorState)
         {
-            var snapshotEntries = await _context.SnapshotEntries
-                .Where(x => x.SnapshotType == snapshotType && x.EntryState == snapshotEntryState)
-                .OrderByDescending(x => x.DateTime)
+            var snapshotEntries = await _context.Monitorings
+                .Where(x => x.MonitorType == monitorType && x.MonitorState == monitorState)
+                .OrderByDescending(x => x.Timestamp)
                 .Take(1)
                 .ToListAsync();
 
             if(snapshotEntries.Any())
                 return snapshotEntries.FirstOrDefault();
 
-            var firstEntry = new SnapshotEntryDto()
+            var firstEntry = new MonitoringDto()
             {
-                EntryState = snapshotEntryState,
-                SnapshotType = snapshotType,
-                DateTime = DateTime.Now
+                MonitorState = monitorState,
+                MonitorType = monitorType,
+                Timestamp = DateTime.Now
             };
 
-            _context.SnapshotEntries.Add(firstEntry);
+            _context.Monitorings.Add(firstEntry);
 
             await _context.SaveChangesAsync();
 
             return firstEntry;
         }
 
-        public async Task InsertAsync(SnapshotEntryDto snapshotEntry)
+        public async Task InsertAsync(MonitoringDto snapshotEntry)
         {
-            _context.SnapshotEntries.Add(snapshotEntry);
+            _context.Monitorings.Add(snapshotEntry);
 
             await _context.SaveChangesAsync();
         }

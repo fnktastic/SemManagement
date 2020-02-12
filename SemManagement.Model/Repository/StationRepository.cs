@@ -53,7 +53,7 @@ namespace SemManagement.SemContext.Repository
             };
 
             return await _context.SongsDeleteds.FromSql<SongExtended>(
-                "SELECT songs.*, playlists.* " +
+                "SELECT songs.*, playlists.plid, playlists.name, playlists.changed " +
                 "FROM songsdeleted " +
                 "INNER JOIN songs ON songs.sgid = songsdeleted.sgid " +
                 "INNER JOIN playlists ON playlists.plid = songsdeleted.plid " +
@@ -69,7 +69,7 @@ namespace SemManagement.SemContext.Repository
             };
 
             return await _context.SongsDeleteds.FromSql<SongExtended>(
-                "SELECT songs.*, playlists.* FROM stationsplaylists " +
+                "SELECT songs.*,  playlists.plid, playlists.name, playlists.changed FROM stationsplaylists " +
                 "INNER JOIN playlists ON playlists.plid = stationsplaylists.plid " +
                 "INNER JOIN playlistssongs ON playlistssongs.plid = playlists.plid " +
                 "INNER JOIN songs ON songs.sgid = playlistssongs.sgid " +

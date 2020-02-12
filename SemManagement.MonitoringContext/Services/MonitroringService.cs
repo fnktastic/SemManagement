@@ -130,6 +130,26 @@ namespace SemManagement.MonitoringContext.Services
             await _snapshotEntryRepository.InsertAsync(new SnapshotEntryDto(SnapshotTypeEnum.Station, SnapshotEntryStateEnum.Finished, DateTime.Now));
         }
 
+        //private Task FullPlaylistSnapshot(int plid, DateTime now) //for monitored playlists, different  alculation 
+        //{
+
+        //}
+
+        //private Task LightPlaylistSnapshot(int plid, DateTime now) //only to see new data per playlist
+        //{
+
+        //}
+
+        //private Task FullStationSnapshot(int sid, DateTime now)
+        //{
+
+        //}
+
+        //private Task LightStationSnapshot(int sid, DateTime now)
+        //{
+
+        //}
+
         public async Task ColdStartMonitoring()
         {
             await MonitorAllActiveStations();

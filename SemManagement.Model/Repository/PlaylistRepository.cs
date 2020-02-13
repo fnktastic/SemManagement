@@ -28,7 +28,7 @@ namespace SemManagement.SemContext.Repository
 
         Task<Playlist> GetPlaylistById(int plid);
 
-        Task<List<Playlistssongs>> GetModifiedPlaylistsByStationAsync(int stationId, DateTime lastSnapshotAt);
+        Task<List<StationsPlaylists>> GetModifiedPlaylistsByStationAsync(int stationId, DateTime lastSnapshotAt);
     }
 
     public class PlaylistRepository : IPlaylistRepository

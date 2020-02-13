@@ -67,10 +67,10 @@ namespace SemManagement.MonitoringContext.Repository
 
                 await _context.SaveChangesAsync();
 
-                return await Task.FromResult<BoolResult>(new BoolResult { Success = true });
+                return await Task.FromResult<BoolResult>(new BoolResult(true));
             }
 
-            return await Task.FromResult<BoolResult>(new BoolResult { Success = false });
+            return await Task.FromResult<BoolResult>(new BoolResult(false));
         }
 
         public async Task<List<TagDto>> SaveRangeAsync(List<TagDto> tags)

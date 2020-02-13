@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.Local.Settings;
+using SemManagement.UWP.Services.Monitoring.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace SemManagement.UWP.ViewModel
     {
         #region fields
         private readonly ISettingsService _settingsService;
+        private readonly IMonitoringService _monitoringService;
         #endregion
 
         #region properties
@@ -41,11 +43,25 @@ namespace SemManagement.UWP.ViewModel
                 RaisePropertyChanged(nameof(DefaultPeriodOfMonitoring));
             }
         }
+
+        private bool _runMonitoringIsInProgress = false;
+        public bool RunMonitoringIsInProgress
+        {
+            get { return _runMonitoringIsInProgress; }
+            set
+            {
+                if (value == _runMonitoringIsInProgress) return;
+                _runMonitoringIsInProgress = value;
+                RaisePropertyChanged(nameof(RunMonitoringIsInProgress));
+
+            }
+        }
         #endregion
 
-        public SettingsPageViewModel(ISettingsService settingsService)
+        public SettingsPageViewModel(ISettingsService settingsService, IMonitoringService monitoringService)
         {
             _settingsService = settingsService;
+            _monitoringService = monitoringService;
 
             LoadSettings();
         }
@@ -62,6 +78,17 @@ namespace SemManagement.UWP.ViewModel
         {
             _settingsService.SaveSetting(Const.Default_Period_Of_Monitoring, _defaultPeriodOfMonitoring);
             _settingsService.SaveSetting(Const.Minimal_Amount_Of_Updates, _minimalAmountOfUpdates);
+        }
+
+        private RelayCommand _runMonitoringNowCommand;
+        public RelayCommand RunMonitoringNowCommand => _runMonitoringNowCommand ?? (_runMonitoringNowCommand = new RelayCommand(RunMonitoringNow));
+        private async void RunMonitoringNow()
+        {
+            RunMonitoringIsInProgress = true;
+
+            var result = await _monitoringService.RunMonitoringNow();
+
+            RunMonitoringIsInProgress = false;
         }
     }
 }

@@ -9,9 +9,9 @@ namespace SemManagement.MonitoringContext.Model
     public class PlaylistMonitoringDto
     {
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public int PlaylistId { get; set; }
-        public int PlaylistName { get; set; }
+        public string PlaylistName { get; set; }
         public int? TargetStationId { get; set; }
         public virtual Collection<PlaylistSnapshotDto> Snapshots { get; set; }
     }

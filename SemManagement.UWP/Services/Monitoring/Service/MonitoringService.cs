@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SemManagement.UWP.Model.Local.Storage;
 
 namespace SemManagement.UWP.Services.Monitoring.Service
 {
@@ -12,6 +13,7 @@ namespace SemManagement.UWP.Services.Monitoring.Service
     {
         Task AddMonitoringAsync(Model.Local.Storage.Monitoring monitoring);
         Task<List<Model.Local.Storage.Monitoring>> GetMonitoredStations();
+        Task<BoolResult> RunMonitoringNow();
     }
     public class MonitoringService : IMonitoringService
     {
@@ -30,6 +32,11 @@ namespace SemManagement.UWP.Services.Monitoring.Service
         public Task<List<Model.Local.Storage.Monitoring>> GetMonitoredStations()
         {
             return _monitoringProvider.GetMonitoredStations();
+        }
+
+        public Task<BoolResult> RunMonitoringNow()
+        {
+            return _monitoringProvider.RunMonitoringNow();
         }
     }
 }

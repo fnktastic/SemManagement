@@ -27,6 +27,8 @@ namespace SemManagement.SemContext.Repository
         Task<List<Playlistssongs>> GetModifiedPlaylistsSongs(DateTime? lastSnapshotAt = null);
 
         Task<Playlist> GetPlaylistById(int plid);
+
+        Task<List<Playlistssongs>> GetModifiedPlaylistsByStationAsync(int stationId, DateTime lastSnapshotAt);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -103,6 +105,15 @@ namespace SemManagement.SemContext.Repository
             }
 
             var playlists = playlistsQuery.ToListAsync();
+
+            return playlists;
+        }
+
+        public async Task<List<StationsPlaylists>> GetModifiedPlaylistsByStationAsync(int stationId, DateTime lastSnapshotAt)
+        {
+            var playlists = await _context.StationsPlaylists
+                .Where(x => x.Sid == stationId && x.Last_Update_Date > lastSnapshotAt)
+                .ToListAsync();
 
             return playlists;
         }

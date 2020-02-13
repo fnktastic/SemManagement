@@ -55,6 +55,8 @@ namespace SemManagement.MonitoringContext.DataAccess
 
             modelBuilder.Entity<PlaylistMonitoringDto>().HasKey(a => a.Id);
 
+            modelBuilder.Entity<PlaylistMonitoringDto>().Property(a => a.Id).ValueGeneratedNever();
+
             modelBuilder.Entity<PlaylistMonitoringDto>()
                 .HasMany(x => x.Snapshots);
 

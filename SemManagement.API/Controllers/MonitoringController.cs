@@ -45,9 +45,9 @@ namespace SemManagement.API.Controllers
 
                 _schedulerService.StartMonitorStations();
 
-                _schedulerService.StartMonitorRules();
-
                 _schedulerService.StartMonitorPlaylists();
+
+                _schedulerService.StartMonitorRules();
 
                 return Ok();
             }
@@ -56,13 +56,13 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("coldStart")]
-        public async Task<ActionResult> ColdStart()
+        public async Task<ActionResult<BoolResult>> ColdStart()
         {
             if (ModelState.IsValid)
             {
-                await _monitoringService.ColdStartMonitoring();
+                var success = await _monitoringService.ColdStartMonitoring();
 
-                return Ok();
+                return Ok(success);
             }
 
             return BadRequest();

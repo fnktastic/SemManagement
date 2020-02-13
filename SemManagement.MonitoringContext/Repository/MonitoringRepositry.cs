@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
 using SemManagement.MonitoringContext.DataAccess;
 using SemManagement.MonitoringContext.Model;
 using System;
@@ -24,6 +25,10 @@ namespace SemManagement.MonitoringContext.Repository
         Task SavePlaylistSnapshotSongs(List<PlaylistSnapshotSongDto> playlistSnapshots);
 
         Task<bool> CheckIfExist(StationMonitoringDto stationMonitoring);
+
+        Task<List<PlaylistMonitoringDto>> GetMonitoredPlaylists();
+
+        Task SavePlaylistsMonitrorings(List<PlaylistMonitoringDto> playlistMonitorings);
     }
 
     public class MonitoringRepositry : IMonitoringRepositry
@@ -49,6 +54,11 @@ namespace SemManagement.MonitoringContext.Repository
             if (items.Count > 0) return true;
 
             return false;
+        }
+
+        public async Task<List<PlaylistMonitoringDto>> GetMonitoredPlaylists()
+        {
+            return await _context.PlaylistMonitorings.ToListAsync();
         }
 
         public async Task<List<StationMonitoringDto>> GetMonitoredStations()
@@ -80,6 +90,13 @@ namespace SemManagement.MonitoringContext.Repository
         public async Task SaveStationSnapshots(List<StationSnapshotDto> stationSnapshots)
         {
             _context.StationSnapshots.AddRange(stationSnapshots);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SavePlaylistsMonitrorings(List<PlaylistMonitoringDto> playlistMonitorings)
+        {
+            await _context.BulkInsertOrUpdateAsync(playlistMonitorings);
 
             await _context.SaveChangesAsync();
         }

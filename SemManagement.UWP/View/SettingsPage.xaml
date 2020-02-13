@@ -22,6 +22,20 @@
                 <TextBox Header="Default Period Of Station Monitoring" PlaceholderText="in days (in ex. every 30 days)" 
                      Text="{Binding DefaultPeriodOfMonitoring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Run Monitoring Now"
+                        IsEnabled="{Binding RunMonitoringIsInProgress, Converter={StaticResource InverseBoolConverter}}"
+                        Command="{Binding RunMonitoringNowCommand}"
+                        />
+                <ProgressRing 
+                      IsActive="True" 
+                      Height="25"
+                      Width="25"
+                      Margin="10 0 0 0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Visibility="{Binding RunMonitoringIsInProgress, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+            </StackPanel>
         </StackPanel>
         <Button Grid.Row="2" Content="Save settings" Command="{Binding SaveSettingsCommand}" />
     </Grid>

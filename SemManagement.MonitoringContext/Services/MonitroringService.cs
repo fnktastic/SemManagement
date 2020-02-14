@@ -46,7 +46,7 @@ namespace SemManagement.MonitoringContext.Services
 
             var startEntry = new MonitoringDto(MonitorTypeEnum.Playlists, MonitorStateEnum.Started, now);
 
-            await FullPlaylistSnapshot(now);
+            //await FullPlaylistSnapshot(now);
 
             await LightPlaylistSnapshot(snapshotEntry, now);
 

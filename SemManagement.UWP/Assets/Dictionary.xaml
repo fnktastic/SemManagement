@@ -58,21 +58,81 @@
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" TextTrimming="WordEllipsis" />
             <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Genre}" />
-            <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="Detals" 
-                    HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 5 0 0">
+            <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="..." VerticalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel>
-                            <TextBlock Text="{Binding Sgid}" />
-                            <TextBlock Text="{Binding Filename}" />
-                            <TextBlock >
-                                <Run Text="MD5: " />
-                                <Run Text="{Binding file_MD5}" />
-                            </TextBlock>
-                            <TextBlock >
-                                <Run Text="MD5 Gained: " />
-                                <Run Text="{Binding file_MD5_Gained}" />
-                            </TextBlock>
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Actions" Margin="0,0,0,12" />
+                            <Button Content="Send To Playlist" HorizontalAlignment="Stretch" Command="{Binding ElementName=Me, Path=DataContext.SendToPlaylistCommand}"  CommandParameter="{Binding}" />
+                            <Button Content="Song Details" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0 5 0 0">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Sgid}" />
+                                            <TextBlock Text="{Binding Filename}" />
+                                            <TextBlock >
+                                                <Run Text="MD5: " />
+                                                <Run Text="{Binding file_MD5}" />
+                                            </TextBlock>
+                                            <TextBlock >
+                                                <Run Text="MD5 Gained: " />
+                                                <Run Text="{Binding file_MD5_Gained}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SongExtendedItemTemplate">
+        <Grid Padding="5" Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding No}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" TextTrimming="WordEllipsis" />
+            <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Genre}" />
+            <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="..." HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Actions" Margin="0,0,0,12" />
+                            <Button Content="Send To Playlist" HorizontalAlignment="Stretch" Command="{Binding ElementName=Me, Path=DataContext.SendToPlaylistCommand}"  CommandParameter="{Binding}" />
+                            <Button  Content="Song Details" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0 5 0 0">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <TextBlock Text="Track Details" FontSize="16" FontWeight="Light" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding Sgid}" />
+                                            <TextBlock Text="{Binding Filename}" />
+                                            <TextBlock >
+                                                <Run Text="MD5: " />
+                                                <Run Text="{Binding file_MD5}" />
+                                            </TextBlock>
+                                            <TextBlock >
+                                                <Run Text="MD5 Gained: " />
+                                                <Run Text="{Binding file_MD5_Gained}" />
+                                            </TextBlock>
+                                            <TextBlock Text="Playlist details" Margin="0 10 0 0" FontSize="16" FontWeight="Light" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding Plid}" />
+                                            <TextBlock Text="{Binding Name}" />
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -105,46 +165,6 @@
         </Border>
     </DataTemplate>
     
-    <DataTemplate x:Key="SongExtendedItemTemplate">
-        <Grid Padding="5" Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20" />
-                <RowDefinition Height="20" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding No}" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Artist}" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Title}" TextTrimming="WordEllipsis" />
-            <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Text="{Binding Genre}" />
-            <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="Detals" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
-                <Button.Flyout>
-                    <Flyout>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Sgid}" />
-                            <TextBlock Text="{Binding Filename}" />
-                            <TextBlock >
-                                <Run Text="MD5: " />
-                                <Run Text="{Binding file_MD5}" />
-                            </TextBlock>
-                            <TextBlock >
-                                <Run Text="MD5 Gained: " />
-                                <Run Text="{Binding file_MD5_Gained}" />
-                            </TextBlock>
-                            <TextBlock Text="Playlist details" TextAlignment="Center" />
-                            <TextBlock Text="{Binding Plid}" />
-                            <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-        </Grid>
-    </DataTemplate>
-
     <DataTemplate x:Key="StationItemTemplate">
         <Border 
                 Margin="10"
@@ -250,8 +270,8 @@
                     <Flyout>
                         <StackPanel>
                             <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Actions" Margin="0,0,0,12" />
-                            <Button Content="Send To Station" Command="{Binding ElementName=Me, Path=DataContext.SendToStationCommand}"  CommandParameter="{Binding}" />
-                            <Button Margin="0 5 0 0" Content="Remove" Command="{Binding ElementName=Me, Path=DataContext.RemovePlaylistCommand}" CommandParameter="{Binding}" />
+                            <Button Content="Send To Station" HorizontalAlignment="Stretch" Command="{Binding ElementName=Me, Path=DataContext.SendToStationCommand}"  CommandParameter="{Binding}" />
+                            <Button Margin="0 5 0 0" Content="Remove" HorizontalAlignment="Stretch" Command="{Binding ElementName=Me, Path=DataContext.RemovePlaylistCommand}" CommandParameter="{Binding}" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>

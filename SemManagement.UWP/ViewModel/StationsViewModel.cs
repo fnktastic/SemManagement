@@ -684,6 +684,37 @@ namespace SemManagement.UWP.ViewModel
                 SortAlphabeticallyEnabled = false;
             }
         }
+
+        private RelayCommand<Song> _sendToPlaylistCommand;
+        public RelayCommand<Song> SendToPlaylistCommand => _sendToPlaylistCommand ?? (_sendToPlaylistCommand = new RelayCommand<Song>(SendToPlaylist));
+        private async void SendToPlaylist(Song song)
+        {
+            try
+            {
+                IsDataLoading = true;
+
+                var sendToStationViewModel = new SendToPlaylistViewModel(_playlistService, _localDataService);
+
+                var sendToPlaylistContentDialog = new SendToPlaylistContentDialog(sendToStationViewModel);
+
+                var decision = await sendToPlaylistContentDialog.ShowAsync();
+
+                switch (decision)
+                {
+                    case ContentDialogResult.Primary:
+
+                        foreach (var station in sendToStationViewModel.SelectedPlaylists)
+                        {
+                            //await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
+                        }
+                        break;
+                }
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
         #endregion
 
         #region constructor

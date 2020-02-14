@@ -327,7 +327,7 @@
                         Grid.Row="0"
                         VerticalAlignment="Top"
                         ItemsSource="{Binding StationQueues}"
-                        ItemTemplate="{StaticResource SongExtendedItemTemplate}">
+                        ItemTemplate="{StaticResource SongItemTemplate}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>

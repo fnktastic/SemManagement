@@ -360,6 +360,20 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
+
+        private RelayCommand<Song> _sendToPlaylistCommand;
+        public RelayCommand<Song> SendToPlaylistCommand => _sendToPlaylistCommand ?? (_sendToPlaylistCommand = new RelayCommand<Song>(SendToPlaylist));
+        private void SendToPlaylist(Song song)
+        {
+            try
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
         #endregion
     }
 }

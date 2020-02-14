@@ -20,6 +20,11 @@ namespace SemManagement.UWP.Collection
                 RecalculateIndexes();
         }
 
+        public PlaylistsCollection()
+        {
+
+        }
+
         private static object _locker = new object();
         private void RecalculateIndexes()
         {

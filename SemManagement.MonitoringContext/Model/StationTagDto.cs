@@ -8,7 +8,7 @@ namespace SemManagement.MonitoringContext.Model
     [Table("StationTag")]
     public class StationTagDto
     {
-        public int StationSid { get; set; }
+        public int Sid { get; set; }
         public StationDto Station { get; set; }
 
         public Guid TagId { get; set; }

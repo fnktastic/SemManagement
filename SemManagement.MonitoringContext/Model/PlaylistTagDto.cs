@@ -11,11 +11,11 @@ namespace SemManagement.MonitoringContext.Model
     [Table("PlaylistTag")]
     public class PlaylistTagDto
     {
-        [Key]
-        public int PlaylistId { get; set; }
+        [ForeignKey("Playlist")]
+        public int Plid { get; set; }
         public PlaylistDto Playlist { get; set; }
 
-        [Key]
+        [ForeignKey("Tag")]
         public Guid TagId { get; set; }
         public TagDto Tag { get; set; }
     }

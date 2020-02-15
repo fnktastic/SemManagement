@@ -14,7 +14,7 @@ namespace SemManagement.MonitoringContext.Services
 {
     public interface IMonitoringService
     {
-        Task MonitorActiveStations();
+        Task MonitorStations();
         Task MonitorPlaylists();
         Task<BoolResult> ColdStartMonitoring();
     }
@@ -55,7 +55,32 @@ namespace SemManagement.MonitoringContext.Services
             await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Playlists, MonitorStateEnum.Finished, DateTime.Now));
         }
 
-        public async Task MonitorActiveStations()
+        public async Task<BoolResult> ColdStartMonitoring()
+        {
+            try
+            {
+                await MonitorStations();
+
+                await MonitorPlaylists();
+
+                //await _ruleService.FireRules();
+
+                return new BoolResult(true);
+            }
+            catch
+            {
+                return new BoolResult(true);
+            }
+        }
+
+        public async Task MonitorStations()
+        {
+            await MonitorActiveStations();
+
+            await MonitorStationPlayerSate();
+        }
+        #region private methods
+        private async Task MonitorActiveStations()
         {
             var snapshotEntry = await _snapshotEntryRepository.GetLast(MonitorTypeEnum.Stations, MonitorStateEnum.Finished);
 
@@ -101,26 +126,6 @@ namespace SemManagement.MonitoringContext.Services
             await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Stations, MonitorStateEnum.Finished, DateTime.Now));
         }
 
-        public async Task<BoolResult> ColdStartMonitoring()
-        {
-            try
-            {
-                await MonitorActiveStations();
-
-                await MonitorPlaylists();
-
-                //await _ruleService.FireRules();
-
-                return new BoolResult(true);
-            }
-            catch
-            {
-                return new BoolResult(true);
-            }
-        }
-
-
-        #region private methods
         private async Task AddStationPlaylistsToMonitoring(List<StationMonitoringDto> stationMonitorings)
         {
             foreach (var stationMonitoring in stationMonitorings)
@@ -227,6 +232,43 @@ namespace SemManagement.MonitoringContext.Services
             await _monitoringRepositry.SavePlaylistSnapshots(playlistSnapshots);
 
             await _monitoringRepositry.SavePlaylistSnapshotSongs(playlistSnapshotSongs);
+        }
+
+        private async Task MonitorStationPlayerSate()
+        {
+            var activeStations = await _monitoringRepositry.GetMonitoredStations();
+
+            var stationPlayerState = new List<StationPlayerStateDto>();
+
+            foreach (var activeStation in activeStations)
+            {
+                var stationStatus = await _semStationRepository.GetStationStatuses(activeStation.StationId);
+
+                var stationPlayerStateDto = new StationPlayerStateDto()
+                {
+                    Id = Guid.NewGuid(),
+                    ChangedDate = stationStatus.ChangedDate,
+                    DateTime = DateTime.Now,
+                    StationId = activeStation.StationId,
+                    CrossFade = stationStatus.CrossFade,
+                    CurrentSongArtist = stationStatus.CurrentSongArtist,
+                    CurrentSongSemId = stationStatus.CurrentSongSemId,
+                    CurrentSongTitle = stationStatus.CurrentSongTitle,
+                    Loop = stationStatus.Loop,
+                    Mute = stationStatus.Mute,
+                    Online = stationStatus.Online,
+                    Playing = stationStatus.Playing,
+                    QueueName = stationStatus.QueueName,
+                    schedulerenabled = stationStatus.schedulerenabled,
+                    Shuffle = stationStatus.Shuffle,
+                    Stopped = stationStatus.Stopped,
+                    Volume = stationStatus.Volume
+                };
+
+                stationPlayerState.Add(stationPlayerStateDto);
+            }
+
+            await _monitoringRepositry.SaveStationPlayerStateRangeAsync(stationPlayerState);
         }
         #endregion
     }

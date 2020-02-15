@@ -36,7 +36,7 @@ namespace SemManagement.MonitoringContext.Repository
 
         public async Task<List<TagDto>> GetAllAsync(int sid)
         {
-            return await _context.StationTags.Where(x => x.StationSid == sid)
+            return await _context.StationTags.Where(x => x.Sid == sid)
                 .Include(x => x.Tag)
                 .Select(x => x.Tag)
                 .ToListAsync();
@@ -57,7 +57,7 @@ namespace SemManagement.MonitoringContext.Repository
 
         public async Task<BoolResult> DeleteByStationTagIdAsync(int stationId, Guid tagId)
         {
-            var stationTags = await _context.StationTags.Where(x => x.StationSid == stationId && x.TagId == tagId).ToListAsync();
+            var stationTags = await _context.StationTags.Where(x => x.Sid == stationId && x.TagId == tagId).ToListAsync();
 
             if(stationTags != null && stationTags.Count > 0)
             {

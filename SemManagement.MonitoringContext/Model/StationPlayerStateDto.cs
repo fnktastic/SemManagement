@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace SemManagement.UWP.Model
+namespace SemManagement.MonitoringContext.Model
 {
-    public class Stationsstatus
+    [Table("StationPlayerState")]
+    public class StationPlayerStateDto
     {
-        public int idStation { get; set; }
+        [Key]
+        public Guid Id { get; set; }
+        public DateTime DateTime { get; set; }
+        public int StationId { get; set; }
         public string QueueName { get; set; }
         public string CurrentSongTitle { get; set; }
         public string CurrentSongArtist { get; set; }
@@ -23,6 +27,5 @@ namespace SemManagement.UWP.Model
         public int schedulerenabled { get; set; }
         public int? CurrentSongSemId { get; set; }
         public DateTime? ChangedDate { get; set; }
-        public DateTime last_Update_Date { get; set; }
     }
 }

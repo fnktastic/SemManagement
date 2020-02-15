@@ -19,7 +19,7 @@ namespace SemManagement.MonitoringContext.Scheduler.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await _monitoringService.MonitorActiveStations();
+            await _monitoringService.MonitorStations();
         }
     }
 }

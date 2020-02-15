@@ -29,6 +29,8 @@ namespace SemManagement.MonitoringContext.Repository
         Task<List<PlaylistMonitoringDto>> GetMonitoredPlaylists();
 
         Task SavePlaylistsMonitrorings(List<PlaylistMonitoringDto> playlistMonitorings);
+
+        Task SaveStationPlayerStateRangeAsync(List<StationPlayerStateDto> stationsPlayerState);
     }
 
     public class MonitoringRepositry : IMonitoringRepositry
@@ -97,6 +99,13 @@ namespace SemManagement.MonitoringContext.Repository
         public async Task SavePlaylistsMonitrorings(List<PlaylistMonitoringDto> playlistMonitorings)
         {
             await _context.BulkInsertOrUpdateAsync(playlistMonitorings);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveStationPlayerStateRangeAsync(List<StationPlayerStateDto> stationsPlayerState)
+        {
+            await _context.BulkInsertAsync(stationsPlayerState);
 
             await _context.SaveChangesAsync();
         }

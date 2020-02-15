@@ -1,4 +1,5 @@
 ﻿using SemManagement.UWP.Configurations;
+
 using SemManagement.UWP.Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace SemManagement.UWP.Services.PlaylistModule.Provider
         Task<List<Playlist>> GetPlaylistsByStationAsync(int stationId);
         Task RemovePlaylistFromStationAsync(int playlistId, int stationId);
         Task AddPlaylistToStationAsync(int playlistId, int stationId);
+        Task SendSongToPlaylistsAsync(int sgid, List<Model.Playlist> playlists);
     }
 
     public class PlaylistProvider : WebApiProvider, IPlaylistProvider
@@ -57,6 +59,13 @@ namespace SemManagement.UWP.Services.PlaylistModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Playlists, "take");
 
             return TakeAsync<Playlist>(endpoint, take, skip);
+        }
+
+        public Task SendSongToPlaylistsAsync(int sgid, List<Model.Playlist> playlists)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Playlists, "sendSongToPlaylistsAsync");
+
+            return SendSongToPlaylistsAsync<Model.Local.Storage.BoolResult>(endpoint, sgid, playlists);
         }
     }
 }

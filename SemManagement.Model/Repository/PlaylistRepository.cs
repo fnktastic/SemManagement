@@ -29,6 +29,8 @@ namespace SemManagement.SemContext.Repository
         Task<Playlist> GetPlaylistById(int plid);
 
         Task<List<StationsPlaylists>> GetModifiedPlaylistsByStationAsync(int stationId, DateTime lastSnapshotAt);
+
+        Task<BoolResult> SendSongToPlaylistsAsync(int sgid, List<Playlist> playlists);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -162,6 +164,31 @@ namespace SemManagement.SemContext.Repository
             return await _context.Database.ExecuteSqlCommandAsync(
                 "INSERT INTO sem.stationsplaylists(sid, plid, syncronized) " +
                 "VALUES(@stationId, @playlistId, 0) ", stationIdParameter, playlistIdParameter);
+        }
+
+        public async Task<BoolResult> SendSongToPlaylistsAsync(int sgid, List<Playlist> playlists)
+        {
+            foreach(var playlist in playlists)
+            {
+                var songs = (await _context.Playlistssongs.Where(x => x.Plid == playlist.Plid).ToListAsync())
+                    .OrderBy(x => x.Position)
+                    .ToList();
+
+                int max = songs.Max(x => x.Position);
+
+                max++;
+
+                _context.Playlistssongs.Add(new Playlistssongs()
+                {
+                    Plid = playlist.Plid,
+                    Sgid = sgid, 
+                    Position = max
+                });
+            }
+
+            await _context.SaveChangesAsync();
+
+            return new BoolResult();
         }
     }
 }

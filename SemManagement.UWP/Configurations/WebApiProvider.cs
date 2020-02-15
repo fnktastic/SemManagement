@@ -362,6 +362,24 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<BoolResult> SendSongToPlaylistsAsync<T>(string endpoint, int sgid, List<Model.Playlist> entities)
+        {
+            TaskCompletionSource<BoolResult> tcs = new TaskCompletionSource<BoolResult>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.POST, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("sgid", sgid, ParameterType.QueryString);
+            request.AddJsonBody(entities);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<BoolResult> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task AddAsync<T>(string endpoint, T entity)
         {
             return Task.Run(() =>

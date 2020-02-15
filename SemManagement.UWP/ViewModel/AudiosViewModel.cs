@@ -120,11 +120,7 @@ namespace SemManagement.UWP.ViewModel
                 switch (decision)
                 {
                     case ContentDialogResult.Primary:
-
-                        foreach (var station in sendToStationViewModel.SelectedPlaylists)
-                        {
-                            //await _playlistService.AddPlaylistToStationAsync(playlist.Plid, station.Sid);
-                        }
+                        await _playlistService.SendSongToPlaylistsAsync(song.Sgid, sendToStationViewModel.SelectedPlaylists.ToList());
                         break;
                 }
             }

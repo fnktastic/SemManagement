@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SemManagement.MonitoringContext.Model;
 using SemManagement.SemContext.Model;
 using SemManagement.SemContext.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BoolResult = SemManagement.MonitoringContext.Model.BoolResult;
 
 namespace SemManagement.API.Controllers
 {
@@ -56,6 +58,14 @@ namespace SemManagement.API.Controllers
             var result = await _playlistRepository.AddPlaylistToStationAsync(playlistId, stationId);
 
             return Ok();
+        }
+
+        [HttpPost("sendSongToPlaylistsAsync")]
+        public async Task<ActionResult<BoolResult>> SendSongToPlaylistsAsync([FromQuery] int sgid, [FromBody] List<Playlist> playlists)
+        {
+            var result = await _playlistRepository.SendSongToPlaylistsAsync(sgid, playlists);
+
+            return Ok(result);
         }
     }
 }

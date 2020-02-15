@@ -17,6 +17,7 @@ namespace SemManagement.UWP.Services.PlaylistModule.Provider
         Task RemovePlaylistFromStationAsync(int playlistId, int stationId);
         Task AddPlaylistToStationAsync(int playlistId, int stationId);
         Task SendSongToPlaylistsAsync(int sgid, List<Model.Playlist> playlists);
+        Task RemovePlaylistAsync(int plid);
     }
 
     public class PlaylistProvider : WebApiProvider, IPlaylistProvider
@@ -66,6 +67,13 @@ namespace SemManagement.UWP.Services.PlaylistModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Playlists, "sendSongToPlaylistsAsync");
 
             return SendSongToPlaylistsAsync<Model.Local.Storage.BoolResult>(endpoint, sgid, playlists);
+        }
+
+        public Task RemovePlaylistAsync(int plid)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Playlists, "removePlaylistAsync");
+
+            return RemovePlaylistAsync(endpoint, plid);
         }
     }
 }

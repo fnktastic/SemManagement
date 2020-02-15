@@ -16,6 +16,7 @@ namespace SemManagement.UWP.Services.PlaylistModule.Service
         Task RemovePlaylistFromStationAsync(int playlistId, int stationId);
         Task AddPlaylistToStationAsync(int playlistId, int stationId);
         Task SendSongToPlaylistsAsync(int sgid, List<Playlist> playlists);
+        Task RemovePlaylistAsync(int plid);
     }
 
     public class PlaylistService : IPlaylistService
@@ -55,6 +56,11 @@ namespace SemManagement.UWP.Services.PlaylistModule.Service
         public Task SendSongToPlaylistsAsync(int sgid, List<Playlist> playlists)
         {
             return _playlistProvider.SendSongToPlaylistsAsync(sgid, playlists);
+        }
+
+        public Task RemovePlaylistAsync(int plid)
+        {
+            return _playlistProvider.RemovePlaylistAsync(plid);
         }
     }
 }

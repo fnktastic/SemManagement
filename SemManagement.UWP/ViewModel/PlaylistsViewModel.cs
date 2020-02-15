@@ -224,6 +224,19 @@ namespace SemManagement.UWP.ViewModel
                 SortAlphabeticallyEnabled = false;
             }
         }
+
+        private bool _isDataLoading = false;
+        public bool IsDataLoading
+        {
+            get { return _isDataLoading; }
+            set
+            {
+                if (value == _isDataLoading) return;
+                _isDataLoading = value;
+                RaisePropertyChanged(nameof(IsDataLoading));
+
+            }
+        }
         #endregion
 
         public PlaylistsViewModel(IPlaylistService playlistService, IStationService stationService, ILocalDataService localDataService, ISongService songService)
@@ -353,7 +366,7 @@ namespace SemManagement.UWP.ViewModel
             {
                 _playlists.Remove(playlist);
 
-                //await _playlistService.RemovePlaylistFromStationAsync(playlist.Plid, _selectedStation.Sid);
+                await _playlistService.RemovePlaylistAsync(playlist.Plid);
             }
             finally
             {
@@ -363,15 +376,28 @@ namespace SemManagement.UWP.ViewModel
 
         private RelayCommand<Song> _sendToPlaylistCommand;
         public RelayCommand<Song> SendToPlaylistCommand => _sendToPlaylistCommand ?? (_sendToPlaylistCommand = new RelayCommand<Song>(SendToPlaylist));
-        private void SendToPlaylist(Song song)
+        private async void SendToPlaylist(Song song)
         {
             try
             {
+                IsDataLoading = true;
 
+                var sendToStationViewModel = new SendToPlaylistViewModel(_playlistService, _localDataService);
+
+                var sendToPlaylistContentDialog = new SendToPlaylistContentDialog(sendToStationViewModel);
+
+                var decision = await sendToPlaylistContentDialog.ShowAsync();
+
+                switch (decision)
+                {
+                    case ContentDialogResult.Primary:
+                        await _playlistService.SendSongToPlaylistsAsync(song.Sgid, sendToStationViewModel.SelectedPlaylists.ToList());
+                        break;
+                }
             }
             finally
             {
-
+                IsDataLoading = false;
             }
         }
         #endregion

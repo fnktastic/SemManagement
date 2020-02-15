@@ -31,6 +31,8 @@ namespace SemManagement.SemContext.Repository
         Task<List<StationsPlaylists>> GetModifiedPlaylistsByStationAsync(int stationId, DateTime lastSnapshotAt);
 
         Task<BoolResult> SendSongToPlaylistsAsync(int sgid, List<Playlist> playlists);
+
+        Task<BoolResult> RemovePlaylistAsync(int plid);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -182,13 +184,30 @@ namespace SemManagement.SemContext.Repository
                 {
                     Plid = playlist.Plid,
                     Sgid = sgid, 
-                    Position = max
+                    Position = max,
+                    Last_Update_Date = DateTime.Now
                 });
             }
 
             await _context.SaveChangesAsync();
 
             return new BoolResult();
+        }
+
+        public async Task<BoolResult> RemovePlaylistAsync(int plid)
+        {
+            var item = _context.Playlists.Find(plid);
+
+            if(item != null)
+            {
+                _context.Entry<Playlist>(item).State = EntityState.Deleted;
+
+                await _context.SaveChangesAsync();
+
+                return new BoolResult(true);
+            }
+
+            return new BoolResult(false);
         }
     }
 }

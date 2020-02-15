@@ -67,5 +67,13 @@ namespace SemManagement.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("removePlaylistAsync")]
+        public async Task<ActionResult<BoolResult>> RemovePlaylistAsync([FromQuery] int plid)
+        {
+            var result = await _playlistRepository.RemovePlaylistAsync(plid);
+
+            return Ok(result);
+        }
     }
 }

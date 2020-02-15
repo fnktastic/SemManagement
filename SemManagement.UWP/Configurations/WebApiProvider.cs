@@ -433,6 +433,25 @@ namespace SemManagement.UWP.Configurations
             });
         }
 
+        protected Task RemovePlaylistAsync(string endpoint, int plid)
+        {
+            return Task.Run(() =>
+            {
+                IRestRequest request = new RestRequest(endpoint, Method.DELETE, DataFormat.Json)
+                {
+                    Timeout = 30 * 60 * 1000,
+                    ReadWriteTimeout = 30 * 60 * 1000
+                };
+
+                request.AddParameter("plid", plid, ParameterType.QueryString);
+
+                _restClient.ExecuteAsync(request, (IRestResponse response) =>
+                {
+                    // handle response
+                });
+            });
+        }
+
         protected Task AddPlaylistToStationAsync(string endpoint, int playlistId, int stationId)
         {
             return Task.Run(() =>

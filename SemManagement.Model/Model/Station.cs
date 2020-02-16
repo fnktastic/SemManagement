@@ -20,13 +20,13 @@ namespace SemManagement.SemContext.Model
 
         public int Type { get; set; }
 
-        public int Blocked { get; set; }
+        public byte Blocked { get; set; }
 
-        public int Soft_Installed { get; set; }
+        public byte Soft_Installed { get; set; }
 
-        public int Synchronized { get; set; }
+        public byte Synchronized { get; set; }
 
-        public int Autosync { get; set; }
+        public byte Autosync { get; set; }
 
         public DateTime Last_Update_Date { get; set; }
     }

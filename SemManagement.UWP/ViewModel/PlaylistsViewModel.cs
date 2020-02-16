@@ -267,12 +267,27 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
-        private void Filter_Playlists()
+        private async void Filter_Playlists()
         {
             StaticSettings.StopSelectionChangedEvent = true;
 
             if (_originPlaylists != null)
             {
+                if (_playlistsSearchTerm.StartsWith("#"))
+                {
+                    var tags = _playlistsSearchTerm.Replace("#", "").Split(",")
+                        .Select(x => new Model.Local.Storage.Tag(x.Trim()))
+                        .ToList();
+
+                    var playlists = await _localDataService.GetPlaylistsByTagsAsync(tags);
+
+                    Playlists = new PlaylistsCollection(playlists);
+
+                    StaticSettings.StopSelectionChangedEvent = false;
+
+                    return;
+                }
+
                 IList<Playlist> part = null;
 
                 if (string.IsNullOrWhiteSpace(_playlistsSearchTerm))

@@ -39,7 +39,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
                              Text="{Binding PlaylistsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             PlaceholderText="filter playlists" />
+                             PlaceholderText="filter playlists by name or #tag" />
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                     <ToggleButton Grid.Column="1" Command="{Binding ReversePlaylistListCommand}" IsChecked="{Binding ReversePlaylistListEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <ToggleButton.Content>

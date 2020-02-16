@@ -69,6 +69,17 @@ namespace SemManagement.API.Controllers
             return BadRequest();
         }
 
+        [HttpPost("getPlaylistByTagsAsync")]
+        public async Task<ActionResult<List<PlaylistDto>>> GetPlaylistByTagsAsync([FromBody] PlaylistTagViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return await _tagService.GetPlaylistByTagsAsync(model.Tags);
+            }
+
+            return BadRequest();
+        }
+
         [HttpDelete("deleteStationTagByIdAsync")]
         public async Task<ActionResult<BoolResult>> DeleteStationTagByIdAsync([FromQuery] int stationId, Guid tagId)
         {

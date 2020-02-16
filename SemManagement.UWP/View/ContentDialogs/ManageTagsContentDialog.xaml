@@ -8,7 +8,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     x:Name="Me"
-    Title="{x:Bind ManageTagsViewModel.ContentDialogTitle}"
+    Title="Playlist #tags management"
     PrimaryButtonText="OK"
     IsSecondaryButtonEnabled="False"
     CloseButtonText="Cancel"

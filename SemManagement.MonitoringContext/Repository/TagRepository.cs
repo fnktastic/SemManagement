@@ -27,6 +27,8 @@ namespace SemManagement.MonitoringContext.Repository
         Task<List<TagDto>> GetAllPlaylisTagsAsync(int plid);
 
         Task<BoolResult> DeleteByPlaylistTagIdAsync(int playlistId, Guid tagId);
+
+        Task<List<PlaylistDto>> GetPlaylistByTagsAsync(List<TagDto> tags);
     }
 
     public class LocalTagRepository : ILocalTagRepository
@@ -54,17 +56,17 @@ namespace SemManagement.MonitoringContext.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags)
+        public async Task<List<PlaylistDto>> GetPlaylistByTagsAsync(List<TagDto> tags)
         {
             var tagNames = tags.Select(x => x.Name).ToList();
 
-            var stations = await _context.StationTags
+            var playlists = await _context.PlaylistTags
                 .Include(x => x.Tag)
                 .Where(x => tagNames.Contains(x.Tag.Name))
-                .Select(x => x.Station)
+                .Select(x => x.Playlist)
                 .ToListAsync();
 
-            return stations;
+            return playlists;
         }
 
         public async Task<BoolResult> DeleteByStationTagIdAsync(int stationId, Guid tagId)

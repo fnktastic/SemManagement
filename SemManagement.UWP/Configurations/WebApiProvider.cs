@@ -227,6 +227,23 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<List<T>> GetPlaylistByTagsAsync<T>(string endpoint, TagTransportModel model)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.POST, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddJsonBody(model);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<BoolResult> DeleteStationTagByIdAsync<T>(string endpoint, int stationId, Guid tagId)
         {
             TaskCompletionSource<BoolResult> tcs = new TaskCompletionSource<BoolResult>();

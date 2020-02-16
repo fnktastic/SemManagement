@@ -755,12 +755,27 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region private methods
-        private void Filter_Stations()
+        private async void Filter_Stations()
         {
             StaticSettings.StopSelectionChangedEvent = true;
 
             if (_originStations != null)
             {
+                if (_stationsFilterSearchTerm.StartsWith("#"))
+                {
+                    var tags = _stationsFilterSearchTerm.Replace("#", "").Split(",")
+                        .Select(x => new Model.Local.Storage.Tag(x.Trim()))
+                        .ToList();
+
+                    var stations = await _localDataService.GetStationByTagsAsync(tags);
+
+                    Stations = new ObservableCollectionFast<Station>(stations);
+
+                    StaticSettings.StopSelectionChangedEvent = false;
+
+                    return;
+                }
+
                 IEnumerable<Station> part = null;
 
                 if (string.IsNullOrWhiteSpace(_stationsFilterSearchTerm))

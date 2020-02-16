@@ -18,6 +18,7 @@ namespace SemManagement.UWP.Services.TagModule.Provider
         Task SavePlaylistTagRangeAsync(Model.Playlist playlist, List<Tag> tags);
         Task<List<Tag>> GetAllPlaylistTagsAsync(int plid);
         Task<BoolResult> DeletePlaylistTagByIdAsync(int playlistId, Guid tagId);
+        Task<List<Model.Playlist>> GetPlaylistByTagsAsync(List<Tag> tags);
     }
 
     public class TagProvider : WebApiProvider, ITagProvider
@@ -67,6 +68,15 @@ namespace SemManagement.UWP.Services.TagModule.Provider
             var tagsTransportModel = new TagTransportModel(tags);
 
             return GetStationByTagsAsync<Model.Station>(endpoint, tagsTransportModel);
+        }
+
+        public Task<List<Model.Playlist>> GetPlaylistByTagsAsync(List<Tag> tags)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "getPlaylistByTagsAsync");
+
+            var tagsTransportModel = new TagTransportModel(tags);
+
+            return GetStationByTagsAsync<Model.Playlist>(endpoint, tagsTransportModel);
         }
 
         public Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId)

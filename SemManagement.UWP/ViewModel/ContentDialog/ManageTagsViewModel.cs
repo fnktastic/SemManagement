@@ -56,7 +56,7 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
             }
         }
 
-        public string ContentDialogTitle => $"Playlist {_playlist.Name} #tags management";
+        //public string ContentDialogTitle => $"Playlist {_playlist.Name} #tags management";
         #endregion
 
         public ManageTagsViewModel(ILocalDataService localDataService, Playlist playlist)

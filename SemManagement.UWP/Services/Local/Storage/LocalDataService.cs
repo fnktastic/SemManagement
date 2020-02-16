@@ -24,6 +24,7 @@ namespace SemManagement.UWP.Services.Local.Storage
         Task<List<Tag>> GetAllTagsAsync(int sid);
         Task<List<Tag>> GetAllPlaylisTagsAsync(int plid);
         Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags);
+        Task<List<Model.Playlist>> GetPlaylistsByTagsAsync(List<Tag> tags);
         Task<List<RuleLog>> GetRuleLogs(Guid ruleId);
         Task FireRule(Guid ruleId);
         Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
@@ -66,6 +67,11 @@ namespace SemManagement.UWP.Services.Local.Storage
         public async Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags)
         {
             return await _tagService.GetStationByTagsAsync(tags);
+        }
+
+        public async Task<List<Model.Playlist>> GetPlaylistsByTagsAsync(List<Tag> tags)
+        {
+            return await _tagService.GetPlaylistByTagsAsync(tags);
         }
 
         public Task<List<RuleLog>> GetRuleLogs(Guid ruleId)

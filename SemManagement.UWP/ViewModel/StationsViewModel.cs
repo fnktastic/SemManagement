@@ -691,8 +691,6 @@ namespace SemManagement.UWP.ViewModel
         {
             try
             {
-                IsDataLoading = true;
-
                 var sendToStationViewModel = new SendToPlaylistViewModel(_playlistService, _localDataService);
 
                 var sendToPlaylistContentDialog = new SendToPlaylistContentDialog(sendToStationViewModel);
@@ -708,7 +706,7 @@ namespace SemManagement.UWP.ViewModel
             }
             finally
             {
-                IsDataLoading = false;
+
             }
         }
 

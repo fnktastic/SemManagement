@@ -36,7 +36,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
                              Text="{x:Bind SendToPlaylistViewModel.PlaylistsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             PlaceholderText="filter playlists by name" />
+                             PlaceholderText="filter playlists by name or #tag" />
                 <Button Grid.Column="1">
                     <SymbolIcon Symbol="List" />
                     <Button.Flyout>

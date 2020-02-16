@@ -26,7 +26,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
                              Text="{x:Bind SendToStationViewModel.StationsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             PlaceholderText="filter stations by name or tag (#tag1, #tag2, #tag)" />
+                             PlaceholderText="filter stations by name or #tag (#tag1, #tag2, #tag)" />
                 <Button Grid.Column="1">
                     <SymbolIcon Symbol="List" />
                     <Button.Flyout>

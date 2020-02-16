@@ -711,6 +711,31 @@ namespace SemManagement.UWP.ViewModel
                 IsDataLoading = false;
             }
         }
+
+        private RelayCommand<Playlist> _manageTagsCommand;
+        public RelayCommand<Playlist> ManageTagsCommand => _manageTagsCommand ?? (_manageTagsCommand = new RelayCommand<Playlist>(ManageTags));
+        private async void ManageTags(Playlist playlist)
+        {
+            try
+            {
+                var manageTagsViewModel = new ManageTagsViewModel(_localDataService, playlist);
+
+                var manageTagsContentDialog = new ManageTagsContentDialog(manageTagsViewModel);
+
+                var decision = await manageTagsContentDialog.ShowAsync();
+
+                switch (decision)
+                {
+                    case ContentDialogResult.Primary:
+
+                        break;
+                }
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
         #endregion
 
         #region constructor

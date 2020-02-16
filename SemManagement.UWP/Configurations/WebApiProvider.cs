@@ -246,6 +246,25 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<BoolResult> DeletePlaylistTagByIdAsync<T>(string endpoint, int playlistId, Guid tagId)
+        {
+            TaskCompletionSource<BoolResult> tcs = new TaskCompletionSource<BoolResult>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.DELETE, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("playlistId", playlistId, ParameterType.QueryString);
+
+            request.AddParameter("tagId", tagId, ParameterType.QueryString);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<BoolResult> response) => ResponseHandler<BoolResult>(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<BoolResult> RunMonitoringNow<T>(string endpoint)
         {
             TaskCompletionSource<BoolResult> tcs = new TaskCompletionSource<BoolResult>();
@@ -305,6 +324,23 @@ namespace SemManagement.UWP.Configurations
             };
 
             request.AddParameter("sid", sid, ParameterType.QueryString);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
+        protected Task<List<T>> GetAllPlaylistTagsAsync<T>(string endpoint, int plid)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("plid", plid, ParameterType.QueryString);
 
             _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
 

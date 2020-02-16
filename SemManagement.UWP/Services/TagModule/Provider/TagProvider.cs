@@ -15,6 +15,9 @@ namespace SemManagement.UWP.Services.TagModule.Provider
         Task<List<Tag>> GetAllTagsAsync(int sid);
         Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags);
         Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
+        Task SavePlaylistTagRangeAsync(Model.Playlist playlist, List<Tag> tags);
+        Task<List<Tag>> GetAllPlaylistTagsAsync(int plid);
+        Task<BoolResult> DeletePlaylistTagByIdAsync(int playlistId, Guid tagId);
     }
 
     public class TagProvider : WebApiProvider, ITagProvider
@@ -41,11 +44,27 @@ namespace SemManagement.UWP.Services.TagModule.Provider
             return GetAllTagsAsync<Tag>(endpoint, sid);
         }
 
+        public Task<List<Tag>> GetAllPlaylistTagsAsync(int plid)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "getAllPlaylisTagsAsync");
+
+            return GetAllPlaylistTagsAsync<Tag>(endpoint, plid);
+        }
+
+        public Task SavePlaylistTagRangeAsync(Model.Playlist playlist, List<Tag> tags)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "savePlaylistTagRangeAsync");
+
+            var tagsTransportModel = new TagTransportModel(playlist, tags);
+
+            return AddAsync<TagTransportModel>(endpoint, tagsTransportModel);
+        }
+
         public Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags)
         {
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "getStationByTagsAsync");
 
-            var tagsTransportModel = new TagTransportModel(null, tags);
+            var tagsTransportModel = new TagTransportModel(tags);
 
             return GetStationByTagsAsync<Model.Station>(endpoint, tagsTransportModel);
         }
@@ -55,6 +74,13 @@ namespace SemManagement.UWP.Services.TagModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "deleteStationTagByIdAsync");
 
             return DeleteStationTagByIdAsync<BoolResult>(endpoint, stationId, tagId);
-        }   
+        }
+
+        public Task<BoolResult> DeletePlaylistTagByIdAsync(int playlistId, Guid tagId)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Tags, "deletePlaylistTagByIdAsync");
+
+            return DeletePlaylistTagByIdAsync<BoolResult>(endpoint, playlistId, tagId);
+        }
     }
 }

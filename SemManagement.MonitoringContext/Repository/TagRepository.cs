@@ -23,6 +23,10 @@ namespace SemManagement.MonitoringContext.Repository
         Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags);
 
         Task<BoolResult> DeleteByStationTagIdAsync(int stationId, Guid tagId);
+
+        Task<List<TagDto>> GetAllPlaylisTagsAsync(int plid);
+
+        Task<BoolResult> DeleteByPlaylistTagIdAsync(int playlistId, Guid tagId);
     }
 
     public class LocalTagRepository : ILocalTagRepository
@@ -37,6 +41,14 @@ namespace SemManagement.MonitoringContext.Repository
         public async Task<List<TagDto>> GetAllAsync(int sid)
         {
             return await _context.StationTags.Where(x => x.Sid == sid)
+                .Include(x => x.Tag)
+                .Select(x => x.Tag)
+                .ToListAsync();
+        }
+
+        public async Task<List<TagDto>> GetAllPlaylisTagsAsync(int plid)
+        {
+            return await _context.PlaylistTags.Where(x => x.Plid == plid)
                 .Include(x => x.Tag)
                 .Select(x => x.Tag)
                 .ToListAsync();
@@ -64,6 +76,24 @@ namespace SemManagement.MonitoringContext.Repository
                 var stationTag = stationTags.First();
 
                 _context.Entry<StationTagDto>(stationTag).State = EntityState.Deleted;
+
+                await _context.SaveChangesAsync();
+
+                return await Task.FromResult<BoolResult>(new BoolResult(true));
+            }
+
+            return await Task.FromResult<BoolResult>(new BoolResult(false));
+        }
+
+        public async Task<BoolResult> DeleteByPlaylistTagIdAsync(int playlistId, Guid tagId)
+        {
+            var playlistTags = await _context.PlaylistTags.Where(x => x.Plid == playlistId && x.TagId == tagId).ToListAsync();
+
+            if (playlistTags != null && playlistTags.Count > 0)
+            {
+                var playlistTag = playlistTags.First();
+
+                _context.Entry<PlaylistTagDto>(playlistTag).State = EntityState.Deleted;
 
                 await _context.SaveChangesAsync();
 

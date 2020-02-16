@@ -43,6 +43,8 @@ namespace SemManagement.MonitoringContext.DataAccess
 
         public DbSet<MonitoringDto> Monitorings { get; set; }
 
+        public DbSet<PlaylistDto> Playlists { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

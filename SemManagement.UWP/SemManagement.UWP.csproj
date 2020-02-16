@@ -182,6 +182,7 @@
     <Compile Include="Services\UserModule\Service\UserService.cs" />
     <Compile Include="ViewModel\AudiosViewModel.cs" />
     <Compile Include="ViewModel\ContentDialog\AddRuleViewModel.cs" />
+    <Compile Include="ViewModel\ContentDialog\ManageTagsViewModel.cs" />
     <Compile Include="ViewModel\ContentDialog\SendToPlaylistViewModel.cs" />
     <Compile Include="ViewModel\ContentDialog\StartMonitoringViewModel.cs" />
     <Compile Include="ViewModel\ContentDialog\SendToStationViewModel.cs" />
@@ -197,6 +198,9 @@
     </Compile>
     <Compile Include="View\ContentDialogs\AddRuleContentDialog.xaml.cs">
       <DependentUpon>AddRuleContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ContentDialogs\ManageTagsContentDialog.xaml.cs">
+      <DependentUpon>ManageTagsContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ContentDialogs\SendToPlaylistContentDialog.xaml.cs">
       <DependentUpon>SendToPlaylistContentDialog.xaml</DependentUpon>
@@ -289,6 +293,10 @@
     <Page Include="View\ContentDialogs\AddRuleContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ContentDialogs\ManageTagsContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ContentDialogs\SendToPlaylistContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

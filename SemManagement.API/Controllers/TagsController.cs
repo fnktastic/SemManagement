@@ -21,7 +21,7 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpPost("saveStationTagRangeAsync")]
-        public async Task<ActionResult> SaveStationTagRangeAsync([FromBody] TagViewModel model)
+        public async Task<ActionResult> SaveStationTagRangeAsync([FromBody] StationTagViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -39,8 +39,27 @@ namespace SemManagement.API.Controllers
             return await _tagService.GetAllTagsAsync(sid);
         }
 
+        [HttpGet("getAllPlaylisTagsAsync")]
+        public async Task<ActionResult<List<TagDto>>> GetAllPlaylisTagsAsync([FromQuery] int plid)
+        {
+            return await _tagService.GetAllPlaylisTagsAsync(plid);
+        }
+
+        [HttpPost("savePlaylistTagRangeAsync")]
+        public async Task<ActionResult> SavePlaylistTagRangeAsync([FromBody] PlaylistTagViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _tagService.SavePlaylistTagRangeAsync(model.Playlist, model.Tags);
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
         [HttpPost("getStationByTagsAsync")]
-        public async Task<ActionResult<List<StationDto>>> GetStationByTagsAsync([FromBody] TagViewModel model)
+        public async Task<ActionResult<List<StationDto>>> GetStationByTagsAsync([FromBody] StationTagViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -56,6 +75,17 @@ namespace SemManagement.API.Controllers
             if (ModelState.IsValid)
             {
                 return await _tagService.DeleteStationTagByIdAsync(stationId, tagId);
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("deletePlaylistTagByIdAsync")]
+        public async Task<ActionResult<BoolResult>> DeletePlaylistTagByIdAsync([FromQuery] int playlistId, Guid tagId)
+        {
+            if (ModelState.IsValid)
+            {
+                return await _tagService.DeletePlaylistTagByIdAsync(playlistId, tagId);
             }
 
             return BadRequest();

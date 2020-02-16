@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using SemManagement.UWP.Model;
 using SemManagement.UWP.Model.Local.Storage;
 using SemManagement.UWP.Services.RuleModule.Service;
 using SemManagement.UWP.Services.TagModule.Service;
@@ -19,11 +20,14 @@ namespace SemManagement.UWP.Services.Local.Storage
         Task<List<Rule>> GetAllRulesAsync();
         Task SaveRuleAsync(Rule rule);
         Task SaveStationTagRangeAsync(Model.Station station, List<Tag> tags);
+        Task SavePlaylistTagRangeAsync(Model.Playlist playlist, List<Tag> tags);
         Task<List<Tag>> GetAllTagsAsync(int sid);
+        Task<List<Tag>> GetAllPlaylisTagsAsync(int plid);
         Task<List<Model.Station>> GetStationByTagsAsync(List<Tag> tags);
         Task<List<RuleLog>> GetRuleLogs(Guid ruleId);
         Task FireRule(Guid ruleId);
         Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
+        Task<BoolResult> DeletePlaylistTagByIdAsync(int playlistId, Guid tagId);
     }
 
     public class LocalDataService : ILocalDataService
@@ -77,6 +81,21 @@ namespace SemManagement.UWP.Services.Local.Storage
         public Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId)
         {
             return _tagService.DeleteStationTagByIdAsync(stationId, tagId);
+        }
+
+        public Task<List<Tag>> GetAllPlaylisTagsAsync(int plid)
+        {
+            return _tagService.GetAllPlaylistTagsAsync(plid);
+        }
+
+        public Task<BoolResult> DeletePlaylistTagByIdAsync(int playlistId, Guid tagId)
+        {
+            return _tagService.DeletePlaylistTagByIdAsync(playlistId, tagId);
+        }
+
+        public Task SavePlaylistTagRangeAsync(Model.Playlist playlist, List<Tag> tags)
+        {
+            return _tagService.SavePlaylistTagRangeAsync(playlist, tags);
         }
     }
 }

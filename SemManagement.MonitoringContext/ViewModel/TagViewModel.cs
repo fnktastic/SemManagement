@@ -5,9 +5,15 @@ using System.Text;
 
 namespace SemManagement.MonitoringContext.ViewModel
 {
-    public class TagViewModel
+    public class StationTagViewModel
     {
         public StationDto Station { get; set; }
+        public List<TagDto> Tags { get; set; }
+    }
+
+    public class PlaylistTagViewModel
+    {
+        public PlaylistDto Playlist { get; set; }
         public List<TagDto> Tags { get; set; }
     }
 }

@@ -59,7 +59,7 @@
                     <RowDefinition Height="0.5*" />
                     <RowDefinition Height="0.5*" />
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" BorderThickness="1" BorderBrush="Black" Padding="5">
+                <Border Grid.Row="0" BorderThickness="0" BorderBrush="Black" Padding="5">
                     <Grid Margin="0" Visibility="{Binding IsLoading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="275"  />

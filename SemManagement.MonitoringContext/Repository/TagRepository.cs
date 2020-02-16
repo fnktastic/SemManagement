@@ -142,5 +142,18 @@ namespace SemManagement.MonitoringContext.Repository
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<StationDto>> GetStationByTagsAsync(List<TagDto> tags)
+        {
+            var tagNames = tags.Select(x => x.Name).ToList();
+
+            var stations = await _context.StationTags
+                .Include(x => x.Tag)
+                .Where(x => tagNames.Contains(x.Tag.Name))
+                .Select(x => x.Station)
+                .ToListAsync();
+
+            return stations;
+        }
     }
 }

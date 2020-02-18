@@ -44,6 +44,23 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<List<T>> GetStationsByPlaylist<T>(string endpoint, int plid)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("plid", plid, ParameterType.QueryString);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<List<T>> GetPlaylistsByStationAsync<T>(string endpoint, int stationId)
         {
             TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();

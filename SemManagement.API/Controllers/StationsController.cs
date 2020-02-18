@@ -84,6 +84,12 @@ namespace SemManagement.API.Controllers
         {
             return await _stationRepository.GetStationSchedule(stationId);
         }
-        
+
+        [HttpGet("getStationsByPlaylist")]
+        public async Task<ActionResult<IList<Station>>> GetStationsByPlaylist([FromQuery] int plid)
+        {
+            return await _stationRepository.GetStationsByPlaylist(plid);
+        }
+
     }
 }

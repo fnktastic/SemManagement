@@ -45,13 +45,31 @@ namespace SemManagement.UWP.View.ContentDialogs
             foreach (var item in e.AddedItems)
             {
                 if (item is Station station)
-                    SendToStationViewModel.SelectedStations.Add(station);
+                    SendToStationViewModel.SelectedStations.AddStation(station);
             }
 
             foreach (var item in e.RemovedItems)
             {
                 if (item is Station station)
                     SendToStationViewModel.SelectedStations.Remove(station);
+            }
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            Panel panel = sender as Panel;
+            if (panel != null)
+            {
+                ListViewItem lvi = UIHelper.FindParent<ListViewItem>(panel);
+                if (lvi != null)
+                {
+                    lvi.SetBinding(ListViewItem.IsSelectedProperty, new Binding()
+                    {
+                        Path = new PropertyPath(nameof(Station.IsSelected)),
+                        Source = panel.DataContext,
+                        Mode = BindingMode.TwoWay
+                    });
+                }
             }
         }
     }

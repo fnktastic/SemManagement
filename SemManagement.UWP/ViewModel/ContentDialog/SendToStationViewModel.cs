@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using SemManagement.UWP.Collection;
 using SemManagement.UWP.Helper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Services.Local.Storage;
@@ -15,14 +16,15 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
     public class SendToStationViewModel : ViewModelBase
     {
         #region fields
+        private readonly Playlist _playlist;
         private IEnumerable<Station> _originStations;
         private readonly IStationService _stationService;
         private readonly ILocalDataService _localDataService;
         #endregion
 
         #region properties
-        private ObservableCollectionFast<Station> _selectedStations;
-        public ObservableCollectionFast<Station> SelectedStations
+        private StationsCollection _selectedStations;
+        public StationsCollection SelectedStations
         {
             get { return _selectedStations; }
             set
@@ -33,8 +35,8 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
             }
         }
 
-        private ObservableCollection<Station> _stations;
-        public ObservableCollection<Station> Stations
+        private StationsCollection _stations;
+        public StationsCollection Stations
         {
             get { return _stations; }
             set
@@ -74,12 +76,13 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
         #endregion
 
         #region constructor
-        public SendToStationViewModel(IStationService stationService, ILocalDataService localDataService)
+        public SendToStationViewModel(IStationService stationService, ILocalDataService localDataService, Playlist playlist)
         {
+            _playlist = playlist;
             _stationService = stationService;
             _localDataService = localDataService;
 
-            SelectedStations = new ObservableCollectionFast<Station>();
+            SelectedStations = new StationsCollection();
 
             LoadData();
         }
@@ -100,7 +103,7 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
 
                     var stations = await _localDataService.GetStationByTagsAsync(tags);
 
-                    Stations = new ObservableCollectionFast<Station>(stations);
+                    Stations = new StationsCollection(stations);
 
                     StaticSettings.StopSelectionChangedEvent = false;
 
@@ -117,7 +120,7 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
                         .Where(x => x.Name.Contains(_stationsSearchTerm, StringComparison.OrdinalIgnoreCase))
                         .OrderBy(x => x, new StationComparer());
 
-                Stations = new ObservableCollectionFast<Station>(part);
+                Stations = new StationsCollection(part);
             }
 
             StaticSettings.StopSelectionChangedEvent = false;
@@ -131,7 +134,15 @@ namespace SemManagement.UWP.ViewModel.ContentDialog
 
                 _originStations = (await _stationService.TakeAsync(int.MaxValue)).OrderBy(x => x, new StationComparer());
 
-                Stations = new ObservableCollection<Station>(_originStations);
+                var playlistStations = await _localDataService.GetStationsByPlaylist(_playlist.Plid);
+
+                foreach(var _originStation in _originStations)
+                {
+                    if (playlistStations.Any(x => x.Sid == _originStation.Sid))
+                        _originStation.IsAssigned = _originStation.IsSelected = true;
+                }
+
+                Stations = new StationsCollection(_originStations);
             }
             finally
             {

@@ -123,6 +123,7 @@
     <Compile Include="Collection\SongsCollection.cs" />
     <Compile Include="Collection\SongsExtendedCollection.cs" />
     <Compile Include="Collection\StationQueueCollection.cs" />
+    <Compile Include="Collection\StationsCollection.cs" />
     <Compile Include="Collection\TagsCollection.cs" />
     <Compile Include="Configurations\MapperConfig.cs" />
     <Compile Include="Configurations\PublicApiConfiguration.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Helper\DefferedAction.cs" />
     <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Helper\MonitoringsComparer.cs" />
+    <Compile Include="Helper\Notifier.cs" />
     <Compile Include="Helper\ObservableCollectionFast.cs" />
     <Compile Include="Helper\PlaylistComparer.cs" />
     <Compile Include="Helper\RulesComparer.cs" />

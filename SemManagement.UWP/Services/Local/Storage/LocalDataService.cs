@@ -8,6 +8,7 @@ using AutoMapper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Model.Local.Storage;
 using SemManagement.UWP.Services.RuleModule.Service;
+using SemManagement.UWP.Services.StationModule.Service;
 using SemManagement.UWP.Services.TagModule.Service;
 using SemManagement.UWP.ViewModel;
 using SemManagement.UWP.ViewModel.ContentDialog;
@@ -29,6 +30,7 @@ namespace SemManagement.UWP.Services.Local.Storage
         Task FireRule(Guid ruleId);
         Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
         Task<BoolResult> DeletePlaylistTagByIdAsync(int playlistId, Guid tagId);
+        Task<List<Model.Station>> GetStationsByPlaylist(int plid);
     }
 
     public class LocalDataService : ILocalDataService
@@ -36,12 +38,14 @@ namespace SemManagement.UWP.Services.Local.Storage
         private readonly IMapper _mapper;
         private readonly IRuleService _ruleService;
         private readonly ITagService _tagService;
+        private readonly IStationService _stationService;
 
-        public LocalDataService(IMapper mapper, IRuleService ruleService, ITagService tagService)
+        public LocalDataService(IMapper mapper, IRuleService ruleService, ITagService tagService, IStationService stationService)
         {
             _mapper = mapper;
             _ruleService = ruleService;
             _tagService = tagService;
+            _stationService = stationService;
         }
 
         public async Task<List<Rule>> GetAllRulesAsync()
@@ -102,6 +106,11 @@ namespace SemManagement.UWP.Services.Local.Storage
         public Task SavePlaylistTagRangeAsync(Model.Playlist playlist, List<Tag> tags)
         {
             return _tagService.SavePlaylistTagRangeAsync(playlist, tags);
+        }
+
+        public Task<List<Model.Station>> GetStationsByPlaylist(int plid)
+        {
+            return _stationService.GetStationsByPlaylist(plid);
         }
     }
 }

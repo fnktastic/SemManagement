@@ -27,6 +27,8 @@ namespace SemManagement.SemContext.Repository
         Task<Stationsstatus> GetStationStatuses(int sid);
 
         Task<List<ScheduledStation>> GetStationSchedule(int stationId);
+
+        Task<List<Station>> GetStationsByPlaylist(int plid);
     }
     public class StationRepository : IStationRepository
     {
@@ -43,6 +45,21 @@ namespace SemManagement.SemContext.Repository
                 return await _context.Stations.Skip(skip).Take(take).ToListAsync();
 
             return await _context.Stations.Take(take).ToListAsync();
+        }
+
+        public async Task<List<Station>> GetStationsByPlaylist(int plid)
+        {
+            var plidParameter = new MySqlParameter("@plid", SqlDbType.Int)
+            {
+                Value = plid
+            };
+
+            return await _context.Stations.FromSql<Station>(
+                "SELECT stations.* " +
+                "FROM sem.stationsplaylists " +
+                "INNER JOIN stations ON stationsplaylists.sid = stations.sid " +
+                "WHERE stationsplaylists.plid = @plid", plidParameter)
+                .ToListAsync();
         }
 
         public async Task<List<SongExtended>> GetDeletedSongsAsync(int stationId)

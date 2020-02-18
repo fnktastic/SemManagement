@@ -18,6 +18,7 @@ namespace SemManagement.UWP.Services.StationModule.Provider
         Task<List<StationQueue>> GetStationQueueAsync(int stationId);
         Task<Stationsstatus> GetStationStatuses(int sid);
         Task<List<ScheduledStation>> GetStationSchedule(int stationId);
+        Task<List<Station>> GetStationsByPlaylist(int plid);
     }
 
     public class StationProvider : WebApiProvider, IStationProvider
@@ -31,6 +32,13 @@ namespace SemManagement.UWP.Services.StationModule.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "take");
 
             return TakeAsync<Station>(endpoint, take, skip);
+        }
+
+        public Task<List<Station>> GetStationsByPlaylist(int plid)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Stations, "getStationsByPlaylist");
+
+            return GetStationsByPlaylist<Station>(endpoint, plid);
         }
 
         public Task<List<SongExtended>> GetDeletedSongsAsync(int stationId)

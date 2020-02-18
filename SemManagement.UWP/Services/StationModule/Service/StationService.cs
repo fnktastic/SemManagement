@@ -18,6 +18,7 @@ namespace SemManagement.UWP.Services.StationModule.Service
         Task<List<StationQueue>> GetStationQueueAsync(int stationId);
         Task<Stationsstatus> GetStationStatuses(int sid);
         Task<List<ScheduledStation>> GetStationSchedule(int stationId);
+        Task<List<Station>> GetStationsByPlaylist(int plid);
 
     }
     public class StationService : IStationService
@@ -67,6 +68,11 @@ namespace SemManagement.UWP.Services.StationModule.Service
         public Task<List<ScheduledStation>> GetStationSchedule(int stationId)
         {
             return _stationProvider.GetStationSchedule(stationId);
+        }
+
+        public Task<List<Station>> GetStationsByPlaylist(int plid)
+        {
+            return _stationProvider.GetStationsByPlaylist(plid);
         }
     }
 }

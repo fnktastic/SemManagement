@@ -10,7 +10,6 @@
     PrimaryButtonText="Send"
     IsSecondaryButtonEnabled="False"
     CloseButtonText="Cancel"
-    Background="{ThemeResource CustomAcrylicBrush}"
     DefaultButton="Primary">
 
     <Grid>

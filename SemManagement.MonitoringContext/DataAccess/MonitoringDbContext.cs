@@ -45,6 +45,8 @@ namespace SemManagement.MonitoringContext.DataAccess
 
         public DbSet<PlaylistDto> Playlists { get; set; }
 
+        public DbSet<StationPlayerStateDto> StationPlayerStates { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,6 +65,8 @@ namespace SemManagement.MonitoringContext.DataAccess
                 .HasMany(x => x.Snapshots);
 
             modelBuilder.Entity<RuleDto>().HasKey(a => a.Id);
+
+            modelBuilder.Entity<StationPlayerStateDto>().HasKey(a => a.Id);
 
             modelBuilder.Entity<StationDto>(x =>
             {

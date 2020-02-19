@@ -22,6 +22,14 @@
                 <TextBox Header="Default Period Of Station Monitoring" PlaceholderText="in days (in ex. every 30 days)" 
                      Text="{Binding DefaultPeriodOfMonitoring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBox Header="Period Of Notificatin Station Offline" PlaceholderText="in hours (in ex. last 25 hours was offline)" 
+                     Text="{Binding NotificationStationOffline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBox Header="Period Of Notification Station Wasn't Synced" PlaceholderText="in hours (in ex. last 25 hours wasn't synced last 25 hours)" 
+                     Text="{Binding NotificationStationWasntSynced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Run Monitoring Now"
                         IsEnabled="{Binding RunMonitoringIsInProgress, Converter={StaticResource InverseBoolConverter}}"

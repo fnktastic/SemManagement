@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collection\NotificationCollection.cs" />
     <Compile Include="Collection\PlaylistsCollection.cs" />
     <Compile Include="Collection\SongsCollection.cs" />
     <Compile Include="Collection\SongsExtendedCollection.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Helper\TransportModel\TagTransportModel.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Model\Local\Storage\BoolResult.cs" />
+    <Compile Include="Model\Local\Storage\Notification.cs" />
     <Compile Include="Model\ScheduledStation.cs" />
     <Compile Include="Model\Stationsstatus.cs" />
     <Compile Include="Model\Local\Storage\Count.cs" />

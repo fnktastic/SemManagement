@@ -56,6 +56,30 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
+
+        private string _notificationStationOffline;
+        public string NotificationStationOffline
+        {
+            get { return _notificationStationOffline; }
+            set
+            {
+                if (_notificationStationOffline == value) return;
+                _notificationStationOffline = value;
+                RaisePropertyChanged(nameof(NotificationStationOffline));
+            }
+        }
+
+        private string _notificationStationWasntSynced;
+        public string NotificationStationWasntSynced
+        {
+            get { return _notificationStationWasntSynced; }
+            set
+            {
+                if (_notificationStationWasntSynced == value) return;
+                _notificationStationWasntSynced = value;
+                RaisePropertyChanged(nameof(NotificationStationWasntSynced));
+            }
+        }
         #endregion
 
         public SettingsPageViewModel(ISettingsService settingsService, IMonitoringService monitoringService)
@@ -70,6 +94,8 @@ namespace SemManagement.UWP.ViewModel
         {
             DefaultPeriodOfMonitoring = _settingsService.LoadSetting(Const.Default_Period_Of_Monitoring);
             MinimalAmountOfUpdates = _settingsService.LoadSetting(Const.Minimal_Amount_Of_Updates);
+            NotificationStationOffline = _settingsService.LoadSetting(Const.Notificatin_Station_Offline);
+            NotificationStationWasntSynced = _settingsService.LoadSetting(Const.Notificatin_Station_Wasnt_Synced);
         }
 
         private RelayCommand _saveSettingsCommand;
@@ -78,6 +104,8 @@ namespace SemManagement.UWP.ViewModel
         {
             _settingsService.SaveSetting(Const.Default_Period_Of_Monitoring, _defaultPeriodOfMonitoring);
             _settingsService.SaveSetting(Const.Minimal_Amount_Of_Updates, _minimalAmountOfUpdates);
+            _settingsService.SaveSetting(Const.Notificatin_Station_Offline, NotificationStationOffline);
+            _settingsService.SaveSetting(Const.Notificatin_Station_Wasnt_Synced, NotificationStationWasntSynced);
         }
 
         private RelayCommand _runMonitoringNowCommand;

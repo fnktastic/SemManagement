@@ -11,7 +11,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d" Height="1000"
     FullSizeDesired="True"
-    
+    Background="{ThemeResource CustomAcrylicBrush}"
     Title="{x:Bind AddRuleViewModel.Title}"
     PrimaryButtonText="Save"
     SecondaryButtonText="Save as draft"

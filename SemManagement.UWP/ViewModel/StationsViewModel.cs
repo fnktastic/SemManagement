@@ -477,7 +477,7 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                var sendToStationViewModel = new SendToStationViewModel(_stationService, _localDataService, playlist);
+                var sendToStationViewModel = new SendToStationViewModel(_stationService, _localDataService, _playlistService, playlist);
 
                 var sendToStationContentDialog = new SendToStationContentDialog(sendToStationViewModel);
 

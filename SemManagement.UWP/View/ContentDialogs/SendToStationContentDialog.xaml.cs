@@ -72,5 +72,20 @@ namespace SemManagement.UWP.View.ContentDialogs
                 }
             }
         }
+
+        private void ToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(sender is ToggleButton toggleButton)
+            {
+                if (toggleButton.IsChecked.HasValue && toggleButton.IsChecked.Value)
+                {
+                    stations.SelectAll();
+
+                    return;
+                }
+
+                stations.SelectedIndex = -1;
+            }
+        }
     }
 }

@@ -332,7 +332,7 @@ namespace SemManagement.UWP.ViewModel
         {
             try
             {
-                var sendToStationViewModel = new SendToStationViewModel(_stationService, _localDataService, playlist);
+                var sendToStationViewModel = new SendToStationViewModel(_stationService, _localDataService, _playlistService, playlist);
 
                 var sendToStationContentDialog = new SendToStationContentDialog(sendToStationViewModel);
 

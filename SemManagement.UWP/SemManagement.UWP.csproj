@@ -188,6 +188,7 @@
     <Compile Include="ViewModel\ContentDialog\SendToPlaylistViewModel.cs" />
     <Compile Include="ViewModel\ContentDialog\StartMonitoringViewModel.cs" />
     <Compile Include="ViewModel\ContentDialog\SendToStationViewModel.cs" />
+    <Compile Include="ViewModel\FeedViewModel.cs" />
     <Compile Include="ViewModel\MonitoringViewModel.cs" />
     <Compile Include="ViewModel\PlaylistsViewModel.cs" />
     <Compile Include="ViewModel\RulesViewModel.cs" />
@@ -201,6 +202,9 @@
     <Compile Include="View\ContentDialogs\AddRuleContentDialog.xaml.cs">
       <DependentUpon>AddRuleContentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ContentDialogs\ConfirmationContentDialog.xaml.cs">
+      <DependentUpon>ConfirmationContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ContentDialogs\ManageTagsContentDialog.xaml.cs">
       <DependentUpon>ManageTagsContentDialog.xaml</DependentUpon>
     </Compile>
@@ -212,6 +216,9 @@
     </Compile>
     <Compile Include="View\ContentDialogs\SendToStationContentDialog.xaml.cs">
       <DependentUpon>SendToStationContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FeedPage.xaml.cs">
+      <DependentUpon>FeedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MonitoringPage.xaml.cs">
       <DependentUpon>MonitoringPage.xaml</DependentUpon>
@@ -296,6 +303,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ContentDialogs\ConfirmationContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ContentDialogs\ManageTagsContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -309,6 +320,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ContentDialogs\SendToStationContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FeedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,6 +12,7 @@
     PrimaryButtonText="OK"
     IsSecondaryButtonEnabled="False"
     CloseButtonText="Cancel"
+    Background="{ThemeResource CustomAcrylicBrush}"
     DefaultButton="Primary">
 
     <Grid Width="450" MinHeight="800">

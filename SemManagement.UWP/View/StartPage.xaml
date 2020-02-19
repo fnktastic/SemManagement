@@ -15,24 +15,47 @@
             <core:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </core:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    <NavigationView x:Name="nvSample" 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <NavigationView x:Name="nvSample" Grid.Column="0"
                     Background="{ThemeResource CustomAcrylicBrush}" 
                     PaneDisplayMode="LeftCompact"
                     IsBackButtonVisible="Collapsed">
-        <i:Interaction.Behaviors>
-            <core:EventTriggerBehavior EventName="ItemInvoked">
-                <core:EventTriggerBehavior.Actions>
-                    <core:InvokeCommandAction Command="{Binding ItemInvokedCommand}" />
-                </core:EventTriggerBehavior.Actions>
-            </core:EventTriggerBehavior>
-        </i:Interaction.Behaviors>
-        <NavigationView.MenuItems>
-            <NavigationViewItem Icon="XboxOneConsole" Content="Stations" Tag="StartPageStations" />
-            <NavigationViewItem Icon="WebCam" Content="Monitoring" Tag="StartPageMonitoring" />
-            <NavigationViewItem Icon="Audio" Content="Library" Tag="StartPageAudios" />
-            <NavigationViewItem Icon="List" Content="Playlists" Tag="StartPagePlaylists" />
-            <NavigationViewItem Icon="Manage" Content="Rules" Tag="StartPageRules" />
-        </NavigationView.MenuItems>
-        <Frame x:Name="contentFrame" />
-    </NavigationView>
+            <i:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="ItemInvoked">
+                    <core:EventTriggerBehavior.Actions>
+                        <core:InvokeCommandAction Command="{Binding ItemInvokedCommand}" />
+                    </core:EventTriggerBehavior.Actions>
+                </core:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="XboxOneConsole" Content="Stations" Tag="StartPageStations" />
+                <NavigationViewItem Icon="TouchPointer" Content="Feed" Tag="StartFeed" />
+                <NavigationViewItem Icon="WebCam" Content="Monitoring" Tag="StartPageMonitoring" />
+                <NavigationViewItem Icon="List" Content="Playlists" Tag="StartPagePlaylists" />
+                <NavigationViewItem Icon="Audio" Content="Library" Tag="StartPageAudios" />
+                <NavigationViewItem Icon="Manage" Content="Rules" Tag="StartPageRules" />
+            </NavigationView.MenuItems>
+            <Frame x:Name="contentFrame" />
+        </NavigationView>
+        <Grid Grid.Column="1" Margin="0 0 0 0" FocusVisualPrimaryBrush="Black">
+            <Grid.FocusVisualSecondaryBrush>
+                <AcrylicBrush TintColor="#CC8E8E8E" FallbackColor="#FF2C2C2C" AlwaysUseFallback="False" TintOpacity="0.75" BackgroundSource="HostBackdrop"/>
+            </Grid.FocusVisualSecondaryBrush>
+            <Grid.Background>
+                <AcrylicBrush FallbackColor="#B2CFCFCF" TintColor="#CC4B4B4B"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Margin="0 10 0 0" Text="Notifications" VerticalAlignment="Top" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" />
+            <ListView Grid.Row="1">
+
+            </ListView>
+        </Grid>
+    </Grid>
 </Page>

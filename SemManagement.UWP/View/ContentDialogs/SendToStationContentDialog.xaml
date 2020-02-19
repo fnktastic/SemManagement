@@ -5,11 +5,15 @@
     xmlns:local="using:SemManagement.UWP.View.ContentDialogs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     Title="Send To Stations"
+    x:Name="Me"
     PrimaryButtonText="Send"
     IsSecondaryButtonEnabled="False"
     CloseButtonText="Cancel"
+    Background="{ThemeResource CustomAcrylicBrush}"
     DefaultButton="Primary">
 
     <Grid Width="450" MinHeight="700">
@@ -36,13 +40,35 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
                          Text="{x:Bind SendToStationViewModel.StationsSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         PlaceholderText="filter stations by name or #tag (#tag1, #tag2, #tag)" />
-                <ToggleButton Grid.Column="1" IsThreeState="True">
-                    <ToggleButton.Content>
+                         PlaceholderText="filter stations by name or #tag" />
+                <Button Grid.Column="1">
+                    <Button.Content>
                         <SymbolIcon Symbol="Pin" />
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Grid.Column="2" IsThreeState="True">
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton IsChecked="{x:Bind SendToStationViewModel.IsHighlight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{x:Bind SendToStationViewModel.HiglightAssignedCommand}">
+                                    <ToggleButton.Content>
+                                        <SymbolIcon Symbol="Pin" />
+                                    </ToggleButton.Content>
+                                </ToggleButton>
+                                <ToggleButton IsChecked="{x:Bind SendToStationViewModel.IsUnHighlight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{x:Bind SendToStationViewModel.HiglightNotAssignedCommand}">
+                                    <ToggleButton.Content>
+                                        <SymbolIcon Symbol="UnPin" />
+                                    </ToggleButton.Content>
+                                </ToggleButton>
+                                <Button Command="{x:Bind SendToStationViewModel.ResetHighlightCommand}">
+                                    <Button.Content>
+                                        <SymbolIcon Symbol="Refresh" />
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <ToggleButton Grid.Column="2"
+                              IsChecked="{x:Bind SendToStationViewModel.IsAllSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="ToggleButton_Click">
                     <ToggleButton.Content>
                         <SymbolIcon Symbol="SelectAll" />
                     </ToggleButton.Content>
@@ -75,15 +101,37 @@
                          >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Loaded="Grid_Loaded" HorizontalAlignment="Stretch">
+                        <Grid x:Name="grid" Loaded="Grid_Loaded" HorizontalAlignment="Stretch">
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center" />
-                            <Button HorizontalAlignment="Right" Visibility="{Binding IsAssigned, Converter={StaticResource BoolToVisibleOrCollapsed}}">
+                            <Button Visibility="{Binding IsAssigned, Converter={StaticResource BoolToVisibleOrCollapsed}}"
+                                    HorizontalAlignment="Right">
+                                <i:Interaction.Behaviors>
+                                    <core:DataTriggerBehavior Binding="{Binding IsAssigned}" ComparisonCondition="Equal" Value="true">
+                                        <core:ChangePropertyAction PropertyName="Background" Value="#3F33BBEB" />
+                                    </core:DataTriggerBehavior>
+                                </i:Interaction.Behaviors>
                                 <Button.Content>
                                     <SymbolIcon Symbol="Delete" />
                                 </Button.Content>
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <TextBlock Text="Are you sure?" VerticalAlignment="Center" />
+                                            <Button Margin="0 5 5 0" 
+                                                    HorizontalAlignment="Center"
+                                                    Command="{Binding Path=SendToStationViewModel.RemovePlatlistFromStationCommand, ElementName=Me}"
+                                                    CommandParameter="{Binding}">
+                                                <Button.Content>
+                                                    <SymbolIcon Symbol="Delete" />
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
                             </Button>
                         </Grid>
                     </DataTemplate>

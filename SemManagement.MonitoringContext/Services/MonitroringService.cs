@@ -238,7 +238,7 @@ namespace SemManagement.MonitoringContext.Services
         {
             var now = DateTime.Now;
 
-            var startEntry = new MonitoringDto(MonitorTypeEnum.Stations, MonitorStateEnum.Started, now);
+            var startEntry = new MonitoringDto(MonitorTypeEnum.PlayerState, MonitorStateEnum.Started, now);
 
             var activeStations = await _monitoringRepositry.GetMonitoredStations();
 
@@ -276,7 +276,7 @@ namespace SemManagement.MonitoringContext.Services
 
             await _snapshotEntryRepository.InsertAsync(startEntry);
 
-            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Stations, MonitorStateEnum.Finished, DateTime.Now));
+            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.PlayerState, MonitorStateEnum.Finished, DateTime.Now));
 
         }
         #endregion

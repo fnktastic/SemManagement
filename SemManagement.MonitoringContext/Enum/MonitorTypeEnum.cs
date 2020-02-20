@@ -4,6 +4,7 @@
     {
         Stations,
         Playlists,
-        Rules
+        Rules,
+        PlayerState
     }
 }

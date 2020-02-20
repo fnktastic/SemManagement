@@ -236,6 +236,10 @@ namespace SemManagement.MonitoringContext.Services
 
         private async Task MonitorStationPlayerSate()
         {
+            var now = DateTime.Now;
+
+            var startEntry = new MonitoringDto(MonitorTypeEnum.Stations, MonitorStateEnum.Started, now);
+
             var activeStations = await _monitoringRepositry.GetMonitoredStations();
 
             var stationPlayerState = new List<StationPlayerStateDto>();
@@ -269,6 +273,11 @@ namespace SemManagement.MonitoringContext.Services
             }
 
             await _monitoringRepositry.SaveStationPlayerStateRangeAsync(stationPlayerState);
+
+            await _snapshotEntryRepository.InsertAsync(startEntry);
+
+            await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Stations, MonitorStateEnum.Finished, DateTime.Now));
+
         }
         #endregion
     }

@@ -314,6 +314,21 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<BoolResult> StartMonitoring<T>(string endpoint)
+        {
+            TaskCompletionSource<BoolResult> tcs = new TaskCompletionSource<BoolResult>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            _restClient.ExecuteAsync(request, (IRestResponse<BoolResult> response) => ResponseHandler<BoolResult>(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task FireRule(string endpoint, Guid ruleId)
         {
             return Task.Run(() =>

@@ -15,6 +15,7 @@ namespace SemManagement.UWP.Services.Monitoring.Provider
         Task AddMonitoringAsync(Model.Local.Storage.Monitoring monitoring);
         Task<List<Model.Local.Storage.Monitoring>> GetMonitoredStations();
         Task<BoolResult> RunMonitoringNow();
+        Task<BoolResult> StartMonitoring();
     }
 
     public class MonitoringProvider : WebApiProvider, IMonitoringProvider
@@ -43,6 +44,13 @@ namespace SemManagement.UWP.Services.Monitoring.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Monitoring, "coldStart");
 
             return RunMonitoringNow<BoolResult>(endpoint);
+        }
+
+        public Task<BoolResult> StartMonitoring()
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Monitoring, "start");
+
+            return StartMonitoring<BoolResult>(endpoint);
         }
     }
 }

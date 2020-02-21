@@ -30,6 +30,9 @@
                 <TextBox Header="Period Of Notification Station Wasn't Synced" PlaceholderText="in hours (in ex. last 25 hours wasn't synced last 25 hours)" 
                      Text="{Binding NotificationStationWasntSynced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" />
             </StackPanel>
+            <Button Content="Start Monitoring" Margin="0 0 0 10"
+                    Command="{Binding StartMonitoringCommand}"
+                        />
             <StackPanel Orientation="Horizontal">
                 <Button Content="Run Monitoring Now"
                         IsEnabled="{Binding RunMonitoringIsInProgress, Converter={StaticResource InverseBoolConverter}}"

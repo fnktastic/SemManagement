@@ -14,6 +14,7 @@ namespace SemManagement.UWP.Services.Monitoring.Service
         Task AddMonitoringAsync(Model.Local.Storage.Monitoring monitoring);
         Task<List<Model.Local.Storage.Monitoring>> GetMonitoredStations();
         Task<BoolResult> RunMonitoringNow();
+        Task<BoolResult> StartMonitoring();
     }
     public class MonitoringService : IMonitoringService
     {
@@ -37,6 +38,11 @@ namespace SemManagement.UWP.Services.Monitoring.Service
         public Task<BoolResult> RunMonitoringNow()
         {
             return _monitoringProvider.RunMonitoringNow();
+        }
+
+        public Task<BoolResult> StartMonitoring()
+        {
+            return _monitoringProvider.StartMonitoring();
         }
     }
 }

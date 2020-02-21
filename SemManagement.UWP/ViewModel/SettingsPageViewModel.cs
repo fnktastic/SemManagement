@@ -118,5 +118,12 @@ namespace SemManagement.UWP.ViewModel
 
             RunMonitoringIsInProgress = false;
         }
+
+        private RelayCommand _startMonitoringCommand;
+        public RelayCommand StartMonitoringCommand => _startMonitoringCommand ?? (_startMonitoringCommand = new RelayCommand(StartMonitoring));
+        private async void StartMonitoring()
+        {
+            var result = await _monitoringService.StartMonitoring();
+        }
     }
 }

@@ -216,7 +216,7 @@ namespace SemManagement.MonitoringContext.Services
                     PlaylistName = playlist.Name
                 };
 
-                var playlistSongs = (await _semSongRepository.GetSongsByPlaylistAsync(playlist.Plid, snapshotEntry.Timestamp))
+                var playlistSongs = (await _semSongRepository.GetModifiedSongsByPlaylistAsync(playlist.Plid, snapshotEntry.Timestamp))
                     .Select(x => new PlaylistSnapshotSongDto()
                     {
                         DateTime = now,

@@ -67,7 +67,7 @@ namespace SemManagement.SemContext.Repository
             var audiosQuery = _context.Songs.FromSql<Song>(
                 "SELECT songs.* FROM songs " +
                 "INNER JOIN playlistssongs ON songs.sgid = playlistssongs.sgid " +
-                "WHERE playlistssongs.plid = @playlistId AND playlistssongs.last_update_at >= @lastSnapshotAt", playlistIdParameter, lastSnapshotAtParameter);
+                "WHERE playlistssongs.plid = @playlistId AND playlistssongs.last_update_date >= @lastSnapshotAt", playlistIdParameter, lastSnapshotAtParameter);
 
             var audios = audiosQuery.ToListAsync();
 

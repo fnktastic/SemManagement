@@ -59,9 +59,9 @@ namespace SemManagement.SemContext.Repository
                 Value = playlistId
             };
 
-            var lastSnapshotAtParameter = new MySqlParameter("@lastSnapshotAt", SqlDbType.DateTime)
+            var lastSnapshotAtParameter = new MySqlParameter("@lastSnapshotAt", MySqlDbType.DateTime)
             {
-                Value = lastSnapshotAt
+                Value = lastSnapshotAt.Value.ToString("yyyy-MM-dd HH:mm:ss")
             };
 
             var audiosQuery = _context.Songs.FromSql<Song>(

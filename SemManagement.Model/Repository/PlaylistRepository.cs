@@ -33,6 +33,8 @@ namespace SemManagement.SemContext.Repository
         Task<BoolResult> SendSongToPlaylistsAsync(int sgid, List<Playlist> playlists);
 
         Task<BoolResult> RemovePlaylistAsync(int plid);
+
+        Task<List<Playlist>> GetModifiedPlaylists(DateTime? lastSnapshotAt = null);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -76,6 +78,15 @@ namespace SemManagement.SemContext.Repository
                 .ToListAsync();
 
             return modifiedPlaylistsSongs;
+        }
+
+        public Task<List<Playlist>> GetModifiedPlaylists(DateTime? lastSnapshotAt = null)
+        {
+            var modifiedPlaylists = _context.Playlists
+                .Where(x => x.Last_Update_Date > lastSnapshotAt.Value)
+                .ToListAsync();
+
+            return modifiedPlaylists;
         }
 
         public async Task<Playlist> GetPlaylistById(int plid)

@@ -47,6 +47,7 @@ namespace SemManagement.API
             services.AddTransient<IRuleService, RuleService>();
             services.AddTransient<ITagService, TagService>();
             services.AddTransient<ISnapshotEntryRepository, SnapshotEntryRepository>();
+            services.AddTransient<IFeedRepository, FeedRepository>();
 
             services.AddQuartz();
         }

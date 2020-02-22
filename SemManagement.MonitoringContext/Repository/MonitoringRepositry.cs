@@ -1,5 +1,6 @@
 ﻿using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
+using SemManagement.MonitoringContext.BusinessLogic;
 using SemManagement.MonitoringContext.DataAccess;
 using SemManagement.MonitoringContext.Model;
 using System;
@@ -31,6 +32,7 @@ namespace SemManagement.MonitoringContext.Repository
         Task SavePlaylistsMonitrorings(List<PlaylistMonitoringDto> playlistMonitorings);
 
         Task SaveStationPlayerStateRangeAsync(List<StationPlayerStateDto> stationsPlayerState);
+        Task<FeedList> GetQucikMonitoringForStaton(List<int> plids, int sid);
     }
 
     public class MonitoringRepositry : IMonitoringRepositry
@@ -108,6 +110,25 @@ namespace SemManagement.MonitoringContext.Repository
             await _context.BulkInsertAsync(stationsPlayerState);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<FeedList> GetQucikMonitoringForStaton(List<int> plids, int sid)
+        {
+            var stationPlayistsSnapshots = await _context
+                .PlaylistMonitorings
+                .Where(x => plids.Contains(x.PlaylistId))
+                .Include(x => x.Snapshots)
+                    .ThenInclude(y => y.SnapshotSongs)
+                .ToListAsync();
+
+            var feedList = new FeedList();
+
+            foreach(var stationPlayistsSnapshot in stationPlayistsSnapshots)
+            {
+                // to do
+            }
+
+            return null;
         }
     }
 }

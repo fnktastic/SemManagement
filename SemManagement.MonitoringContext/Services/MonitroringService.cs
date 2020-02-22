@@ -1,4 +1,5 @@
-﻿using SemManagement.MonitoringContext.Enum;
+﻿using SemManagement.MonitoringContext.BusinessLogic;
+using SemManagement.MonitoringContext.Enum;
 using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Repository;
 using SemManagement.MonitoringContext.Scheduler;
@@ -17,6 +18,7 @@ namespace SemManagement.MonitoringContext.Services
         Task MonitorStations();
         Task MonitorPlaylists();
         Task<BoolResult> ColdStartMonitoring();
+        Task<FeedList> GetQucikMonitoringForStaton(int sid);
     }
 
     public class MonitoringService : IMonitoringService
@@ -27,8 +29,9 @@ namespace SemManagement.MonitoringContext.Services
         private readonly IRuleService _ruleService;
         private readonly ISnapshotEntryRepository _snapshotEntryRepository;
         private readonly IMonitoringRepositry _monitoringRepositry;
+        private readonly IFeedRepository _feedRepository;
 
-        public MonitoringService(ISnapshotEntryRepository snapshotEntryRepository, IRuleService ruleService, IStationRepository semStationRepository, IMonitoringRepositry monitoringRepositry, IPlaylistRepository semPlaylistRepository, ISongRepository semSongRepository)//, MonitoringScheduler monitoringScheduler)
+        public MonitoringService(IFeedRepository feedRepository, ISnapshotEntryRepository snapshotEntryRepository, IRuleService ruleService, IStationRepository semStationRepository, IMonitoringRepositry monitoringRepositry, IPlaylistRepository semPlaylistRepository, ISongRepository semSongRepository)//, MonitoringScheduler monitoringScheduler)
         {
             _semStationRepository = semStationRepository;
             _monitoringRepositry = monitoringRepositry;
@@ -36,6 +39,7 @@ namespace SemManagement.MonitoringContext.Services
             _semSongRepository = semSongRepository;
             _ruleService = ruleService;
             _snapshotEntryRepository = snapshotEntryRepository;
+            _feedRepository = feedRepository;
         }
 
         public async Task MonitorPlaylists()
@@ -69,7 +73,7 @@ namespace SemManagement.MonitoringContext.Services
             }
             catch
             {
-                return new BoolResult(true);
+                return new BoolResult(false);
             }
         }
 
@@ -79,6 +83,7 @@ namespace SemManagement.MonitoringContext.Services
 
             await MonitorStationPlayerSate();
         }
+
         #region private methods
         private async Task MonitorActiveStations()
         {
@@ -199,14 +204,21 @@ namespace SemManagement.MonitoringContext.Services
 
             var playlistSnapshotSongs = new List<PlaylistSnapshotSongDto>();
 
-            var modifiedPlaylistsIds = (await _semPlaylistRepository.GetModifiedPlaylistsSongs(snapshotEntry.Timestamp))
-                .Select(x => x.Plid)
-                .Distinct()
-                .ToList();
+            var modifiedPlaylistsIds = (await _semPlaylistRepository.GetModifiedPlaylists(snapshotEntry.Timestamp))
+                .Select(x => x.Plid);
 
-            foreach (var modifiedPlaylistsId in modifiedPlaylistsIds)
+            var modifiedPlaylistsSongsIds = (await _semPlaylistRepository.GetModifiedPlaylistsSongs(snapshotEntry.Timestamp))
+                .Select(x => x.Plid);
+
+            var finalIds = new List<int>();
+
+            finalIds.AddRange(modifiedPlaylistsIds);
+
+            finalIds.AddRange(modifiedPlaylistsSongsIds);
+
+            foreach (var finalId in finalIds)
             {
-                var playlist = await _semPlaylistRepository.GetPlaylistById(modifiedPlaylistsId);
+                var playlist = await _semPlaylistRepository.GetPlaylistById(finalId);
 
                 var playlistSnapshot = new PlaylistSnapshotDto()
                 {
@@ -278,6 +290,13 @@ namespace SemManagement.MonitoringContext.Services
 
             await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.PlayerState, MonitorStateEnum.Finished, DateTime.Now));
 
+        }
+
+        public Task<FeedList> GetQucikMonitoringForStaton(int sid)
+        {
+            var plids = new List<int>();
+
+            return _monitoringRepositry.GetQucikMonitoringForStaton(plids, sid);
         }
         #endregion
     }

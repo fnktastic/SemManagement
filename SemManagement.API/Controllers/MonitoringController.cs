@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Quartz;
+using SemManagement.MonitoringContext.BusinessLogic;
 using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Repository;
 using SemManagement.MonitoringContext.Services;
@@ -74,6 +75,17 @@ namespace SemManagement.API.Controllers
             if (ModelState.IsValid)
             {
                 return await _monitoringRepositry.GetMonitoredStations();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("getQucikMonitoringForStaton")]
+        public async Task<ActionResult<FeedList>> GetQucikMonitoringForStaton([FromQuery] int sid)
+        {
+            if(ModelState.IsValid)
+            {
+                return await _monitoringService.GetQucikMonitoringForStaton(sid);
             }
 
             return BadRequest();

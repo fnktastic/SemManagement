@@ -10,7 +10,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
         DateTime DateTime { get; set; }
         string Message { get; set; }
         MonitorTypeEnum MonitorType { get; set; }
-        int Id { get; set; }
+        int Id { get; }
     }
 
     public class FeedList : List<IFeedItem>
@@ -24,7 +24,8 @@ namespace SemManagement.MonitoringContext.BusinessLogic
         public DateTime DateTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string Message { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public MonitorTypeEnum MonitorType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Id { get => Plid; }
+        public int Plid { get; set; }
     }
 
     public class SongFeedItem : IFeedItem
@@ -32,6 +33,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
         public DateTime DateTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string Message { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public MonitorTypeEnum MonitorType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Id { get => Sgid; }
+        public int Sgid { get; set; }
     }
 }

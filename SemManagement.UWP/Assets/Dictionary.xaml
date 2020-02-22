@@ -251,15 +251,15 @@
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="75" />
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="30" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{Binding No}" />
             <TextBlock Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="Auto" />
             <Border Grid.Column="2" 
-                    Margin="10 0"
-                    CornerRadius="0"
-                    BorderThickness="1" BorderBrush="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}"
-                    Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}">
+                    Margin="10 0" Padding="5 0"
+                    CornerRadius="3"
+                    BorderThickness="0" BorderBrush="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}"
+                    Background="{ThemeResource CustomAcrylicBrush}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="ID: " />
                     <TextBlock Text="{Binding Plid}" />

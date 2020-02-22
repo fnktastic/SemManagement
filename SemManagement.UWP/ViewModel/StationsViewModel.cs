@@ -270,6 +270,20 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private bool _isFastMonitoringTabSelected = false;
+        public bool IsFastMonitoringTabSelected
+        {
+            get { return _isFastMonitoringTabSelected; }
+            set
+            {
+                if (value == _isFastMonitoringTabSelected) return;
+                _isFastMonitoringTabSelected = value;
+                RaisePropertyChanged(nameof(IsFastMonitoringTabSelected));
+
+                RefreshData();
+            }
+        }
+
         private bool _isLoading = false;
         public bool IsLoading
         {
@@ -367,6 +381,20 @@ namespace SemManagement.UWP.ViewModel
                 SongsDeleted = new SongsExtendedCollection(songsDeleted);
 
                 Songs = new SongsExtendedCollection(songs);
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
+        }
+
+        private RelayCommand _loadFastMonitoringCommand;
+        public RelayCommand LoadFastMonitoringCommand => _loadFastMonitoringCommand ?? (_loadFastMonitoringCommand = new RelayCommand(LoadFastMonitoring));
+        private async void LoadFastMonitoring()
+        {
+            try
+            {
+                IsDataLoading = true;
             }
             finally
             {
@@ -533,9 +561,9 @@ namespace SemManagement.UWP.ViewModel
         }
         
 
-        private RelayCommand _schedulingTabOpenedCommand;
-        public RelayCommand SchedulingTabOpenedCommand => _schedulingTabOpenedCommand ?? (_schedulingTabOpenedCommand = new RelayCommand(SchedulingTabOpened));
-        private async void SchedulingTabOpened()
+        private RelayCommand _loadSchedulingTabOpenedCommand;
+        public RelayCommand LoadSchedulingTabOpenedCommand => _loadSchedulingTabOpenedCommand ?? (_loadSchedulingTabOpenedCommand = new RelayCommand(LoadSchedulingTabOpened));
+        private async void LoadSchedulingTabOpened()
         {
             try
             {
@@ -841,9 +869,11 @@ namespace SemManagement.UWP.ViewModel
                 LoadStationQueueCommand.Execute(null);
 
             if (_isSchedulingTabSelected)
-            {
-                SchedulingTabOpenedCommand.Execute(null);
-            }
+                LoadSchedulingTabOpenedCommand.Execute(null);
+
+            if (_isFastMonitoringTabSelected)
+                LoadFastMonitoringCommand.Execute(null);
+
         }
         #endregion
     }

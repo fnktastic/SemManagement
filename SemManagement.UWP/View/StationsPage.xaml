@@ -243,6 +243,9 @@
                 </Grid>
                 </ScrollViewer>
             </controls:TabViewItem>
+            <controls:TabViewItem Header="Quick Monitoring" IsSelected="{Binding IsFastMonitoringTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </controls:TabViewItem>
             <controls:TabViewItem Header="Playlists" IsSelected="{Binding IsPlaylistsTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid VerticalAlignment="Stretch">
                     <ProgressRing IsActive="True" 

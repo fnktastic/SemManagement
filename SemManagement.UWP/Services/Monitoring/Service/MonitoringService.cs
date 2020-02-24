@@ -15,6 +15,7 @@ namespace SemManagement.UWP.Services.Monitoring.Service
         Task<List<Model.Local.Storage.Monitoring>> GetMonitoredStations();
         Task<BoolResult> RunMonitoringNow();
         Task<BoolResult> StartMonitoring();
+        Task<FeedList> GetQucikMonitoringForStaton(int sid);
     }
     public class MonitoringService : IMonitoringService
     {
@@ -33,6 +34,11 @@ namespace SemManagement.UWP.Services.Monitoring.Service
         public Task<List<Model.Local.Storage.Monitoring>> GetMonitoredStations()
         {
             return _monitoringProvider.GetMonitoredStations();
+        }
+
+        public Task<FeedList> GetQucikMonitoringForStaton(int sid)
+        {
+            return _monitoringProvider.GetQucikMonitoringForStaton(sid);
         }
 
         public Task<BoolResult> RunMonitoringNow()

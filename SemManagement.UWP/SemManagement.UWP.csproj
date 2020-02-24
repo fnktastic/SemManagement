@@ -150,6 +150,7 @@
     <Compile Include="Helper\TransportModel\TagTransportModel.cs" />
     <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Model\Local\Storage\BoolResult.cs" />
+    <Compile Include="Model\Local\Storage\Feed.cs" />
     <Compile Include="Model\Local\Storage\Notification.cs" />
     <Compile Include="Model\ScheduledStation.cs" />
     <Compile Include="Model\Stationsstatus.cs" />

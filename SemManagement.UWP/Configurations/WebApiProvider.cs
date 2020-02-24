@@ -362,6 +362,23 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
+        protected Task<FeedList> GetQucikMonitoringForStaton<T>(string endpoint, int sid)
+        {
+            TaskCompletionSource<FeedList> tcs = new TaskCompletionSource<FeedList>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            request.AddParameter("sid", sid);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<FeedList> response) => ResponseHandler<FeedList>(response, tcs));
+
+            return tcs.Task;
+        }
+
         protected Task<List<T>> GetAllTagsAsync<T>(string endpoint, int sid)
         {
             TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();

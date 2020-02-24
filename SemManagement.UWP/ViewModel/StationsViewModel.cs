@@ -395,6 +395,8 @@ namespace SemManagement.UWP.ViewModel
             try
             {
                 IsDataLoading = true;
+
+                var fastMonitoring = await _monitoringService.GetQucikMonitoringForStaton(_selectedStation.Sid);
             }
             finally
             {

@@ -73,14 +73,13 @@
                             <RowDefinition Height="15" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <TextBox Text="{Binding SelectedRule.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                 IsEnabled="False"
-                                 Grid.Column="0" Grid.Row="0" PlaceholderText="rule name" />
-
+                        <TextBlock Text="{Binding SelectedRule.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                   Grid.Column="0" Grid.Row="0" />
                         <StackPanel Grid.Column="2" Grid.Row="0"  Orientation="Horizontal">
                             <Button HorizontalAlignment="Left"
-                                    Command="{Binding FireRuleCommand}"
-                                    Content="Fire" />
+                                    Command="{Binding FireRuleCommand}">
+                                <SymbolIcon Symbol="Play" />
+                            </Button>
                             <ProgressRing IsActive="True" 
                                       Height="25"
                                       Width="25"
@@ -89,7 +88,6 @@
                                       VerticalAlignment="Center"
                                       Margin="10 0"
                                       Visibility="{Binding SelectedRule.IsRuleInProcess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
-
                         </StackPanel>
                         
                         <CheckBox 

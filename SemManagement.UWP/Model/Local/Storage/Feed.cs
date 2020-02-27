@@ -6,23 +6,15 @@ using System.Threading.Tasks;
 
 namespace SemManagement.UWP.Model.Local.Storage
 {
-    public interface IFeedItem
+    public class FeedItem 
     {
-        DateTime DateTime { get; set; }
-        string Message { get; set; }
-        MonitorTypeEnum MonitorType { get; set; }
-        int Id { get; }
+        public DateTime DateTime { get; private set; }
+        public string Message { get; private set; }
+        public MonitorTypeEnum MonitorType { get; private set; }
+        public int Id {get; private set;}
     }
 
-    public class FeedItem : IFeedItem
-    {
-        public DateTime DateTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Message { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public MonitorTypeEnum MonitorType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Id => throw new NotImplementedException();
-    }
-
-    public class FeedList : List<IFeedItem>
+    public class FeedList : List<FeedItem>
     {
 
     }
@@ -32,6 +24,7 @@ namespace SemManagement.UWP.Model.Local.Storage
         Stations,
         Playlists,
         Rules,
-        PlayerState
+        PlayerState,
+        Songs
     }
 }

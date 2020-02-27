@@ -13,5 +13,6 @@ namespace SemManagement.MonitoringContext.Model
         public PlaylistSnapshotDto PlaylistSnapshot { get; set; }
         public int SongId { get; set; }
         public DateTime DateTime { get; set; }
+        public string SongName { get; set; }
     }
 }

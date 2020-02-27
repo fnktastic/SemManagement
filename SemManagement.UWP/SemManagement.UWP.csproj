@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collection\FeedCollection.cs" />
     <Compile Include="Collection\NotificationCollection.cs" />
     <Compile Include="Collection\PlaylistsCollection.cs" />
     <Compile Include="Collection\SongsCollection.cs" />

@@ -85,7 +85,9 @@ namespace SemManagement.API.Controllers
         {
             if(ModelState.IsValid)
             {
-                return await _monitoringService.GetQucikMonitoringForStaton(sid);
+                var feedList = await _monitoringService.GetQucikMonitoringForStaton(sid);
+
+                return feedList;
             }
 
             return BadRequest();

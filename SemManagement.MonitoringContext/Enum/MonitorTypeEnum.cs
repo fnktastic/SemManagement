@@ -5,6 +5,7 @@
         Stations,
         Playlists,
         Rules,
-        PlayerState
+        PlayerState,
+        Songs
     }
 }

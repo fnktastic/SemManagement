@@ -159,6 +159,19 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private FeedCollection _feedItems;
+        public FeedCollection FeedItems
+        {
+            get { return _feedItems; }
+            set
+            {
+                if (value == _feedItems) return;
+                _feedItems = value;
+                RaisePropertyChanged(nameof(FeedItems));
+            }
+
+        }
+
         private bool _isDataLoading = false;
         public bool IsDataLoading
         {
@@ -396,7 +409,12 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                var fastMonitoring = await _monitoringService.GetQucikMonitoringForStaton(_selectedStation.Sid);
+                var fastMonitoring = (await _monitoringService.GetQucikMonitoringForStaton(_selectedStation.Sid))
+                    .OrderByDescending(x => x.DateTime)
+                    .GroupBy(y => y.DateTime)
+                    .ToList();
+
+                FeedItems = new FeedCollection(fastMonitoring);
             }
             finally
             {
@@ -561,7 +579,7 @@ namespace SemManagement.UWP.ViewModel
                 IsDataLoading = false;
             }
         }
-        
+
 
         private RelayCommand _loadSchedulingTabOpenedCommand;
         public RelayCommand LoadSchedulingTabOpenedCommand => _loadSchedulingTabOpenedCommand ?? (_loadSchedulingTabOpenedCommand = new RelayCommand(LoadSchedulingTabOpened));

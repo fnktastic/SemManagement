@@ -131,6 +131,7 @@ namespace SemManagement.MonitoringContext.Services
             await _snapshotEntryRepository.InsertAsync(new MonitoringDto(MonitorTypeEnum.Stations, MonitorStateEnum.Finished, DateTime.Now));
         }
 
+        #region under review
         private async Task AddStationPlaylistsToMonitoring(List<StationMonitoringDto> stationMonitorings)
         {
             foreach (var stationMonitoring in stationMonitorings)
@@ -184,7 +185,8 @@ namespace SemManagement.MonitoringContext.Services
                     {
                         DateTime = now,
                         PlaylistSnapshotId = playlistSnapshot.Id,
-                        SongId = x.Sgid
+                        SongId = x.Sgid,
+                        SongName = $"{x.Artist} - {x.Title}"
                     }).ToList();
 
                 playlistSnapshots.Add(playlistSnapshot);
@@ -197,6 +199,7 @@ namespace SemManagement.MonitoringContext.Services
             await _monitoringRepositry.SavePlaylistSnapshotSongs(playlistSnapshotSongs);
 
         }
+        #endregion
 
         private async Task LightPlaylistSnapshot(MonitoringDto snapshotEntry, DateTime now) //only to see new data per playlist
         {
@@ -292,11 +295,11 @@ namespace SemManagement.MonitoringContext.Services
 
         }
 
-        public Task<FeedList> GetQucikMonitoringForStaton(int sid)
+        public async Task<FeedList> GetQucikMonitoringForStaton(int sid)
         {
-            var plids = new List<int>();
+            var plids = (await _semPlaylistRepository.GetPlaylistsByStationAsync(sid)).Select(x => x.Plid).ToList();
 
-            return _monitoringRepositry.GetQucikMonitoringForStaton(plids, sid);
+            return await _monitoringRepositry.GetQucikMonitoringForStaton(plids, sid);
         }
         #endregion
     }

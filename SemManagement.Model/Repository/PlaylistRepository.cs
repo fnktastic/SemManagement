@@ -126,11 +126,24 @@ namespace SemManagement.SemContext.Repository
 
         public async Task<List<StationsPlaylists>> GetModifiedPlaylistsByStationAsync(int stationId, DateTime lastSnapshotAt)
         {
-            var playlists = await _context.StationsPlaylists
-                .Where(x => x.Sid == stationId && x.Last_Update_Date > lastSnapshotAt)
-                .ToListAsync();
+            var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
+            {
+                Value = stationId
+            };
 
-            return playlists;
+            var lastSnapshotAtParameter = new MySqlParameter("@lastSnapshotAt", MySqlDbType.DateTime)
+            {
+                Value = lastSnapshotAt.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+
+            var stationPlaylistsQuery = _context.StationsPlaylists.FromSql<StationsPlaylists>(
+                "SELECT stationsplaylists.*, playlists.name FROM sem.playlists " +
+                "INNER JOIN stationsplaylists ON playlists.plid = stationsplaylists.plid " +
+                "WHERE stationsplaylists.sid = @stationId AND stationsplaylists.last_update_date >= @lastSnapshotAt", stationIdParameter, lastSnapshotAtParameter);
+
+            var stationPlaylists = await stationPlaylistsQuery.ToListAsync();
+
+            return stationPlaylists;
         }
 
         public async Task<int> RemovePlaylistFromStationAsync(int playlistId, int stationId)

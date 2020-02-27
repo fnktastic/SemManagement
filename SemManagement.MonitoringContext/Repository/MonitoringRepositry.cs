@@ -116,18 +116,18 @@ namespace SemManagement.MonitoringContext.Repository
         {
             var feedList = new FeedList();
 
-            var stationPlayistsSnapshots = await _context
+            var stationSnapshots = await _context.StationSnapshots
+                .Where(x => x.StationId == sid)
+                .Include(x => x.SnapshotPlaylists)
+                .ToListAsync();
+
+            var modifiedPlayistsSnapshots = await _context
                 .PlaylistSnapshots
                 .Where(x => plids.Contains(x.PlaylistId))
                 .Include(x => x.SnapshotSongs)
                 .ToListAsync();
 
-            var stationSnapshot = await _context.StationSnapshots
-                .Where(x => x.StationId == sid)
-                .Include(x => x.SnapshotPlaylists)
-                .ToListAsync();
-
-            foreach(var stationPlayistsSnapshot in stationPlayistsSnapshots)
+            foreach(var stationPlayistsSnapshot in modifiedPlayistsSnapshots)
             {
                 var playlistFeedItem = stationPlayistsSnapshot.ToFeedItem();
 
@@ -136,6 +136,13 @@ namespace SemManagement.MonitoringContext.Repository
                 var songsFeedItems = stationPlayistsSnapshot.SnapshotSongs.ToFeedItems();
 
                 feedList.AddRange(songsFeedItems);
+            }
+
+            foreach(var stationSnapshot in stationSnapshots)
+            {
+                var stationPlaylistFeedItems = stationSnapshot.SnapshotPlaylists.ToFeedItems();
+
+                feedList.AddRange(stationPlaylistFeedItems);
             }
 
             return feedList;

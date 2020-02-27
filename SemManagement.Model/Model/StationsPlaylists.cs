@@ -10,6 +10,7 @@ namespace SemManagement.SemContext.Model
         public int Sid { get; set; }
         public int Plid { get; set; }
         public int Syncronized { get; set; }
+        public string Name { get; set; }
         [Key]
         public int Spid { get; set; }
         public string Creation_Date { get; set; }

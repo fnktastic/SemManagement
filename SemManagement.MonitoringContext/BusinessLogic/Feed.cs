@@ -36,4 +36,13 @@ namespace SemManagement.MonitoringContext.BusinessLogic
         public int Id { get => Sgid; }
         public int Sgid { get; set; }
     }
+
+    public class StationPlaylistFeedItem : IFeedItem
+    {
+        public DateTime DateTime { get; set; }
+        public string Message { get; set; }
+        public MonitorTypeEnum MonitorType { get; set; }
+        public int Id { get => Plid; }
+        public int Plid { get; set; }
+    }
 }

@@ -114,6 +114,7 @@ namespace SemManagement.MonitoringContext.Services
                     {
                         DateTime = now,
                         PlaylistId = x.Plid,
+                        PlaylistName = x.Name,
                         StationSnapshotId = stationSnapshot.Id,
                     }).ToList();
 
@@ -236,6 +237,7 @@ namespace SemManagement.MonitoringContext.Services
                     {
                         DateTime = now,
                         PlaylistSnapshotId = playlistSnapshot.Id,
+                        SongName = $"{x.Artist} - {x.Title}",
                         SongId = x.Sgid
                     }).ToList();
 

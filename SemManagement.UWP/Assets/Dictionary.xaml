@@ -16,7 +16,8 @@
     <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
     <converters:StringToTagConverter x:Key="StringToTagConverter" />
     <converters:IntToBoolStringConverter x:Key="IntToBoolStringConverter" />
-    
+    <converters:MonitorTypeToStringConverter x:Key="MonitorTypeToStringConverter" />
+
     <media:AcrylicBrush x:Key="CustomAcrylicBrush" 
                         BackgroundSource="HostBackdrop"
                         TintOpacity="0.2" 

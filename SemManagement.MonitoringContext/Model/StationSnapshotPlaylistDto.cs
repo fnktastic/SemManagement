@@ -12,6 +12,7 @@ namespace SemManagement.MonitoringContext.Model
         public Guid StationSnapshotId { get; set; }
         public StationSnapshotDto StationSnapshot { get; set; }
         public int PlaylistId { get; set; }
+        public string PlaylistName { get; set; }
         public DateTime DateTime { get; set; }
     }
 }

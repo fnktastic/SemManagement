@@ -135,6 +135,7 @@
     <Compile Include="Converters\IntToBoolStringConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\MonitorTypeToStringConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Converters\StringToTagConveter.cs" />
     <Compile Include="Helper\Const.cs" />

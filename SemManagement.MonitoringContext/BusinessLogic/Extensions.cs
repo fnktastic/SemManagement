@@ -35,5 +35,20 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 Message = $"{playlistSnapshotSongDto.SongName} (ID: {playlistSnapshotSongDto.SongId})"
             };
         }
+
+        public static IFeedItem ToFeedItem(this StationSnapshotPlaylistDto stationSnapshotPlaylistDto)
+        {
+            return new StationPlaylistFeedItem()
+            {
+                DateTime = stationSnapshotPlaylistDto.DateTime,
+                MonitorType = MonitorTypeEnum.Stations,
+                Plid = stationSnapshotPlaylistDto.PlaylistId,
+                Message = $"{stationSnapshotPlaylistDto.PlaylistName} (ID: {stationSnapshotPlaylistDto.PlaylistId})"
+            };
+        }
+        public static List<IFeedItem> ToFeedItems(this ICollection<StationSnapshotPlaylistDto> stationSnapshotPlaylistDtos)
+        {
+            return stationSnapshotPlaylistDtos.Select(x => x.ToFeedItem()).ToList();
+        }
     }
 }

@@ -220,6 +220,8 @@ namespace SemManagement.MonitoringContext.Services
 
             finalIds.AddRange(modifiedPlaylistsSongsIds);
 
+            finalIds = finalIds.Distinct().ToList();
+
             foreach (var finalId in finalIds)
             {
                 var playlist = await _semPlaylistRepository.GetPlaylistById(finalId);

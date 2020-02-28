@@ -189,7 +189,7 @@
                         <Run Text="Licence till: " />
                         <Run Text="{Binding Licence}" />
                     </TextBlock>
-                    <Button Content="Detals" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
+                    <Button Content="Details" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 5 0 0">
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel>

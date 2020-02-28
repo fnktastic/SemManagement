@@ -20,7 +20,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
             };
         }
 
-        public static List<IFeedItem> ToFeedItems(this ICollection<PlaylistSnapshotSongDto> playlistSnapshotSongDtos)
+        public static IList<IFeedItem> ToFeedItems(this ICollection<PlaylistSnapshotSongDto> playlistSnapshotSongDtos)
         {
             return playlistSnapshotSongDtos.Select(x => x.ToFeedItem()).ToList();
         }
@@ -46,7 +46,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 Message = $"{stationSnapshotPlaylistDto.PlaylistName} (ID: {stationSnapshotPlaylistDto.PlaylistId})"
             };
         }
-        public static List<IFeedItem> ToFeedItems(this ICollection<StationSnapshotPlaylistDto> stationSnapshotPlaylistDtos)
+        public static IList<IFeedItem> ToFeedItems(this ICollection<StationSnapshotPlaylistDto> stationSnapshotPlaylistDtos)
         {
             return stationSnapshotPlaylistDtos.Select(x => x.ToFeedItem()).ToList();
         }

@@ -2,7 +2,8 @@
 {
     public enum SnapshotDirection
     {
-        In,
-        Out
+        Add,
+        Remove,
+        Modify
     }
 }

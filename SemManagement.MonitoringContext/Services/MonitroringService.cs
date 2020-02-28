@@ -106,13 +106,13 @@ namespace SemManagement.MonitoringContext.Services
                     Id = Guid.NewGuid(),
                     DateTime = now,
                     StationId = station.StationId,
-                    StationMonitoringId = station.Id
+                    StationMonitoringId = station.Id,
                 };
 
                 var stationPlaylists = (await _semPlaylistRepository.GetModifiedPlaylistsByStationAsync(station.StationId, snapshotEntry.Timestamp))
                     .Select(x => new StationSnapshotPlaylistDto()
                     {
-                        DateTime = now,
+                        DateTime = x.Last_Update_Date,
                         PlaylistId = x.Plid,
                         PlaylistName = x.Name,
                         StationSnapshotId = stationSnapshot.Id,
@@ -176,7 +176,7 @@ namespace SemManagement.MonitoringContext.Services
                 var playlistSnapshot = new PlaylistSnapshotDto()
                 {
                     Id = Guid.NewGuid(),
-                    DateTime = now,
+                    DateTime = playlist.Last_Update_Date,
                     PlaylistId = playlist.Plid,
                     PlaylistName = playlist.Name
                 };
@@ -184,10 +184,11 @@ namespace SemManagement.MonitoringContext.Services
                 var playlistSongs = (await _semSongRepository.GetSongsByPlaylistAsync(playlist.Plid))
                     .Select(x => new PlaylistSnapshotSongDto()
                     {
-                        DateTime = now,
+                        DateTime = x.Last_Update_Date,
                         PlaylistSnapshotId = playlistSnapshot.Id,
                         SongId = x.Sgid,
-                        SongName = $"{x.Artist} - {x.Title}"
+                        SongName = $"{x.Artist} - {x.Title}",
+                        SnapshotAction = SnapshotActionEnum.Add
                     }).ToList();
 
                 playlistSnapshots.Add(playlistSnapshot);
@@ -211,36 +212,47 @@ namespace SemManagement.MonitoringContext.Services
             var modifiedPlaylistsIds = (await _semPlaylistRepository.GetModifiedPlaylists(snapshotEntry.Timestamp))
                 .Select(x => x.Plid);
 
-            var modifiedPlaylistsSongsIds = (await _semPlaylistRepository.GetModifiedPlaylistsSongs(snapshotEntry.Timestamp))
-                .Select(x => x.Plid);
-
-            var finalIds = new List<int>();
-
-            finalIds.AddRange(modifiedPlaylistsIds);
-
-            finalIds.AddRange(modifiedPlaylistsSongsIds);
-
-            finalIds = finalIds.Distinct().ToList();
-
-            foreach (var finalId in finalIds)
+            foreach (var modifiedPlaylistsId in modifiedPlaylistsIds)
             {
-                var playlist = await _semPlaylistRepository.GetPlaylistById(finalId);
+                var playlist = await _semPlaylistRepository.GetPlaylistById(modifiedPlaylistsId);
 
                 var playlistSnapshot = new PlaylistSnapshotDto()
                 {
                     Id = Guid.NewGuid(),
-                    DateTime = now,
+                    DateTime = playlist.Last_Update_Date,
                     PlaylistId = playlist.Plid,
-                    PlaylistName = playlist.Name
+                    PlaylistName = playlist.Name,
+                    SnapshotAction = SnapshotActionEnum.Add
+                };
+
+                playlistSnapshots.Add(playlistSnapshot);
+            }
+
+            var modifiedPlaylistsSongsIds = (await _semPlaylistRepository.GetModifiedPlaylistsSongs(snapshotEntry.Timestamp))
+                .Select(x => x.Plid)
+                .Distinct();
+
+            foreach (var modifiedPlaylistsSongsId in modifiedPlaylistsSongsIds)
+            {
+                var playlist = await _semPlaylistRepository.GetPlaylistById(modifiedPlaylistsSongsId);
+
+                var playlistSnapshot = new PlaylistSnapshotDto()
+                {
+                    Id = Guid.NewGuid(),
+                    DateTime = playlist.Last_Update_Date,
+                    PlaylistId = playlist.Plid,
+                    PlaylistName = playlist.Name,
+                    SnapshotAction = SnapshotActionEnum.None
                 };
 
                 var playlistSongs = (await _semSongRepository.GetModifiedSongsByPlaylistAsync(playlist.Plid, snapshotEntry.Timestamp))
                     .Select(x => new PlaylistSnapshotSongDto()
                     {
-                        DateTime = now,
+                        DateTime = x.Last_Update_Date,
                         PlaylistSnapshotId = playlistSnapshot.Id,
                         SongName = $"{x.Artist} - {x.Title}",
-                        SongId = x.Sgid
+                        SongId = x.Sgid,
+                        SnapshotAction = SnapshotActionEnum.Add
                     }).ToList();
 
                 playlistSnapshots.Add(playlistSnapshot);

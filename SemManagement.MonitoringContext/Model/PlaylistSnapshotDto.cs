@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SemManagement.MonitoringContext.Enum;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,7 @@ namespace SemManagement.MonitoringContext.Model
         public DateTime DateTime { get; set; }
         public string PlaylistName { get; set; }
         public int PlaylistId { get; set; }
+        public SnapshotActionEnum SnapshotAction { get; set; } 
         public string PlaylistMonitoringId { get; set; }
         public PlaylistMonitoringDto PlaylistMonitoring { get; set; }
         public virtual Collection<PlaylistSnapshotSongDto> SnapshotSongs { get; set; }

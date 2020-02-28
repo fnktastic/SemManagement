@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SemManagement.MonitoringContext.BusinessLogic;
 using SemManagement.MonitoringContext.DataAccess;
+using SemManagement.MonitoringContext.Enum;
 using SemManagement.MonitoringContext.Model;
 using System;
 using System.Collections.Generic;
@@ -116,29 +117,31 @@ namespace SemManagement.MonitoringContext.Repository
         {
             var feedList = new FeedList();
 
-            var stationSnapshots = await _context.StationSnapshots
-                .Where(x => x.StationId == sid)
-                .Include(x => x.SnapshotPlaylists)
-                .ToListAsync();
-
             var modifiedPlayistsSnapshots = await _context
                 .PlaylistSnapshots
                 .Where(x => plids.Contains(x.PlaylistId))
                 .Include(x => x.SnapshotSongs)
                 .ToListAsync();
 
-            foreach(var stationPlayistsSnapshot in modifiedPlayistsSnapshots)
+            foreach (var stationPlayistsSnapshot in modifiedPlayistsSnapshots)
             {
                 var playlistFeedItem = stationPlayistsSnapshot.ToFeedItem();
 
-                feedList.Add(playlistFeedItem);
+                if (stationPlayistsSnapshot.SnapshotAction != SnapshotActionEnum.None)
+                    feedList.Add(playlistFeedItem);
 
-                var songsFeedItems = stationPlayistsSnapshot.SnapshotSongs.ToFeedItems();
+                var songsFeedItems = stationPlayistsSnapshot.SnapshotSongs.ToFeedItems(stationPlayistsSnapshot.PlaylistName);
 
                 feedList.AddRange(songsFeedItems);
             }
 
-            foreach(var stationSnapshot in stationSnapshots)
+
+            var stationSnapshots = await _context.StationSnapshots
+                .Where(x => x.StationId == sid)
+                .Include(x => x.SnapshotPlaylists)
+                .ToListAsync();
+
+            foreach (var stationSnapshot in stationSnapshots)
             {
                 var stationPlaylistFeedItems = stationSnapshot.SnapshotPlaylists.ToFeedItems();
 

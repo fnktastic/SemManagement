@@ -1,7 +1,8 @@
 ﻿namespace SemManagement.MonitoringContext.Enum
 {
-    public enum SnapshotDirection
+    public enum SnapshotActionEnum
     {
+        None,
         Add,
         Remove,
         Modify

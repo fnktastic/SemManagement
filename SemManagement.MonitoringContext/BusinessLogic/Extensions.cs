@@ -16,22 +16,22 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 DateTime = playlistSnapshotDto.DateTime,
                 MonitorType = MonitorTypeEnum.Playlists,
                 Plid = playlistSnapshotDto.PlaylistId,
+                SnapshotAction = playlistSnapshotDto.SnapshotAction,
+                Parent = "",
                 Message = $"{playlistSnapshotDto.PlaylistName} (ID: {playlistSnapshotDto.PlaylistId})" 
             };
         }
 
-        public static IList<IFeedItem> ToFeedItems(this ICollection<PlaylistSnapshotSongDto> playlistSnapshotSongDtos)
-        {
-            return playlistSnapshotSongDtos.Select(x => x.ToFeedItem()).ToList();
-        }
 
-        public static IFeedItem ToFeedItem(this PlaylistSnapshotSongDto playlistSnapshotSongDto)
+        public static IFeedItem ToFeedItem(this PlaylistSnapshotSongDto playlistSnapshotSongDto, string playlistName)
         {
             return new SongFeedItem()
             {
                 DateTime = playlistSnapshotSongDto.DateTime,
                 MonitorType = MonitorTypeEnum.Songs,
                 Sgid  = playlistSnapshotSongDto.SongId,
+                SnapshotAction = playlistSnapshotSongDto.SnapshotAction,
+                Parent = playlistName,
                 Message = $"{playlistSnapshotSongDto.SongName} (ID: {playlistSnapshotSongDto.SongId})"
             };
         }
@@ -43,12 +43,19 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 DateTime = stationSnapshotPlaylistDto.DateTime,
                 MonitorType = MonitorTypeEnum.Stations,
                 Plid = stationSnapshotPlaylistDto.PlaylistId,
+                SnapshotAction = stationSnapshotPlaylistDto.SnapshotAction,
+                Parent = "",
                 Message = $"{stationSnapshotPlaylistDto.PlaylistName} (ID: {stationSnapshotPlaylistDto.PlaylistId})"
             };
         }
         public static IList<IFeedItem> ToFeedItems(this ICollection<StationSnapshotPlaylistDto> stationSnapshotPlaylistDtos)
         {
             return stationSnapshotPlaylistDtos.Select(x => x.ToFeedItem()).ToList();
+        }
+
+        public static IList<IFeedItem> ToFeedItems(this ICollection<PlaylistSnapshotSongDto> playlistSnapshotSongDtos, string playlistName)
+        {
+            return playlistSnapshotSongDtos.Select(x => x.ToFeedItem(playlistName)).ToList();
         }
     }
 }

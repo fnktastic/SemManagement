@@ -138,6 +138,8 @@
     <Compile Include="Converters\MonitorTypeToStringConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Converters\StringToTagConveter.cs" />
+    <Compile Include="Enum\MonitorTypeEnum.cs" />
+    <Compile Include="Enum\SnapshotActionEnum.cs" />
     <Compile Include="Helper\Const.cs" />
     <Compile Include="Helper\DefferedAction.cs" />
     <Compile Include="Helper\Extensions.cs" />

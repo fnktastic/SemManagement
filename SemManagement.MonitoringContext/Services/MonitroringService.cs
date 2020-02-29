@@ -79,7 +79,7 @@ namespace SemManagement.MonitoringContext.Services
 
         public async Task MonitorStations()
         {
-            await MonitorActiveStations();
+            //await MonitorActiveStations();
 
             await MonitorStationPlayerSate();
         }
@@ -110,13 +110,13 @@ namespace SemManagement.MonitoringContext.Services
                 };
 
                 var stationPlaylists = (await _semPlaylistRepository.GetModifiedPlaylistsByStationAsync(station.StationId, snapshotEntry.Timestamp))
-                    .Select(x => new StationSnapshotPlaylistDto()
-                    {
-                        DateTime = x.Last_Update_Date,
-                        PlaylistId = x.Plid,
-                        PlaylistName = x.Name,
-                        StationSnapshotId = stationSnapshot.Id,
-                    }).ToList();
+                     .Select(x => new StationSnapshotPlaylistDto()
+                     {
+                         DateTime = x.Last_Update_Date,
+                         PlaylistId = x.Plid,
+                         PlaylistName = x.Name,
+                         StationSnapshotId = stationSnapshot.Id,
+                     }).ToList();
 
                 stationSnapshots.Add(stationSnapshot);
 
@@ -209,6 +209,40 @@ namespace SemManagement.MonitoringContext.Services
 
             var playlistSnapshotSongs = new List<PlaylistSnapshotSongDto>();
 
+            var stationSnapshots = new List<StationSnapshotDto>();
+
+            var stationSnapshotPlaylists = new List<StationSnapshotPlaylistDto>();
+
+            var modifiedStations = (await _semPlaylistRepository.GetModifiedStationsPlaylistsAsync(snapshotEntry.Timestamp))
+                .GroupBy(x => x.Sid);
+
+            foreach (var modifiedStation in modifiedStations)
+            {
+                var stationMonitoring = await _monitoringRepositry.CreateIfNotExist(sid: modifiedStation.Key);
+
+                var stationSnapshot = new StationSnapshotDto()
+                {
+                    Id = Guid.NewGuid(),
+                    DateTime = now,
+                    StationId = modifiedStation.Key,
+                    StationMonitoringId = stationMonitoring.Id 
+                };
+
+                stationSnapshots.Add(stationSnapshot);
+
+                var modifiedStationPlaylists = modifiedStation.Select(x => x)
+                    .Select(x => new StationSnapshotPlaylistDto()
+                    {
+                        DateTime = x.Last_Update_Date,
+                        PlaylistId = x.Plid,
+                        PlaylistName = x.Name,
+                        StationSnapshotId = stationSnapshot.Id,
+                        SnapshotAction = SnapshotActionEnum.Add,
+                    }).ToList();
+
+                stationSnapshotPlaylists.AddRange(modifiedStationPlaylists);
+            }
+
             var modifiedPlaylistsIds = (await _semPlaylistRepository.GetModifiedPlaylists(snapshotEntry.Timestamp))
                 .Select(x => x.Plid);
 
@@ -248,7 +282,7 @@ namespace SemManagement.MonitoringContext.Services
                 var playlistSongs = (await _semSongRepository.GetModifiedSongsByPlaylistAsync(playlist.Plid, snapshotEntry.Timestamp))
                     .Select(x => new PlaylistSnapshotSongDto()
                     {
-                        DateTime = x.Last_Update_Date,
+                        DateTime = now,
                         PlaylistSnapshotId = playlistSnapshot.Id,
                         SongName = $"{x.Artist} - {x.Title}",
                         SongId = x.Sgid,
@@ -259,6 +293,10 @@ namespace SemManagement.MonitoringContext.Services
 
                 playlistSnapshotSongs.AddRange(playlistSongs);
             }
+
+            await _monitoringRepositry.SaveStationSnapshots(stationSnapshots);
+
+            await _monitoringRepositry.SaveStationSnapshotPlaylists(stationSnapshotPlaylists);
 
             await _monitoringRepositry.SavePlaylistSnapshots(playlistSnapshots);
 

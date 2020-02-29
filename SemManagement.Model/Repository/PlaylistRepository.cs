@@ -35,6 +35,8 @@ namespace SemManagement.SemContext.Repository
         Task<BoolResult> RemovePlaylistAsync(int plid);
 
         Task<List<Playlist>> GetModifiedPlaylists(DateTime? lastSnapshotAt = null);
+
+        Task<List<StationsPlaylists>> GetModifiedStationsPlaylistsAsync(DateTime lastSnapshotAt);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -140,6 +142,23 @@ namespace SemManagement.SemContext.Repository
                 "SELECT stationsplaylists.*, playlists.name FROM sem.playlists " +
                 "INNER JOIN stationsplaylists ON playlists.plid = stationsplaylists.plid " +
                 "WHERE stationsplaylists.sid = @stationId AND stationsplaylists.last_update_date >= @lastSnapshotAt", stationIdParameter, lastSnapshotAtParameter);
+
+            var stationPlaylists = await stationPlaylistsQuery.ToListAsync();
+
+            return stationPlaylists;
+        }
+
+        public async Task<List<StationsPlaylists>> GetModifiedStationsPlaylistsAsync(DateTime lastSnapshotAt)
+        {
+            var lastSnapshotAtParameter = new MySqlParameter("@lastSnapshotAt", MySqlDbType.DateTime)
+            {
+                Value = lastSnapshotAt.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+
+            var stationPlaylistsQuery = _context.StationsPlaylists.FromSql<StationsPlaylists>(
+                "SELECT stationsplaylists.*, playlists.name FROM sem.playlists " +
+                "INNER JOIN stationsplaylists ON playlists.plid = stationsplaylists.plid " +
+                "WHERE stationsplaylists.last_update_date >= @lastSnapshotAt", lastSnapshotAtParameter);
 
             var stationPlaylists = await stationPlaylistsQuery.ToListAsync();
 

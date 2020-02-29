@@ -41,7 +41,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
             return new StationPlaylistFeedItem()
             {
                 DateTime = stationSnapshotPlaylistDto.DateTime,
-                MonitorType = MonitorTypeEnum.Stations,
+                MonitorType = MonitorTypeEnum.Playlists,
                 Plid = stationSnapshotPlaylistDto.PlaylistId,
                 SnapshotAction = stationSnapshotPlaylistDto.SnapshotAction,
                 Parent = "",

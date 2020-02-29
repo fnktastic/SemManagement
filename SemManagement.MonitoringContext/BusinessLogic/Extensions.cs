@@ -18,7 +18,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 Plid = playlistSnapshotDto.PlaylistId,
                 SnapshotAction = playlistSnapshotDto.SnapshotAction,
                 Parent = "",
-                Message = $"{playlistSnapshotDto.PlaylistName} (ID: {playlistSnapshotDto.PlaylistId})" 
+                Message = $"{playlistSnapshotDto.PlaylistName}" 
             };
         }
 
@@ -32,7 +32,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 Sgid  = playlistSnapshotSongDto.SongId,
                 SnapshotAction = playlistSnapshotSongDto.SnapshotAction,
                 Parent = playlistName,
-                Message = $"{playlistSnapshotSongDto.SongName} (ID: {playlistSnapshotSongDto.SongId})"
+                Message = $"{playlistSnapshotSongDto.SongName}"
             };
         }
 
@@ -45,7 +45,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 Plid = stationSnapshotPlaylistDto.PlaylistId,
                 SnapshotAction = stationSnapshotPlaylistDto.SnapshotAction,
                 Parent = "",
-                Message = $"{stationSnapshotPlaylistDto.PlaylistName} (ID: {stationSnapshotPlaylistDto.PlaylistId})"
+                Message = $"{stationSnapshotPlaylistDto.PlaylistName}"
             };
         }
         public static IList<IFeedItem> ToFeedItems(this ICollection<StationSnapshotPlaylistDto> stationSnapshotPlaylistDtos)

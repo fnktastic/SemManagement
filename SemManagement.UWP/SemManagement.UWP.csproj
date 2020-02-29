@@ -132,6 +132,7 @@
     <Compile Include="Configurations\RestEndPoins.cs" />
     <Compile Include="Configurations\WebApiProvider.cs" />
     <Compile Include="Converters\BoolToVisibleOrCollapsed.cs" />
+    <Compile Include="Converters\FeedItemToMessageConverter.cs" />
     <Compile Include="Converters\IntToBoolStringConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />

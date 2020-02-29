@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SemManagement.UWP.Model.Local.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,31 +9,26 @@ using Windows.UI.Xaml.Data;
 
 namespace SemManagement.UWP.Converters
 {
-
-    public class BoolToVisibleOrCollapsed : IValueConverter
+    public class FeedItemToMessageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            bool bValue = (bool)value;
+            if(value is FeedItem feedItem)
+            {
+                if(string.IsNullOrWhiteSpace(feedItem.Parent) == false)
+                {
+                    return $"{feedItem.Message} ({feedItem.Parent})";
+                }
 
-            if (bValue)
-            {
-                return Visibility.Visible;
+                return feedItem.Message;
             }
-            else
-            {
-                return Visibility.Collapsed;
-            }
+
+            return string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            Visibility visibility = (Visibility)value;
-
-            if (visibility == Visibility.Visible)
-                return true;
-            else
-                return false;
+            throw new NotImplementedException();
         }
     }
 }

@@ -17,6 +17,7 @@
     <converters:StringToTagConverter x:Key="StringToTagConverter" />
     <converters:IntToBoolStringConverter x:Key="IntToBoolStringConverter" />
     <converters:MonitorTypeToStringConverter x:Key="MonitorTypeToStringConverter" />
+    <converters:FeedItemToMessageConverter x:Key="FeedItemToMessageConverter" />
 
     <media:AcrylicBrush x:Key="CustomAcrylicBrush" 
                         BackgroundSource="HostBackdrop"

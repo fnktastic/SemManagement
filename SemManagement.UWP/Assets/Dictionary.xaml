@@ -281,4 +281,49 @@
             </Button>
         </Grid>
     </DataTemplate>
+
+    <DataTemplate x:Key="FeedtemTemplate">
+        <Grid Background="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
+                                      Padding="10"
+                                      >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="55" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="125" />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Background="{ThemeResource CustomAcrylicBrush}">
+                <Border Width="5" BorderBrush="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}"
+                        BorderThickness="0" Background="#99F2F505">
+                </Border>
+                <TextBlock Text="{Binding SnapshotAction}" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0" />
+            </StackPanel>
+            <TextBlock Grid.Column="1" Text="{Binding Converter={StaticResource FeedItemToMessageConverter}}" Margin="10 0" TextTrimming="WordEllipsis" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Text="{Binding MonitorType, Converter={StaticResource MonitorTypeToStringConverter}}" VerticalAlignment="Center" />
+            <Button Grid.Column="3" VerticalAlignment="Center">
+                <Button.Content>
+                    <Border 
+                        Margin="10 0" Padding="5 0"
+                        CornerRadius="3"
+                        BorderThickness="0" 
+                        BorderBrush="{ThemeResource SystemControlHighlightBaseMediumLowRevealBorderBrush}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <TextBlock>
+                                <Run Text="ID: " />
+                                <Run Text="{Binding Id}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                </Button.Content>
+                <Button.Flyout>
+                    <Flyout>
+
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+    </DataTemplate>
+    
 </ResourceDictionary>

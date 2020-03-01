@@ -17,6 +17,7 @@ namespace SemManagement.UWP.Services.Monitoring.Provider
         Task<BoolResult> RunMonitoringNow();
         Task<BoolResult> StartMonitoring();
         Task<FeedList> GetQucikMonitoringForStaton(int sid);
+        Task<FeedList> GetQucikMonitoring(DateTime dateTime);
     }
 
     public class MonitoringProvider : WebApiProvider, IMonitoringProvider
@@ -59,6 +60,13 @@ namespace SemManagement.UWP.Services.Monitoring.Provider
             string endpoint = string.Format("{0}/{1}", RestEndpoint.Monitoring, "getQucikMonitoringForStaton");
 
             return GetQucikMonitoringForStaton<FeedList>(endpoint, sid);
+        }
+
+        public Task<FeedList> GetQucikMonitoring(DateTime dateTime)
+        {
+            string endpoint = string.Format("{0}/{1}", RestEndpoint.Monitoring, "getQucikMonitoring");
+
+            return GetQucikMonitoring<FeedList>(endpoint, dateTime);
         }
     }
 }

@@ -2,6 +2,7 @@
 using SemManagement.MonitoringContext.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -21,7 +22,6 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 Message = $"{playlistSnapshotDto.PlaylistName}" 
             };
         }
-
 
         public static IFeedItem ToFeedItem(this PlaylistSnapshotSongDto playlistSnapshotSongDto, string playlistName)
         {
@@ -44,7 +44,7 @@ namespace SemManagement.MonitoringContext.BusinessLogic
                 MonitorType = MonitorTypeEnum.Playlists,
                 Plid = stationSnapshotPlaylistDto.PlaylistId,
                 SnapshotAction = stationSnapshotPlaylistDto.SnapshotAction,
-                Parent = "",
+                Parent = $"{stationSnapshotPlaylistDto.StationSnapshot.StationId}",
                 Message = $"{stationSnapshotPlaylistDto.PlaylistName}"
             };
         }
@@ -56,6 +56,26 @@ namespace SemManagement.MonitoringContext.BusinessLogic
         public static IList<IFeedItem> ToFeedItems(this ICollection<PlaylistSnapshotSongDto> playlistSnapshotSongDtos, string playlistName)
         {
             return playlistSnapshotSongDtos.Select(x => x.ToFeedItem(playlistName)).ToList();
+        }
+
+        public static IList<IFeedItem> ToFeedItems(this ICollection<PlaylistSnapshotSongDto> playlistSnapshotSongDtos)
+        {
+            return playlistSnapshotSongDtos.Select(x => x.ToFeedItem(x.PlaylistSnapshot.PlaylistName)).ToList();
+        }
+    }
+
+    public static class CollectionExtensions
+    {
+        public static Collection<T> ToCollection<T>(this List<T> items)
+        {
+            Collection<T> collection = new Collection<T>();
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                collection.Add(items[i]);
+            }
+
+            return collection;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using SemManagement.UWP.Model;
 using SemManagement.UWP.Model.Local.Storage;
+using SemManagement.UWP.Services.Monitoring.Service;
 using SemManagement.UWP.Services.RuleModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
 using SemManagement.UWP.Services.TagModule.Service;
@@ -31,6 +32,7 @@ namespace SemManagement.UWP.Services.Local.Storage
         Task<BoolResult> DeleteStationTagByIdAsync(int stationId, Guid tagId);
         Task<BoolResult> DeletePlaylistTagByIdAsync(int playlistId, Guid tagId);
         Task<List<Model.Station>> GetStationsByPlaylist(int plid);
+        Task<FeedList> GetQucikMonitoring(DateTime dateTime);
     }
 
     public class LocalDataService : ILocalDataService
@@ -39,13 +41,15 @@ namespace SemManagement.UWP.Services.Local.Storage
         private readonly IRuleService _ruleService;
         private readonly ITagService _tagService;
         private readonly IStationService _stationService;
+        private readonly IMonitoringService _monitoringService;
 
-        public LocalDataService(IMapper mapper, IRuleService ruleService, ITagService tagService, IStationService stationService)
+        public LocalDataService(IMapper mapper, IRuleService ruleService, ITagService tagService, IStationService stationService, IMonitoringService monitoringService)
         {
             _mapper = mapper;
             _ruleService = ruleService;
             _tagService = tagService;
             _stationService = stationService;
+            _monitoringService = monitoringService;
         }
 
         public async Task<List<Rule>> GetAllRulesAsync()
@@ -111,6 +115,11 @@ namespace SemManagement.UWP.Services.Local.Storage
         public Task<List<Model.Station>> GetStationsByPlaylist(int plid)
         {
             return _stationService.GetStationsByPlaylist(plid);
+        }
+
+        public Task<FeedList> GetQucikMonitoring(DateTime dateTime)
+        {
+            return _monitoringService.GetQucikMonitoring(dateTime);
         }
     }
 }

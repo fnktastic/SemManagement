@@ -19,6 +19,7 @@ namespace SemManagement.MonitoringContext.Services
         Task MonitorPlaylists();
         Task<BoolResult> ColdStartMonitoring();
         Task<FeedList> GetQucikMonitoringForStaton(int sid);
+        Task<FeedList> GetQucikMonitoring(DateTime dateTime);
     }
 
     public class MonitoringService : IMonitoringService
@@ -354,6 +355,11 @@ namespace SemManagement.MonitoringContext.Services
             var plids = (await _semPlaylistRepository.GetPlaylistsByStationAsync(sid)).Select(x => x.Plid).ToList();
 
             return await _monitoringRepositry.GetQucikMonitoringForStaton(plids, sid);
+        }
+
+        public async Task<FeedList> GetQucikMonitoring(DateTime dateTime)
+        {
+            return await _monitoringRepositry.GetQucikMonitoring(dateTime);
         }
         #endregion
     }

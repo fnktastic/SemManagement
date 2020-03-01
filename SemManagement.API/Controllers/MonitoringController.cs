@@ -4,6 +4,7 @@ using SemManagement.MonitoringContext.BusinessLogic;
 using SemManagement.MonitoringContext.Model;
 using SemManagement.MonitoringContext.Repository;
 using SemManagement.MonitoringContext.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -86,6 +87,19 @@ namespace SemManagement.API.Controllers
             if(ModelState.IsValid)
             {
                 var feedList = await _monitoringService.GetQucikMonitoringForStaton(sid);
+
+                return feedList;
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("getQucikMonitoring")]
+        public async Task<ActionResult<FeedList>> GetQucikMonitoring([FromQuery] DateTime dateTime)
+        {
+            if (ModelState.IsValid)
+            {
+                var feedList = await _monitoringService.GetQucikMonitoring(dateTime);
 
                 return feedList;
             }

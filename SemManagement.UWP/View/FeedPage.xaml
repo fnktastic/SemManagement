@@ -9,7 +9,45 @@
     Background="{ThemeResource CustomAcrylicBrush}"
     DataContext="{Binding FeedPageInstance, Source={StaticResource Locator}}">
 
-    <Grid>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <CollectionViewSource x:Name="FastMonitoringSource" Source="{Binding FeedItems}" IsSourceGrouped="True" />
+        </Grid.Resources>
 
+        <ProgressRing IsActive="True" 
+                      Height="60"
+                      Width="60"
+                      Grid.Column="0" 
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
+
+        <ListView Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}}" 
+                  Grid.Column="0" 
+                  ItemTemplate="{StaticResource FeedtemTemplate}"
+                  ItemsSource="{Binding Source={StaticResource FastMonitoringSource}}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemExpanded}">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Key}" Margin="10,0"
+                                                   FontWeight="Light" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
     </Grid>
 </Page>

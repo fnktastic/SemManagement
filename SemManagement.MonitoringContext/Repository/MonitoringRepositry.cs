@@ -36,6 +36,8 @@ namespace SemManagement.MonitoringContext.Repository
         Task SaveStationPlayerStateRangeAsync(List<StationPlayerStateDto> stationsPlayerState);
 
         Task<FeedList> GetQucikMonitoringForStaton(List<int> plids, int sid);
+
+        Task<FeedList> GetQucikMonitoring(DateTime dateTime);
     }
 
     public class MonitoringRepositry : IMonitoringRepositry
@@ -58,7 +60,7 @@ namespace SemManagement.MonitoringContext.Repository
 
         public async Task<StationMonitoringDto> CreateIfNotExist(StationMonitoringDto stationMonitoring = null, int? sid = null)
         {
-            int stationId = -1; 
+            int stationId = -1;
 
             if (stationMonitoring != null)
                 stationId = stationMonitoring.StationId;
@@ -162,7 +164,8 @@ namespace SemManagement.MonitoringContext.Repository
             }
 
 
-            var stationSnapshots = await _monitoringDbContext.StationSnapshots
+            var stationSnapshots = await _monitoringDbContext
+                .StationSnapshots
                 .Where(x => x.StationId == sid)
                 .Include(x => x.SnapshotPlaylists)
                 .ToListAsync();
@@ -173,6 +176,50 @@ namespace SemManagement.MonitoringContext.Repository
 
                 feedList.AddRange(stationPlaylistFeedItems);
             }
+
+            return feedList;
+        }
+
+        public async Task<FeedList> GetQucikMonitoring(DateTime dateTime)
+        {
+            var feedList = new FeedList();
+
+            var modifiedPlayistsSnapshots = await _monitoringDbContext
+                .PlaylistSnapshots
+                .Where(x => x.DateTime > dateTime)
+                .ToListAsync();
+
+            foreach (var stationPlayistsSnapshot in modifiedPlayistsSnapshots)
+            {
+                var playlistFeedItem = stationPlayistsSnapshot.ToFeedItem();
+
+                if (stationPlayistsSnapshot.SnapshotAction != SnapshotActionEnum.None)
+                    feedList.Add(playlistFeedItem);
+            }
+
+
+
+            var stationSnapshotsSongs = await _monitoringDbContext
+                .PlaylistSnapshotSongs
+                .Include(x => x.PlaylistSnapshot)
+                .Where(x => x.DateTime > dateTime)
+                .ToListAsync();
+
+            var stationPlaylistFeedItems = stationSnapshotsSongs.ToCollection().ToFeedItems();
+
+            feedList.AddRange(stationPlaylistFeedItems);
+
+
+
+            var stationSnapshotPlaylists = await _monitoringDbContext
+                .StationSnapshotPlaylists
+                .Where(x => x.DateTime > dateTime)
+                .Include(x => x.StationSnapshot)
+                .ToListAsync();
+
+            var stationSnapshotPlaylistsFeedItems = stationSnapshotPlaylists.ToFeedItems();
+
+            feedList.AddRange(stationSnapshotPlaylistsFeedItems);
 
             return feedList;
         }

@@ -807,22 +807,37 @@ namespace SemManagement.UWP.ViewModel
 
             if (_originStations != null)
             {
+                IEnumerable<Station> part = null;
+
+                if (string.IsNullOrWhiteSpace(_stationsFilterSearchTerm) == false && _stationsFilterSearchTerm.All(x => char.IsDigit(x)))
+                {
+                    part = _originStations.Where(x => x.Uid.ToString().Contains(_stationsFilterSearchTerm))
+                        .ToList();
+
+                    if (part.Count() > 0)
+                    {
+                        Stations = new ObservableCollectionFast<Station>(part);
+
+                        StaticSettings.StopSelectionChangedEvent = false;
+
+                        return;
+                    }
+                }
+
                 if (_stationsFilterSearchTerm.StartsWith("#"))
                 {
                     var tags = _stationsFilterSearchTerm.Replace("#", "").Split(",")
                         .Select(x => new Model.Local.Storage.Tag(x.Trim()))
                         .ToList();
 
-                    var stations = await _localDataService.GetStationByTagsAsync(tags);
+                    part = await _localDataService.GetStationByTagsAsync(tags);
 
-                    Stations = new ObservableCollectionFast<Station>(stations);
+                    Stations = new ObservableCollectionFast<Station>(part);
 
                     StaticSettings.StopSelectionChangedEvent = false;
 
                     return;
                 }
-
-                IEnumerable<Station> part = null;
 
                 if (string.IsNullOrWhiteSpace(_stationsFilterSearchTerm))
                     part = _originStations.OrderByDescending(x => x.Sid);

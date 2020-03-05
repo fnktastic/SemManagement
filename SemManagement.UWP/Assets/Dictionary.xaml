@@ -182,11 +182,11 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <TextBlock Text="{Binding Name }" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" />
-                    <TextBlock HorizontalAlignment="Left">
-                        <Run Text="ID: " />
-                        <Run Text="{Binding Sid}" />
+                    <TextBlock HorizontalAlignment="Center" FontWeight="Light">
+                        <Run Text="User ID: " />
+                        <Run Text="{Binding Uid}" />
                     </TextBlock>
-                    <TextBlock HorizontalAlignment="Left">
+                    <TextBlock HorizontalAlignment="Left" FontWeight="Light">
                         <Run Text="Licence till: " />
                         <Run Text="{Binding Licence}" />
                     </TextBlock>

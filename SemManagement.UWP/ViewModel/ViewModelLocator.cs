@@ -18,6 +18,8 @@ using SemManagement.UWP.Services.StationModule.Provider;
 using SemManagement.UWP.Services.StationModule.Service;
 using SemManagement.UWP.Services.TagModule.Provider;
 using SemManagement.UWP.Services.TagModule.Service;
+using SemManagement.UWP.Services.UserModule.Provide;
+using SemManagement.UWP.Services.UserModule.Service;
 using SemManagement.UWP.View;
 using System;
 using System.Collections.Generic;
@@ -67,6 +69,8 @@ namespace SemManagement.UWP.ViewModel
             SimpleIoc.Default.Register<IRuleProvider, RuleProvider>();
             SimpleIoc.Default.Register<ITagProvider, TagProvider>();
             SimpleIoc.Default.Register<ITagService, TagService>();
+            SimpleIoc.Default.Register<IUserProvider, UserProvider>();
+            SimpleIoc.Default.Register<IUserService, UserService>();
 
             SimpleIoc.Default.Register<IConfigurationProvider, MyConfig>();
             SimpleIoc.Default.Register<IMapper, MyMapper>();

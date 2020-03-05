@@ -430,7 +430,7 @@ namespace SemManagement.UWP.Configurations
             return tcs.Task;
         }
 
-        protected Task<User> GetStationUserAsync(string endpoint, int stationId) 
+        protected Task<User> GetStationUserAsync(string endpoint, int stationId)
         {
             TaskCompletionSource<User> tcs = new TaskCompletionSource<User>();
 
@@ -443,6 +443,25 @@ namespace SemManagement.UWP.Configurations
             request.AddParameter("stationId", stationId);
 
             _restClient.ExecuteAsync(request, (IRestResponse<User> response) => ResponseHandler<User>(response, tcs));
+
+            return tcs.Task;
+        }
+
+
+        protected Task<List<T>> GetUsersAsync<T>(string endpoint, int? uid)
+        {
+            TaskCompletionSource<List<T>> tcs = new TaskCompletionSource<List<T>>();
+
+            IRestRequest request = new RestRequest(endpoint, Method.GET, DataFormat.Json)
+            {
+                Timeout = 30 * 60 * 1000,
+                ReadWriteTimeout = 30 * 60 * 1000
+            };
+
+            if (uid.HasValue)
+                request.AddParameter("uid", uid.Value);
+
+            _restClient.ExecuteAsync(request, (IRestResponse<List<T>> response) => ResponseHandler(response, tcs));
 
             return tcs.Task;
         }
@@ -545,7 +564,7 @@ namespace SemManagement.UWP.Configurations
 
                 request.AddParameter("stationId", stationId, ParameterType.QueryString);
 
-                _restClient.ExecuteAsync(request, (IRestResponse response) => 
+                _restClient.ExecuteAsync(request, (IRestResponse response) =>
                 {
                     // handle response
                 });

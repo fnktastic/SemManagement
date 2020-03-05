@@ -43,6 +43,18 @@ namespace SemManagement.UWP.ViewModel
 
             }
         }
+
+        private string _feedEntitySearchTerm;
+        public string FeedEntitySearchTerm
+        {
+            get { return _feedEntitySearchTerm; }
+            set
+            {
+                if (_feedEntitySearchTerm == value) return;
+                _feedEntitySearchTerm = value;
+                RaisePropertyChanged(nameof(FeedEntitySearchTerm));
+            }
+        }
         #endregion
 
         #region constructor

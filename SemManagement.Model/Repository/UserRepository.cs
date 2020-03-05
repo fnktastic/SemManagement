@@ -8,7 +8,8 @@ namespace SemManagement.SemContext.Repository
 {
     public interface IUserRepository
     {
-        IList<User> GetTopAsync(int top);
+        IList<User> GetAsync();
+        IList<User> GetAsync(int uid);
     }
 
     public class UserRepository : IUserRepository
@@ -20,9 +21,14 @@ namespace SemManagement.SemContext.Repository
             _context = context;
         }
 
-        public IList<User> GetTopAsync(int top)
+        public IList<User> GetAsync()
         {
-            return _context.Users.Take(top).ToList();
+            return _context.Users.ToList();
+        }
+
+        public IList<User> GetAsync(int uid)
+        {
+            return _context.Users.Where(x => x.Uid == uid).ToList();
         }
     }
 }

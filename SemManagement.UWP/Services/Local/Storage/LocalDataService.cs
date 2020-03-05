@@ -11,6 +11,7 @@ using SemManagement.UWP.Services.Monitoring.Service;
 using SemManagement.UWP.Services.RuleModule.Service;
 using SemManagement.UWP.Services.StationModule.Service;
 using SemManagement.UWP.Services.TagModule.Service;
+using SemManagement.UWP.Services.UserModule.Service;
 using SemManagement.UWP.ViewModel;
 using SemManagement.UWP.ViewModel.ContentDialog;
 using Rule = SemManagement.UWP.Model.Local.Storage.Rule;
@@ -33,6 +34,7 @@ namespace SemManagement.UWP.Services.Local.Storage
         Task<BoolResult> DeletePlaylistTagByIdAsync(int playlistId, Guid tagId);
         Task<List<Model.Station>> GetStationsByPlaylist(int plid);
         Task<FeedList> GetQucikMonitoring(DateTime dateTime);
+        Task<List<User>> GetUsersAsync(int? uid);
     }
 
     public class LocalDataService : ILocalDataService
@@ -42,14 +44,16 @@ namespace SemManagement.UWP.Services.Local.Storage
         private readonly ITagService _tagService;
         private readonly IStationService _stationService;
         private readonly IMonitoringService _monitoringService;
+        private readonly IUserService _userService;
 
-        public LocalDataService(IMapper mapper, IRuleService ruleService, ITagService tagService, IStationService stationService, IMonitoringService monitoringService)
+        public LocalDataService(IMapper mapper, IRuleService ruleService, ITagService tagService, IStationService stationService, IMonitoringService monitoringService, IUserService userService)
         {
             _mapper = mapper;
             _ruleService = ruleService;
             _tagService = tagService;
             _stationService = stationService;
             _monitoringService = monitoringService;
+            _userService = userService;
         }
 
         public async Task<List<Rule>> GetAllRulesAsync()
@@ -120,6 +124,11 @@ namespace SemManagement.UWP.Services.Local.Storage
         public Task<FeedList> GetQucikMonitoring(DateTime dateTime)
         {
             return _monitoringService.GetQucikMonitoring(dateTime);
+        }
+
+        public Task<List<User>> GetUsersAsync(int? uid)
+        {
+            return _userService.GetAsync(uid);
         }
     }
 }

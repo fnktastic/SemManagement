@@ -758,6 +758,25 @@ namespace SemManagement.UWP.ViewModel
             }
         }
 
+        private RelayCommand<Station> _loadUserDetailsCommand;
+        public RelayCommand<Station> LoadUserDetailsCommand => _loadUserDetailsCommand ?? (_loadUserDetailsCommand = new RelayCommand<Station>(LoadUserDetails));
+        private async void LoadUserDetails(Station station)
+        {
+            try
+            {
+                var users = await _localDataService.GetUsersAsync(station.Uid);
+
+                if (users != null && users.Count > 0)
+                {
+                    station.User = users.First();
+                }
+            }
+            finally
+            {
+
+            }
+        }
+
         private RelayCommand<Playlist> _manageTagsCommand;
         public RelayCommand<Playlist> ManageTagsCommand => _manageTagsCommand ?? (_manageTagsCommand = new RelayCommand<Playlist>(ManageTags));
         private async void ManageTags(Playlist playlist)

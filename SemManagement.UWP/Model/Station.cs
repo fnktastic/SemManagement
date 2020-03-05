@@ -45,5 +45,17 @@ namespace SemManagement.UWP.Model
             get { return _isAssigned; }
             set { _isAssigned = value; NotifyPropertyChanged(nameof(IsAssigned)); }
         }
+
+        private User _user;
+        public User User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user == value) return;
+                _user = value;
+                NotifyPropertyChanged(nameof(User));
+            }
+        }
     }
 }

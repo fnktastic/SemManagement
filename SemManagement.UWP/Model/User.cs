@@ -18,15 +18,15 @@ namespace SemManagement.UWP.Model
 
         public string Address { get; set; }
 
-        public string Contact_Name { get; set; }
+        public string contact_Name { get; set; }
 
         public string Phone1 { get; set; }
 
         public string Phone2 { get; set; }
 
-        public string Music_Info { get; set; }
+        public string music_Info { get; set; }
 
-        public string Service_Info { get; set; }
+        public string service_Info { get; set; }
 
         public DateTime last_Update_Date { get; set; }
     }

@@ -183,8 +183,8 @@
                 <StackPanel>
                     <TextBlock Text="{Binding Name }" FontSize="18" FontWeight="Light" HorizontalAlignment="Center" />
                     <TextBlock HorizontalAlignment="Center" FontWeight="Light">
-                        <Run Text="User ID: " />
-                        <Run Text="{Binding Uid}" />
+                        <Run Text="Station " />
+                        <Run Text="{Binding Sid}" />
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Left" FontWeight="Light">
                         <Run Text="Licence till: " />
@@ -201,8 +201,30 @@
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Uid, Converter={StaticResource StringFormatConverter}, ConverterParameter='User ID: {0}'}"/>
-                                    <TextBlock Text="{Binding Synchronized}" Tag="{Binding Synchronized}" x:Name="synchronizedTextBlock" >
+                                    <TextBlock Margin="0 0 0 10" FontSize="18" FontWeight="SemiLight" HorizontalAlignment="Center"
+                                        Text="{Binding Uid, Converter={StaticResource StringFormatConverter}, ConverterParameter='User ID: {0}'}"/>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200" />
+                                            <ColumnDefinition Width="200" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Row="0" Grid.Column="0">
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.Uid}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.Username}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.Name}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.Address}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.contact_Name}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.Phone1}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.Phone2}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.music_Info}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.service_Info}" />
+                                            <TextBlock Text="{Binding  ElementName=Me, Path=DataContext.User.last_Update_Date}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="1">
+                                            <TextBlock Text="{Binding Synchronized}" Tag="{Binding Synchronized}" x:Name="synchronizedTextBlock" >
                                         <interactivity:Interaction.Behaviors>
                                             <core:DataTriggerBehavior Binding="{Binding Tag, ElementName=synchronizedTextBlock}" Value="0">
                                                 <core:ChangePropertyAction PropertyName="Text" Value="Machine is Synchronized" />
@@ -211,8 +233,8 @@
                                                 <core:ChangePropertyAction PropertyName="Text" Value="Machine is not Synchronized" />
                                             </core:DataTriggerBehavior>
                                         </interactivity:Interaction.Behaviors>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding Soft_Installed}" Tag="{Binding Soft_Installed}" x:Name="softInstalledTextBlock" >
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding Soft_Installed}" Tag="{Binding Soft_Installed}" x:Name="softInstalledTextBlock" >
                                         <interactivity:Interaction.Behaviors>
                                             <core:DataTriggerBehavior Binding="{Binding Tag, ElementName=softInstalledTextBlock}" Value="0">
                                                 <core:ChangePropertyAction PropertyName="Text" Value="The software is not installed" />
@@ -221,8 +243,8 @@
                                                 <core:ChangePropertyAction PropertyName="Text" Value="The software is installed" />
                                             </core:DataTriggerBehavior>
                                         </interactivity:Interaction.Behaviors>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding Autosync}" Tag="{Binding Autosync}" x:Name="autosyncTextBlock" >
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding Autosync}" Tag="{Binding Autosync}" x:Name="autosyncTextBlock" >
                                         <interactivity:Interaction.Behaviors>
                                             <core:DataTriggerBehavior Binding="{Binding Tag, ElementName=autosyncTextBlock}" Value="0">
                                                 <core:ChangePropertyAction PropertyName="Text" Value="Autosync enabled" />
@@ -231,9 +253,9 @@
                                                 <core:ChangePropertyAction PropertyName="Text" Value="Autosync disabled" />
                                             </core:DataTriggerBehavior>
                                         </interactivity:Interaction.Behaviors>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding Hardware_ID, Converter={StaticResource StringFormatConverter}, ConverterParameter='Hardware ID: {0}'}"/>
-                                    <TextBlock Text="{Binding Blocked}" Tag="{Binding Blocked}" x:Name="blockedTextBlock" HorizontalAlignment="Center" Margin="0 15 0 0">
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding Hardware_ID, Converter={StaticResource StringFormatConverter}, ConverterParameter='Hardware ID: {0}'}"/>
+                                            <TextBlock Text="{Binding Blocked}" Tag="{Binding Blocked}" x:Name="blockedTextBlock" HorizontalAlignment="Center" Margin="0 15 0 0">
                                         <interactivity:Interaction.Behaviors>
                                             <core:DataTriggerBehavior Binding="{Binding Tag, ElementName=blockedTextBlock}" Value="0">
                                                 <core:ChangePropertyAction PropertyName="Text" Value="Active" />
@@ -244,7 +266,9 @@
                                                 <core:ChangePropertyAction PropertyName="Foreground" Value="Red" />
                                             </core:DataTriggerBehavior>
                                         </interactivity:Interaction.Behaviors>
-                                    </TextBlock>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>

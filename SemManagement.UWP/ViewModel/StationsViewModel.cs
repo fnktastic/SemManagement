@@ -34,6 +34,18 @@ namespace SemManagement.UWP.ViewModel
         #endregion
 
         #region properties
+        private User _user;
+        public User User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user == value) return;
+                _user = value;
+                RaisePropertyChanged(nameof(User));
+            }
+        }
+
         private Stationsstatus _stationsstatus;
         public Stationsstatus Stationsstatus
         {
@@ -768,7 +780,7 @@ namespace SemManagement.UWP.ViewModel
 
                 if (users != null && users.Count > 0)
                 {
-                    station.User = users.First();
+                    User = users.First();
                 }
             }
             finally

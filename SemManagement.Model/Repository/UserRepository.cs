@@ -28,7 +28,9 @@ namespace SemManagement.SemContext.Repository
 
         public IList<User> GetAsync(int uid)
         {
-            return _context.Users.Where(x => x.Uid == uid).ToList();
+            var users = _context.Users.Where(x => x.Uid == uid).ToList();
+
+            return users;
         }
     }
 }

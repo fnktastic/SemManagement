@@ -144,7 +144,7 @@ namespace SemManagement.SemContext.Repository
                 Value = stationId
             };
 
-            return await _context.ScheduledStations.FromSql<ScheduledStation>(
+            var schedule = await _context.ScheduledStations.FromSql<ScheduledStation>(
                 "select schedulerstations.scid, " +
                 "schedulerstations.scpid, " +
                 "schedulerstations.sid, " + 
@@ -169,6 +169,8 @@ namespace SemManagement.SemContext.Repository
                 "inner join playlists on playlists.plid = schedulerplaylists.plid " +
                 "WHERE schedulerstations.sid = @stationId", stationIdParameter)
                 .ToListAsync();
+
+            return schedule;
         }
     }
 }

@@ -93,7 +93,7 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                var dateTime = DateTime.Now.AddDays(-7);
+                var dateTime = DateTime.Now.AddDays(-30);
 
                 var fastMonitoring = (await _localDataService.GetQucikMonitoring(dateTime))
                     .OrderByDescending(x => x.DateTime)

@@ -12,8 +12,8 @@ namespace SemManagement.SemContext.Model
         public int? Sid { get; set; }
         public int? Uid { get; set; }
         public int Plid { get; set; }
-        [Key]
         public int Scevid { get; set; }
+        [Key]
         public int Spid { get; set; }
         public string Name { get; set; }
         public string ScheduleName { get; set; }

@@ -842,7 +842,8 @@ namespace SemManagement.UWP.ViewModel
 
                 if (string.IsNullOrWhiteSpace(_stationsFilterSearchTerm) == false && _stationsFilterSearchTerm.All(x => char.IsDigit(x)))
                 {
-                    part = _originStations.Where(x => x.Uid.ToString().Contains(_stationsFilterSearchTerm))
+                    part = _originStations.Where(x => x.Uid.ToString().Contains(_stationsFilterSearchTerm) 
+                                                   || x.Sid.ToString().Contains(_stationsFilterSearchTerm))
                         .ToList();
 
                     if (part.Count() > 0)

@@ -34,7 +34,7 @@
             </Grid.Resources>
             <TextBox Grid.Row="0" Grid.Column="0"
                              Text="{Binding FeedEntitySearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             PlaceholderText="filter playlists by name or #tag" />
+                             PlaceholderText="filter list" />
             <ListView  
                   Grid.Row="1" Grid.Column="0"
                   ItemTemplate="{StaticResource FeedtemTemplate}"

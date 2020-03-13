@@ -384,21 +384,46 @@
                                   Height="60"
                                   Width="60"
                                   Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibleOrCollapsed}}" />
-                    <controls:DockPanel controls:DockPanel.Dock="Top" Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
-                        <controls:Expander Header="Most Popular Songs">
-                            <ListBox    
-                                ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                VerticalAlignment="Top"
-                                ItemsSource="{Binding MostPopularSongs}"
-                                ItemTemplate="{StaticResource SongItemTemplate}">
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                            </ListBox>
-                        </controls:Expander>
-                    </controls:DockPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <controls:DockPanel controls:DockPanel.Dock="Top" 
+                                            Grid.Row="0"
+                                            Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+                            <controls:Expander Header="Most Popular Songs">
+                                <ListBox    
+                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                    VerticalAlignment="Top"
+                                    ItemsSource="{Binding MostPopularSongs}"
+                                    ItemTemplate="{StaticResource SongStatsItemTemplate}">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                            </controls:Expander>
+                        </controls:DockPanel>
+                        <controls:DockPanel controls:DockPanel.Dock="Top" 
+                                            Grid.Row="1"
+                                            Visibility="{Binding IsDataLoading, Converter={StaticResource InverseBoolToVisibilityConverter}, FallbackValue=Visible}">
+                            <controls:Expander Header="Most Popular Playlists">
+                                <ListBox    
+                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                    VerticalAlignment="Top"
+                                    ItemsSource="{Binding MostPopularSongs}"
+                                    ItemTemplate="{StaticResource SongItemTemplate}">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                            </controls:Expander>
+                        </controls:DockPanel>
+                    </Grid>
                 </Grid>
             </controls:TabViewItem>
             <controls:TabViewItem Header="Scheduling" IsSelected="{Binding IsSchedulingTabSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

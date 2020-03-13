@@ -442,7 +442,7 @@ namespace SemManagement.UWP.ViewModel
             {
                 IsDataLoading = true;
 
-                var mostPopularSongs = await _songService.MostPopularSongs(_selectedStation.Sid, 25);
+                var mostPopularSongs = await _songService.MostPopularSongs(_selectedStation.Sid, 100);
 
                 MostPopularSongs = new SongsCollection(mostPopularSongs);
             }

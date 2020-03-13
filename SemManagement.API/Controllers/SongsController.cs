@@ -32,7 +32,7 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpGet("mostPopularSongs")]
-        public async Task<ActionResult<IList<Song>>> MostPopularSongsAsync(int stationId, int top = 10)
+        public async Task<ActionResult<IList<SongStat>>> MostPopularSongsAsync(int stationId, int top = 10)
         {
             return await _songRepository.MostPopularSongsAsync(stationId, top);
         }

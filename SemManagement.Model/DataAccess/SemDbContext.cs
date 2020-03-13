@@ -10,6 +10,8 @@ namespace SemManagement.SemContext
     {
         public DbSet<Song> Songs { get; set; }
 
+        public DbSet<SongStat> SongStats { get; set; }
+
         public DbSet<Station> Stations { get; set; }
 
         public DbSet<User> Users { get; set; }
@@ -42,6 +44,7 @@ namespace SemManagement.SemContext
             modelBuilder.Entity<SongExtended>();
             modelBuilder.Entity<StationQueue>();
             modelBuilder.Entity<StationsPlaylists>();
+            modelBuilder.Entity<SongStat>();
             modelBuilder.Entity<Stationsstatus>().ToTable("Stationsstatus");
             modelBuilder.Entity<Playlistssongs>().ToTable("Playlistssongs");
         }

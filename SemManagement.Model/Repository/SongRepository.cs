@@ -14,7 +14,7 @@ namespace SemManagement.SemContext.Repository
     {
         Task<List<Song>> TakeAsync(int take, int skip = 0);
 
-        Task<List<Song>> MostPopularSongsAsync(int stationId, int top = 10);
+        Task<List<SongStat>> MostPopularSongsAsync(int stationId, int top = 10);
 
         Task<List<Song>> GetSongsByPlaylistAsync(int playlistId, DateTime? lastSnapshotAt = null);
 
@@ -74,7 +74,7 @@ namespace SemManagement.SemContext.Repository
             return audios;
         }
 
-        public async Task<List<Song>> MostPopularSongsAsync(int stationId, int top = 10)
+        public async Task<List<SongStat>> MostPopularSongsAsync(int stationId, int top = 10)
         {
             var stationIdParameter = new MySqlParameter("@stationId", SqlDbType.Int)
             {
@@ -86,7 +86,7 @@ namespace SemManagement.SemContext.Repository
                 Value = top
             };
 
-            return await _context.Songs.FromSql<Song>(
+            return await _context.SongStats.FromSql<SongStat>(
                 "SELECT s1.*, COUNT(s1.sgid) count FROM songs AS s1 " +
                 "INNER JOIN playlistssongs as pl1 ON s1.sgid = pl1.sgid " +
                 "INNER JOIN stationsplaylists as sp1 ON sp1.plid = pl1.plid " +

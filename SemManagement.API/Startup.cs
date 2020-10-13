@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using SemManagement.MonitoringContext.DataAccess;
 using SemManagement.MonitoringContext.Repository;
@@ -26,8 +27,8 @@ namespace SemManagement.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+                .AddMvcOptions(x => x.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddDbContext<SemDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("SemDBConnection")));
             services.AddTransient<ISongRepository, SongRepository>();
@@ -35,7 +36,7 @@ namespace SemManagement.API
             services.AddTransient<IStationRepository, StationRepository>();
             services.AddTransient<IPlaylistRepository, PlaylistRepository>();
 
-            services.AddDbContext<MonitoringDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MonitoringDBConnection")));
+            services.AddDbContext<MonitoringDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("MonitoringDBConnection")));
             services.AddTransient<IMonitoringRepositry, MonitoringRepositry>();
             services.AddTransient<IMonitoringService, MonitoringService>();
             services.AddTransient<ISchedulerService, SchedulerService>();
@@ -52,7 +53,7 @@ namespace SemManagement.API
             services.AddQuartz();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime, MonitoringDbContext monitoringDbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime, MonitoringDbContext monitoringDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -63,7 +64,7 @@ namespace SemManagement.API
                 app.UseHsts();
             }
 
-            DbInitializer.Initialize(monitoringDbContext);
+            //DbInitializer.Initialize(monitoringDbContext);
 
             app.UseHttpsRedirection();
 

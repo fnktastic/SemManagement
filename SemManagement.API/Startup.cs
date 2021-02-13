@@ -36,7 +36,7 @@ namespace SemManagement.API
             services.AddTransient<IStationRepository, StationRepository>();
             services.AddTransient<IPlaylistRepository, PlaylistRepository>();
 
-            services.AddDbContext<MonitoringDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("MonitoringDBConnection")));
+            services.AddDbContext<MonitoringDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MonitoringDBConnection")));
             services.AddTransient<IMonitoringRepositry, MonitoringRepositry>();
             services.AddTransient<IMonitoringService, MonitoringService>();
             services.AddTransient<ISchedulerService, SchedulerService>();

@@ -8,8 +8,8 @@
 
   <Identity
     Name="0422a252-0711-4d96-b37e-b46ed777a588"
-    Publisher="CN=fnkta"
-    Version="1.0.0.0" />
+    Publisher="CN=olekh"
+    Version="1.0.2.0" />
 
   <mp:PhoneIdentity PhoneProductId="0422a252-0711-4d96-b37e-b46ed777a588" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -37,7 +37,7 @@
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="SemManagement.UWP"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\Square71x71Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

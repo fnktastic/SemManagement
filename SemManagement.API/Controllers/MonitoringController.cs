@@ -106,5 +106,11 @@ namespace SemManagement.API.Controllers
 
             return BadRequest();
         }
+
+        [HttpPost("action-log-entry")]
+        public async Task<ActionResult> AddActionLogEntry([FromBody] dynamic actionLogEntry)
+        {
+            return Ok();
+        }
     }
 }

@@ -108,8 +108,9 @@ namespace SemManagement.API.Controllers
         }
 
         [HttpPost("action-log-entry")]
-        public async Task<ActionResult> AddActionLogEntry([FromBody] dynamic actionLogEntry)
+        public async Task<ActionResult> AddActionLogEntry([FromBody] ActionLogEntryDto actionLogEntry, [FromQuery] string stationname)
         {
+            actionLogEntry.StationName = stationname;
             return Ok();
         }
     }

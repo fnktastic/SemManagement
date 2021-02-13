@@ -9,7 +9,7 @@
   <Identity
     Name="0422a252-0711-4d96-b37e-b46ed777a588"
     Publisher="CN=olekh"
-    Version="1.0.2.0" />
+    Version="1.0.4.0" />
 
   <mp:PhoneIdentity PhoneProductId="0422a252-0711-4d96-b37e-b46ed777a588" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

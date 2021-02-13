@@ -6,6 +6,7 @@ namespace SemManagement.MonitoringContext.Model
 {
     public class ActionLogEntryDto
     {
+        public int Id { get; set; }
         public string StationName { get; set; }
         public string Action { get; set; }
         public string Parameters { get; set; }

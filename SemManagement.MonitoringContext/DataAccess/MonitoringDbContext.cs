@@ -47,9 +47,13 @@ namespace SemManagement.MonitoringContext.DataAccess
 
         public DbSet<StationPlayerStateDto> StationPlayerStates { get; set; }
 
+        public DbSet<ActionLogEntryDto> ActionLogEntries { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ActionLogEntryDto>().HasKey(x => x.Id);
+
             modelBuilder.Entity<RuleLogDto>().HasKey(a => a.Id);
 
             modelBuilder.Entity<StationMonitoringDto>().HasKey(a => a.Id);
